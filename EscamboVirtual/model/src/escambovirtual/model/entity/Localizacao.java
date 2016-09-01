@@ -14,8 +14,7 @@ public class Localizacao extends BaseEntity {
     private String bairro;
     private String rua;
     private String numero;
-    private Anunciante anunciante;
-    private Administrador adm;
+    private Usuario usuario;
     private Item item;
 
     public String getNome() {
@@ -66,21 +65,13 @@ public class Localizacao extends BaseEntity {
         this.numero = numero;
     }
 
-    public Anunciante getAnunciante() {
-        return anunciante;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setAnunciante(Anunciante anunciante) {
-        this.anunciante = anunciante;
-    }
-
-    public Administrador getAdm() {
-        return adm;
-    }
-
-    public void setAdm(Administrador adm) {
-        this.adm = adm;
-    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }    
 
     public Item getItem() {
         return item;

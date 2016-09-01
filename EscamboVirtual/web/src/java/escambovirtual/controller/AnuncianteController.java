@@ -1,16 +1,19 @@
 package escambovirtual.controller;
 
+import escambovirtual.model.criteria.LocalizacaoCriteria;
 import escambovirtual.model.entity.Anunciante;
+import escambovirtual.model.entity.Cidade;
+import escambovirtual.model.entity.Estado;
 import escambovirtual.model.entity.Localizacao;
-import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.AnuncianteService;
+import escambovirtual.model.service.CidadeService;
+import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.LocalizacaoService;
 import escambovirtual.model.service.SenhaService;
-import escambovirtual.model.service.UsuarioService;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -50,13 +53,19 @@ public class AnuncianteController {
         return mv;
     }
 
-    @RequestMapping(value = "anunciante/perfil", method = RequestMethod.GET)
+    @RequestMapping(value = "/anunciante/perfil", method = RequestMethod.GET)
     public ModelAndView getAnunciantePerfil(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         LocalizacaoService sl = new LocalizacaoService();
 
-        Anunciante anunciante = (Anunciante)session.getAttribute("anunciante");
-        Localizacao localizacao = sl.readById(anunciante.getId());
-
+        Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
+        Localizacao localizacao = null;
+        Map<Long, Object> criteria = new HashMap<>();
+        criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
+        List<Localizacao> localizacaoList = new ArrayList<>();
+        localizacaoList = sl.readByCriteria(criteria);
+        if(localizacaoList != null && localizacaoList.size() == 1){
+            localizacao = localizacaoList.get(0);
+        }
         ModelAndView mv = new ModelAndView("usuario/anunciante/perfil");
         mv.addObject("anunciante", anunciante);
         mv.addObject("localizacao", localizacao);
@@ -65,11 +74,11 @@ public class AnuncianteController {
 
     @RequestMapping(value = "/anunciante/perfil", method = RequestMethod.POST)
     public ModelAndView postAnunciantePerfil(String nome, String apelido, String senha, String email, String sexo, String nascimento, Integer perfil, String telefone,
-            String estado, String cidade, String bairro, String rua, String numero, String imagem, HttpServletRequest request,
+            Long estado, Long cidade, String bairro, String rua, String numero, String imagem, HttpServletRequest request,
             HttpServletResponse response, HttpSession session) throws Exception {
 
         AnuncianteService s = new AnuncianteService();
-        
+
         Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
 
         anunciante.setId(anunciante.getId());
@@ -77,32 +86,40 @@ public class AnuncianteController {
         anunciante.setApelido(apelido);
         anunciante.setSenha(anunciante.getSenha());
         anunciante.setEmail(email);
-        anunciante.setSexo(sexo);        
-//        anunciante.setNascimento(nascimento);
+        anunciante.setSexo(sexo);
+        anunciante.setNascimento(nascimento);
         anunciante.setPerfil(perfil);
         anunciante.setTelefone(telefone);
 //        anunciante.setImagem(imagem);
         s.update(anunciante);
 
+        //TRATANDO A LOCALIZACAO DO ANUNCIANTE
         LocalizacaoService sl = new LocalizacaoService();
-        Localizacao localizacao = new Localizacao();
-//        localizacao.setEstado(estado);
-//        localizacao.setCidade(cidade);
+        Localizacao localizacao = new Localizacao();                
+        EstadoService es = new EstadoService();
+        Estado estadoEntity = es.readById(estado);
+        localizacao.setEstado(estadoEntity);
+        CidadeService cs = new CidadeService();
+        Cidade cidadeEntity = cs.readById(cidade);
+        localizacao.setCidade(cidadeEntity);
         localizacao.setBairro(bairro);
         localizacao.setRua(rua);
         localizacao.setNumero(numero);
+        localizacao.setUsuario(anunciante);
         
-
-        Localizacao localizacao2 = sl.readById(anunciante.getId());
-        if (localizacao2 == null) {
-            sl.create(localizacao);
-        } else {
-            localizacao.setId(anunciante.getId());
+        Map<Long, Object> criteria = new HashMap<>();
+        criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
+        List<Localizacao> localizacaoList = new ArrayList<>();
+        localizacaoList = sl.readByCriteria(criteria);
+        if (localizacaoList != null && localizacaoList.size() == 1) {
+            Localizacao aux = localizacaoList.get(0);
+            localizacao.setId(aux.getId());
             sl.update(localizacao);
+        } else {
+            sl.create(localizacao);
         }
-
-        session.setAttribute("anunciante", anunciante);
-
+                
+        session.setAttribute("anunciante", anunciante);        
         ModelAndView mv = new ModelAndView("redirect:/anunciante/perfil");
         return mv;
     }
@@ -116,9 +133,9 @@ public class AnuncianteController {
         mv.addObject("anuncianteList", anuncianteList);
         return mv;
     }
-    
+
     @RequestMapping(value = "/anunciante/home", method = RequestMethod.GET)
-    public ModelAndView anuncianteHome(HttpSession session){
+    public ModelAndView anuncianteHome(HttpSession session) {
         Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
         ModelAndView mv = new ModelAndView("usuario/anunciante/home");
         mv.addObject("anunciante", anunciante);
@@ -126,10 +143,8 @@ public class AnuncianteController {
     }
 
     @RequestMapping(value = "anunciante/alterarsenha", method = RequestMethod.GET)
-    public ModelAndView getAnuncianteAlerarSenha(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-        AnuncianteService s = new AnuncianteService();
+    public ModelAndView getAnuncianteAlerarSenha(HttpSession session) throws Exception {
         ModelAndView mv = new ModelAndView("usuario/anunciante/alterarsenha");
-//        mv.addObject("anunciante", anunciante);
         return mv;
     }
 
@@ -137,12 +152,9 @@ public class AnuncianteController {
     public ModelAndView postAnuncianteAlterarSenha(String novasenha, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 
         AnuncianteService s = new AnuncianteService();
-
         Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
         SenhaService ss = new SenhaService();
-
         String passwordMD5 = ss.convertPasswordToMD5(novasenha);
-
         anunciante.setSenha(passwordMD5);
         s.update(anunciante);
 

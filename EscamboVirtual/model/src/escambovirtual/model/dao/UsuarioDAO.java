@@ -251,18 +251,18 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
         String sql = "UPDATE administrador SET cpf=? WHERE usuario_fk=?;";
         PreparedStatement ps = conn.prepareStatement(sql);
         int i = 0;
-        ps.setLong(++i, entity.getId());
         ps.setString(++i, entity.getCpf());
+        ps.setLong(++i, entity.getId());        
         ps.execute();
         ps.close();
     }
 
     private void updateAnunciante(Connection conn, Anunciante entity) throws SQLException {
-        String sql = "UPDATE administrador SET cpf=? WHERE usuario_fk=?;";
+        String sql = "UPDATE anunciante SET reputacao=? WHERE usuario_fk=?;";
         PreparedStatement ps = conn.prepareStatement(sql);
         int i = 0;
-        ps.setLong(++i, entity.getId());
         ps.setInt(++i, entity.getReputacao());
+        ps.setLong(++i, entity.getId());        
         ps.execute();
         ps.close();
     }

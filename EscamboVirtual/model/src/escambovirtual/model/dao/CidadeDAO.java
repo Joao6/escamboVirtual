@@ -23,7 +23,7 @@ public class CidadeDAO implements BaseDAO<Cidade> {
 
     @Override
     public Cidade readById(Connection conn, Long id) throws Exception {
-        String sql = "SELECT cidade.*, estado.id estado_id, estado.nome estado_nome, estado.uf estado_uf FROM cidade JOIN estado ON cidade.estado_fk=estado.id WHERE id=?;";
+        String sql = "SELECT cidade.*, estado.id estado_id, estado.nome estado_nome, estado.uf estado_uf FROM cidade JOIN estado ON cidade.estado_fk=estado.id WHERE cidade.id=?;";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setLong(1, id);
         ResultSet rs = ps.executeQuery();

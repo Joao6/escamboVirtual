@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
-        <title>Novo Cadastro</title>
+        <title>Home</title>
         <!--Import Google Icon Font-->
         <link href="<c:url value="/resources/css/icon.css"/>" rel="stylesheet">
         <!--Import materialize.css-->
@@ -41,19 +41,19 @@
                 <center>
                     <a href="<c:url value="/administrador/home"/>"><img class="img circle" src="<c:url value="/resources/img/background1.jpg"/>" height="80" width="80"></a>
                     <br/>
-                    ${usuario}
+                    ${administrador.nome}
                 </center>
                 <br/>                
                 <li class="no-padding">
                     <ul class="collapsible">                       
                         <li>
-                            <a class="collapsible-header black-text waves-effect waves-teal" href="<c:url value="#" />"><i class="material-icons">vpn_key</i>Alterar Senha</a>
+                            <a class="collapsible-header black-text waves-effect waves-teal" href="<c:url value="/administrador/alterar-senha" />"><i class="material-icons">vpn_key</i>Alterar Senha</a>
                         </li>
                         <li>
                             <a class="collapsible-header black-text waves-effect waves-teal" href="<c:url value="#"/>"><i class="material-icons">perm_identity</i>Perfil</a>
                         </li>
                         <li>
-                            <a class="collapsible-header black-text waves-effect waves-teal" href="<c:url value="#"/>"><i class="material-icons">note_add</i>Cadastrar Admin</a>
+                            <a class="collapsible-header black-text waves-effect waves-teal" href="<c:url value="/administrador/new"/>"><i class="material-icons">note_add</i>Cadastrar Admin</a>
                         </li>
                         <li>
                             <a class="collapsible-header black-text waves-effect waves-teal" href="<c:url value="/administrador/list"/>"><i class="material-icons">assignment</i>Avaliar Itens</a>

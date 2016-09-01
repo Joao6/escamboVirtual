@@ -13,7 +13,6 @@ public abstract class Usuario extends BaseEntity {
     public static final Long USUARIO_TIPO_ANUNCIANTE = 2L;
     
     private String nome;
-    private String sobrenome;
     private String apelido;
     private String email;
     private String senha;    
@@ -61,14 +60,6 @@ public abstract class Usuario extends BaseEntity {
 
     public void setNascimento(String nascimento) {
         this.nascimento = nascimento;
-    }
-
-    public String getSobrenome() {
-        return sobrenome;
-    }
-
-    public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
     }
 
     public String getEmail() {

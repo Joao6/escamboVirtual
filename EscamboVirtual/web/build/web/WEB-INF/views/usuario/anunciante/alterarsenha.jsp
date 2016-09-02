@@ -30,8 +30,9 @@
             </div>
         </div>
         <div class="row">
-            <input type="submit" class="waves-effect waves-light btn right col s12 m4 l2" value="Salvar" />&nbsp;
-            <a class="waves-effect waves-light btn right blue-grey lighten-3 col s12 m4 l2" href="<c:url value="/anunciante/home"/>">Cancelar</a>
+            <!--<input type="submit" class="waves-effect waves-light btn right col s12 m4 l2" value="Salvar" />&nbsp;-->
+            <button class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-left: 0.6rem;">Salvar</button>
+            <a class="waves-effect waves-light btn brown right col s12 m4 l2" href="<c:url value="/anunciante/home"/>">Cancelar</a>
         </div>
     </form>
 </div>

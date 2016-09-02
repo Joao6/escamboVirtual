@@ -69,7 +69,7 @@
             <img class="responsive-img" id="image" name="image" src="">
 
             <div class="file-field input-field">
-                <div class="btn">
+                <div class="btn blue">
                     <span>Adicionar imagens</span>
                     <input type="file" id="file" multiple>
                 </div>
@@ -85,8 +85,8 @@
             </div>
         </div>
         <div class="row">
-            <input type="submit" class="waves-effect waves-light btn right col s12 m4 l2" value="Salvar" />&nbsp;
-            <a class="waves-effect waves-light btn right blue-grey lighten-3 col s12 m4 l2" href="<c:url value="/anunciante/item"/>">Cancelar</a>
+            <input type="submit" class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-left: 0.6rem;" value="Salvar" />&nbsp;
+            <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/item"/>">Cancelar</a>
         </div> 
     </form>
 </div>

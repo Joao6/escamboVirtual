@@ -84,9 +84,9 @@
                 <label for="textarea1">Descrição</label>
             </div>
         </div>
-        <div class="row">
-            <input type="submit" class="waves-effect waves-light btn right" value="Salvar" />
-            <a class="waves-effect waves-light btn right blue-grey lighten-3" href="<c:url value="/anunciante/item"/>">Cancelar</a>
+        <div class="row">            
+            <button class="waves-effect waves-light btn blue right" style="margin-left: 0.6rem;">Salvar</button>
+            <a class="waves-effect waves-light btn right brown" href="<c:url value="/anunciante/item"/>">Cancelar</a>
         </div> 
     </form>
 </div>

@@ -21,12 +21,12 @@
                     <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="">
                 <%--</c:if>--%>
                 -->
-                <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="">
+                <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/resources/img/background3.jpg"/>">
             </div>
         </div>
         <div calss="row">
             <div class="file-field input-field">
-                <div class="btn">
+                <div class="btn blue">
                     <span>Adicionar imagem de perfil</span>
                     <input type="file" id="file" anme="file" multiple>
                 </div>
@@ -102,8 +102,8 @@
 
         </div>
         <div class="row">            
-            <button class="waves-effect waves-light btn right col s12 m4 l2">Salvar</button>
-            <a class="waves-effect waves-light btn right blue-grey lighten-3 col s12 m4 l2" href="<c:url value="/anunciante/home"/>">Voltar</a>
+            <button class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-left: 0.6rem;">Salvar</button>
+            <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/home"/>">Voltar</a>
         </div>
     </form>
 </div>

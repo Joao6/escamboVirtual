@@ -54,7 +54,7 @@
                                 <div id="formPesquisa" class="input-field col s6 black-text"> <!--Consertar -->
                                     <input id="icon_prefix" type="text" name="nomeCriterium" class="validate" placeholder="Pesquise por itens"> 
                                     <!--<a href="<c:url value="/escamboVirtual"/>" class="btn">Search</button></a>-->
-                                    <button class="btn" type="submit">Search</button>
+                                    <button class="btn brown" type="submit">Search</button>
                                 </div>
                             </form>
                         </div>                 

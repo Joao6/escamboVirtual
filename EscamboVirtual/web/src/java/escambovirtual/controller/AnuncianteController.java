@@ -1,13 +1,16 @@
 package escambovirtual.controller;
 
+import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
+import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
 import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.CidadeService;
 import escambovirtual.model.service.EstadoService;
+import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.LocalizacaoService;
 import escambovirtual.model.service.SenhaService;
 import java.util.ArrayList;
@@ -143,7 +146,7 @@ public class AnuncianteController {
     }
 
     @RequestMapping(value = "anunciante/alterarsenha", method = RequestMethod.GET)
-    public ModelAndView getAnuncianteAlerarSenha(HttpSession session) throws Exception {
+    public ModelAndView getAnuncianteAlterarSenha(HttpSession session) throws Exception {
         ModelAndView mv = new ModelAndView("usuario/anunciante/alterarsenha");
         return mv;
     }
@@ -161,4 +164,19 @@ public class AnuncianteController {
         ModelAndView mv = new ModelAndView("redirect:/anunciante/home");
         return mv;
     }
+    
+    @RequestMapping(value = "/anunciante/pesquisar", method = RequestMethod.GET)
+    public ModelAndView getPesquisaItem(String nomeCriterium) throws Exception{
+        Map<Long, Object> criteria = new HashMap<>();
+        criteria.put(ItemCriteria.NOME_ILIKE, nomeCriterium);
+        criteria.put(ItemCriteria.STATUS_EQ, "Publicar");
+        
+        ItemService s = new ItemService();
+        List<Item> itemList = s.readByCriteria(criteria);
+        
+        ModelAndView mv = new ModelAndView("pesquisaOn/list"); 
+        mv.addObject("itemList", itemList);
+        mv.addObject("nomeCriterium", nomeCriterium);
+        return mv;
+    }        
 }

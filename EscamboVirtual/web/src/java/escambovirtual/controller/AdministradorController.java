@@ -98,4 +98,13 @@ public class AdministradorController {
         ModelAndView mv = new ModelAndView("redirect:/administrador/list");
         return mv;
     }
+    
+    @RequestMapping(value = "/administrador/perfil", method = RequestMethod.GET)
+    public ModelAndView getAdmPerfil(HttpSession session){
+        Administrador adm = (Administrador)session.getAttribute("administrador");
+        
+        ModelAndView mv = new ModelAndView("usuario/administrador/perfil");
+        mv.addObject("administrador", adm);
+        return mv;
+    }
 }

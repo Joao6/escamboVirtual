@@ -33,200 +33,65 @@
                 <form method="post" action="usuario/recuperar-senha">                    
                     <input type="email" class="validate" id="inputRecuperarSenha" name="emailRecuperacao" required=""/>
                     <div class="modal-footer">
-                        <button type="submit" class=" modal-action waves-effect waves-green btn btn-flat">Enviar</button>
-                        <a href="#" class=" modal-close waves-effect waves-green btn btn-flat">Cancelar</a>                         
+                        <a href="#" class=" modal-close waves-effect waves-green btn brown" style="margin-left: 0.6rem;">Cancelar</a>                         
+                        <button type="submit" class="modal-action waves-effect waves-green btn blue">Enviar</button>
                     </div>
                 </form>
             </div>
         </div>
         <!--FIM MODAL-->
-
-        <!-- MODAL LOGIN-->
-        <div id="modalLogin" class="modal">
-            <div class="modal-content">
-                <form class="card-panel col s8 l8" method="post" id="formLogin" name="formLogin" action="usuario/login">                    
-                    <div class="card-title center">                        
-                        <h5>LOGIN</h5>
-                        <div class="form divider"></div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">email</i>
-                            <input id="icon_prefix" type="email" class="validate" name="email" id="email">
-                            <label for="icon_prefix">E-mail</label>
-                        </div>
-
-                        <div class="input-field col s6">
-                            <i class="material-icons prefix">vpn_key</i>
-                            <input id="icon_telephone" type="password" class="validate" name="senha" id="senha">
-                            <label for="icon_telephone">Senha</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s5">
-                            <script>
-                                var variaveis = location.search.split("?");
-                                var quebra = variaveis[1].split("=");
-                                if (quebra[1] == "1") {
-                                    document.writeln("<b style='color:red'>Usuário ou senha inválidos.</b>");
-                                } else if (quebra[1] == "2") {
-                                    document.writeln("<b style='color:red'>Sua sessão expirou.</b>");
-                                }
-                            </script>
-                        </div>
-                        <div class="row">
-                            <a href="<c:url value="#modalRecuperarSenha"></c:url>" class="modal-trigger right col">Esqueceu a senha?</a>
-                        </div>
-                        <input type="button" class="btn right red modal-close" value="Voltar">
-                        <button type="submit" id="btn-cadastrar" class="waves-effect waves-light btn green right">Entrar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-              
-        <!--        <div class="row" style="margin-left: 25%;">
-                    <table>
-                        <tr>
-                            <td>
-                                <form class="card-panel col s8" method="post" id="formLogin" name="formLogin">
-                                    <input type="hidden" name="tipo" value="0">
-                                    <div class="card-title">                        
-                                        <h5>Login</h5>
-                                        <div class="form divider"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s6">
-                                            <i class="material-icons prefix">email</i>
-                                            <input id="icon_prefix" type="text" class="validate" name="email" id="email">
-                                            <label for="icon_prefix">E-mail</label>
-                                        </div>
         
-                                        <div class="input-field col s6">
-                                            <i class="material-icons prefix">vpn_key</i>
-                                            <input id="icon_telephone" type="password" class="validate" name="senha" id="senha">
-                                            <label for="icon_telephone">Senha</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s6">
-                                            <script>
-                                                var variaveis = location.search.split("?");
-                                                var quebra = variaveis[1].split("=");
-                                                if (quebra[1] == "1") {
-                                                    document.writeln("<b style='color:red'>Usuário ou senha inválidos.</b>");
-                                                } else if (quebra[1] == "2") {
-                                                    document.writeln("<b style='color:red'>Sua sessão expirou.</b>");
-                                                }
-                                            </script>
-                                        </div>
-                                        <div class="row">
-                                            <a href="#modal1" class="modal-trigger">Esqueceu a senha?</a>
-                                        </div>
-                                        <button type="submit" id="btn-cadastrar" class="waves-effect waves-light btn right">Entre</button>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <form class="card-panel col s8" method="post"   id="formCadastrar" name="formCadastrar">
-                                    <div class="card-title">                        
-                                        <h5>Cadastrar-se</h5>
-                                        <div class="form divider"></div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s6">
-                                            <input id="inputNome" name="nome" type="text" class="validate" required=""/>
-                                            <label for="inputNome">Nome</label>
-                                        </div>
-                                        <div class="input-field col s6">
-                                            <input id="inputSobrenome" name="sobrenome" type="text" class="validate" required=""/>
-                                            <label for="inputSobrenome">Sobrenome</label>
-                                        </div>                                
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <input id="inputEmail" name="email" type="email" class="validate" required=""/>
-                                            <label for="inputEmail">Email</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s6">
-                                            <input id="inputSenha" name="senha" type="password" class="validate" required=""/>
-                                            <label for="inputSenha">Senha</label>
-                                        </div>
-                                        <div class="input-field col s6">
-                                            <input id="inputSenha" name="confirmarSenha" type="password" class="validate" required=""/>
-                                            <label for="inputSenha">Confirmar Senha</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col  s3">
-                                            <input id="inputCidade" name="cidade" type="text" class="validate"/>
-                                            <label for="inputCidade">Cidade</label>
-                                        </div>
-                                        <div class="input-field col  s3">
-                                            <select id="inputUf" name="uf">
-                                                <option value="" disabled selected>UF</option>
-                                                <option value="AC">AC</option>
-                                                <option value="AL">AL</option>
-                                                <option value="AP">AP</option>
-                                                <option value="AM">AM</option>
-                                                <option value="BA">BA</option>
-                                                <option value="CE">CE</option>
-                                                <option value="DF">DF</option>
-                                                <option value="ES">ES</option>
-                                                <option value="GO">GO</option>
-                                                <option value="MA">MA</option>
-                                                <option value="MT">MT</option>
-                                                <option value="MS">MS</option>
-                                                <option value="MG">MG</option>
-                                                <option value="PA">PA</option>
-                                                <option value="PB">PB</option>
-                                                <option value="PR">PR</option>
-                                                <option value="PE">PE</option>
-                                                <option value="PI">PI</option>
-                                                <option value="RJ">RJ</option>
-                                                <option value="RN">RN</option>
-                                                <option value="RS">RS</option>
-                                                <option value="RO">RO</option>
-                                                <option value="RR">RR</option>
-                                                <option value="SC">SC</option>
-                                                <option value="SP">SP</option>
-                                                <option value="SE">SE</option>
-                                                <option value="TO">TO</option>                                                                                
-                                            </select>                                                                     
-                                        </div>
-                                        <div class="input-field col s3">
-                                            <input id="inputTelefone" name="telefone" type="text" class="validate"/>
-                                            <label for="inputTelefone">Telefone</label>
-                                        </div>
-                                        <div class="input-field col s3  ">
-                                            <input id="inputNascimento" name="nascimento" type="text" class="validate"/>
-                                            <label for="inputNascimento">Data de Nascimento</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="input-field col s6">                                    
-                                            <select id="inputSexo" name="sexo">
-                                                <option value="" disabled selected>Selecione</option>
-                                                <option value="Masculino">Masculino</option>
-                                                <option value="Feminino">Feminino</option>
-                                            </select>
-                                            <label>Sexo</label>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <button type="submit" id="btn-cadastrar" class="waves-effect waves-light btn right">Cadastrar</button>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                    </table>
-                </div>-->
+        <!-- MODAL LOGIN-->
+        <div class="modal" id="modalLogin">
+            <div class="modal-content">
+                <div class="card-panel">
+                    <div class="card-content">
+                        <div class="card-title center">
+                            <h5>LOGIN</h5>
+                            <div class="form divider"></div>
+                        </div>
+                        <form style="overflow-x: hidden;" method="post" id="formLogin" name="formLogin" action="usuario/login">
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">email</i>
+                                    <input id="email" type="email" class="validate" name="email" id="email">
+                                    <label for="email">E-mail</label>
+                                </div>
+                                <div class="input-field col s6">
+                                    <i class="material-icons prefix">vpn_key</i>
+                                    <input id="senha" type="password" class="validate" name="senha" id="senha">
+                                    <label for="senha">Senha</label>
+                                </div>
 
-        <!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
+                                <div class="input-field col s5">
+                                    <script>
+                                        var variaveis = location.search.split("?");
+                                        var quebra = variaveis[1].split("=");
+                                        if (quebra[1] == "1") {
+                                            document.writeln("<b style='color:red'>Usuário ou senha inválidos.</b>");
+                                        } else if (quebra[1] == "2") {
+                                            document.writeln("<b style='color:red'>Sua sessão expirou.</b>");
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+                            <div class="row center">                                
+                                <button class="btn blue col s12 m6 push-l3 waves-effect waves-light" style="margin-right: 0.6rem; margin-bottom: 0.6rem;">Entrar</button>                                
+                                <input type="button" class="btn brown col s12 m6 push-l3 waves-effect waves-light modal-close" value="Voltar">
+                            </div>
+                            <div class="row center">
+                                <a href="<c:url value="/anunciantes/novo"/>">Registrar</a>
+                                <span>||</span>
+                                <a href="<c:url value="#modalRecuperarSenha"></c:url>" class="modal-trigger">Esqueceu a senha?</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+           </div>
+        </div>             
+
+            <!--Import jQuery before materialize.js-->
+            <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
     </body>

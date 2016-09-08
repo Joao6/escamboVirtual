@@ -119,6 +119,7 @@ public class ItemDAO implements BaseDAO<Item> {
 
             Anunciante anunciante = new Anunciante();
             anunciante.setId(rs.getLong("usuario_id"));
+            anunciante.setNome(rs.getString("usuario_nome"));
             anunciante.setApelido(rs.getString("usuario_apelido"));
             anunciante.setEmail(rs.getString("usuario_email"));
             anunciante.setSenha(rs.getString("usuario_senha"));

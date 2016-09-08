@@ -87,7 +87,7 @@
                                     </div>                                
                                 </div>
                                 <div class="row">
-                                    <div class="input-field col s12 m12 l12">
+                                    <div class="input-field col s12 m6 l6">
                                         <input id="inputEmail" name="email" type="email" class="validate"/>
                                         <label for="inputEmail">Email</label>
                                     </div>                                
@@ -99,47 +99,9 @@
                                     </div>
                                     <div class="input-field col s12 m6">
                                         <input id="inputConfirmaSenha" name="confirmaSenha" type="password" class="validate"/>
-                                        <label for="inputConfirmaSenha">Senha</label>
+                                        <label for="inputConfirmaSenha">Confirmar Senha</label>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="input-field col s12 m6">
-                                        <input id="inputCidade" name="cidade" type="text" class="validate"/>
-                                        <label for="inputCidade">Cidade</label>
-                                    </div>
-                                    <div class="input-field col s12 m6">
-                                        <select id="inputUf" name="uf">
-                                            <option value="" disabled selected>UF</option>
-                                            <option value="AC">AC</option>
-                                            <option value="AL">AL</option>
-                                            <option value="AP">AP</option>
-                                            <option value="AM">AM</option>
-                                            <option value="BA">BA</option>
-                                            <option value="CE">CE</option>
-                                            <option value="DF">DF</option>
-                                            <option value="ES">ES</option>
-                                            <option value="GO">GO</option>
-                                            <option value="MA">MA</option>
-                                            <option value="MT">MT</option>
-                                            <option value="MS">MS</option>
-                                            <option value="MG">MG</option>
-                                            <option value="PA">PA</option>
-                                            <option value="PB">PB</option>
-                                            <option value="PR">PR</option>
-                                            <option value="PE">PE</option>
-                                            <option value="PI">PI</option>
-                                            <option value="RJ">RJ</option>
-                                            <option value="RN">RN</option>
-                                            <option value="RS">RS</option>
-                                            <option value="RO">RO</option>
-                                            <option value="RR">RR</option>
-                                            <option value="SC">SC</option>
-                                            <option value="SP">SP</option>
-                                            <option value="SE">SE</option>
-                                            <option value="TO">TO</option>                                                                                
-                                        </select>                                                                     
-                                    </div>
-                                </div>
+                                </div>                                
                                 <div class="row">
                                     <div class="input-field col s12 m6">
                                         <input id="inputTelefone" name="telefone" type="text" class="validate"/>
@@ -162,8 +124,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" id="btn-cadastrar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light blue-grey darken-4" style="margin-bottom: 10px">Cadastrar</button>
-                            <a href="<c:url value="/"/>"><button type="button" id="btn-cancelar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light orange">Cancelar</button></a>                        
+                            <button type="submit" id="btn-cadastrar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light blue" style="margin-bottom: 10px">Cadastrar</button>
+                            <a href="<c:url value="/"/>"><button type="button" id="btn-cancelar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light brown">Cancelar</button></a>                        
                         </div> 
                     </div>            
                 </form>

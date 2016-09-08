@@ -116,4 +116,13 @@ public class ItemController {
         ModelAndView mv = new ModelAndView("redirect:/anunciante/item");
         return mv;
     }
+    
+    @RequestMapping(value = "/item/{id}/view", method = RequestMethod.GET)
+    public ModelAndView getItemView(@PathVariable Long id) throws Exception{
+        ItemService s = new ItemService();
+        Item item = s.readById(id);
+        ModelAndView mv = new ModelAndView("usuario/anunciante/item/view");
+        mv.addObject("item", item);
+        return mv;
+    }
 }

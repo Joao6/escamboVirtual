@@ -51,20 +51,20 @@
                             <div class="row">
                                 <div class="input-field col s12 m6">
                                     <input id="pesquisar" name="nomeCriterium" type="text" value="${nomeCriterium}"/>
-                                <label for="pesquisar">Pesquisar</label>
+                                <label for="pesquisar">Pesquise por nome de itens</label>
                             </div>   
-                            <button type="submit" class="btn">Search</button>
+                                <button type="submit" class="btn blue" style="margin-top: 25px;">Pesquisar</button>
                         </div>
                     </form>
                 </div>
-                <div class="card-panel blue lighten-5">
+                <div class="card-panel">
                     <div class="card-content">
                         <c:if test="${empty itemList}">
                             <!--<div class="card-panel col s12 z-depth-2">-->
                                 <!--<div class="card-content">-->
                                 <div class="card-title" style="padding-top: 15px;">
                                         <span style="font-size: 16pt;"><i class="material-icons small">thumb_down</i>
-                                            <strong>Nenhum resultado encontrado para essa pesquisa!</strong></span>
+                                            <strong>Nenhum resultado encontrado para esta pesquisa!</strong></span>
                                     </div>
                                 <!--</div>-->
                             <!--</div>-->

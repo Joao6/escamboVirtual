@@ -58,7 +58,7 @@
     </head>
     <body style="background-color: #b0bec5;">
         <header>
-            <jsp:include page="/resources/templates/menu-lateral-anunciante.jsp"/>
+            <jsp:include page="/resources/templates/menu-lateral-administrador.jsp"/>
 
             <div class="row" style="padding-left:15%;padding-right: 15%;">
                 <nav class="grey darken-3 card-panel col s12 z-depth-2">
@@ -97,33 +97,37 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
-                            <input id="inputNome" name="nome" type="text" class="validate" value="${anunciante.nome}" />
+                            <input id="inputNome" name="nome" type="text" class="validate" value="${administrador.nome}" />
                             <input type="hidden" name="perfil" value="2">
                             <label for="inputNome">Nome</label>
                         </div>
                         <div class="input-field col s12 m6 l6">
-                            <input id="apelido" name="apelido" type="text" class="validate" value="${anunciante.apelido}" />
+                            <input id="apelido" name="apelido" type="text" class="validate" value="${administrador.apelido}" />
                             <label for="apelido">Apelido</label>
                         </div>                                
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m12 l6">
-                            <input id="inputEmail" name="email" type="email" class="validate" value="${anunciante.email}"/>
+                            <input id="inputEmail" name="email" type="email" class="validate" value="${administrador.email}"/>
                             <label for="inputEmail">Email</label>
+                        </div>
+                        <div class="input-field col s12 m12 l6">
+                            <input id="inputCpf" name="cpf" type="text" class="validate" value="${administrador.cpf}"/>
+                            <label for="inputCpf">CPF</label>
                         </div>
                     </div>
                     <div class="row">         
                         <div class="input-field col s12 m4 l4">
-                            <input id="telefone" name="telefone" type="text" class="validate" value="${anunciante.telefone}"  maxlength="13" onkeypress="mascaraTel(this, '##-#####-####')"/>
+                            <input id="telefone" name="telefone" type="text" class="validate" value="${administrador.telefone}"  maxlength="13" onkeypress="mascaraTel(this, '##-#####-####')"/>
                             <label for="telefone">Telefone</label>
                         </div>
                         <div class="input-field col s12 m4 l4">
-                            <input id="nascimento" name="nascimento" type="text" class="validate" value="${anunciante.nascimento}" onkeypress="mascaraData(this, '##/##/####')" maxlength="10"/>
+                            <input id="nascimento" name="nascimento" type="text" class="validate" value="${administrador.nascimento}" onkeypress="mascaraData(this, '##/##/####')" maxlength="10"/>
                             <label for="nascimento">Data de Nascimento</label>
                         </div>
                         <div class="input-field col s12 m4 l4">                                    
                             <select id="sexo" name="sexo" >
-                                <option value="${anunciante.sexo}"  selected>${anunciante.sexo}</option>
+                                <option value="${administrador.sexo}"  selected>${administrador.sexo}</option>
                                 <option></option>
                                 <option value="Masculino">Masculino</option>
                                 <option value="Feminino">Feminino</option>
@@ -163,7 +167,7 @@
                     </div>
                     <div class="row">            
                         <button class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-left: 0.6rem;">Salvar</button>
-                        <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/home"/>">Voltar</a>
+                        <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/administrador/home"/>">Voltar</a>
                     </div>
                 </form>
             </div>

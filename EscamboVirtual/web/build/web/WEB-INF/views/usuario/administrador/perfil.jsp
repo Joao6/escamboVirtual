@@ -98,7 +98,7 @@
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
                             <input id="inputNome" name="nome" type="text" class="validate" value="${administrador.nome}" />
-                            <input type="hidden" name="perfil" value="2">
+                            <input type="hidden" name="perfil" value="1">
                             <label for="inputNome">Nome</label>
                         </div>
                         <div class="input-field col s12 m6 l6">

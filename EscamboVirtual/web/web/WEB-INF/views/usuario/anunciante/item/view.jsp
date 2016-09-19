@@ -33,7 +33,7 @@
                     <div class="nav-wrapper">
                         <div class="col s12">
                             <a href="/web/anunciante/home" class="breadcrumb">Home</a>
-                            <a href="/web/anunciante/pesquisar" class="breadcrumb">Pesquisa</a>
+                            <a href="/web/anunciante/pesquisar/item" class="breadcrumb">Pesquisa</a>
                             <a href="#!" class="breadcrumb">Ver Item</a>
                         </div>                        
                     </div>
@@ -74,8 +74,8 @@
                                         </tr>
                                         <tr>
                                             <td class="right-align" colspan="4">
-                                                <a class="waves-effect waves-light btn blue col s12 m5 l5" href="<c:url value="#"/>">Enviar mensagem ao anunciante</a>                                        
-                                                <a class="waves-effect waves-light btn brown col s12 m5 l5" href="<c:url value="#"/>" style="margin-left: 0.6rem;">Fazer oferta por este item</a>
+                                                <a class="waves-effect waves-light btn blue col s12 m5 l5" href="<c:url value="/anunciante/comunicacao/item/${item.id}"/>">Enviar mensagem ao anunciante</a>                                        
+                                                <a class="waves-effect waves-light btn brown col s12 m5 l5" href="<c:url value="/anunciante/item/${item.id}/ofertar"/>" style="margin-left: 0.6rem;">Fazer oferta por este item</a>
                                             </td>                                            
                                         </tr>                                        
                                     </table>

@@ -99,4 +99,22 @@ public class AnuncianteService implements BaseAnuncianteService {
         }
     }
 
+    @Override
+    public Map<String, String> validate(Map<String, Object> fields) throws Exception {
+        Map<String, String> errors = new HashMap<>();
+        
+        String email = (String) fields.get("email");
+        if(email == null || email.trim().isEmpty()){
+            errors.put("email", "Este Campo é obrigatório!");
+        }else{
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);            
+            List<Anunciante> anuncianteList = readByCriteria(criteria);
+            if(!anuncianteList.isEmpty()){
+                errors.put("email", "Este email já está cadastrado no sistema!");
+            }
+        }        
+        return errors;
+    }
+
 }

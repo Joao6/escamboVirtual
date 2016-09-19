@@ -33,7 +33,7 @@
                 <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/anunciante/item"/>"><i class="material-icons">perm_media</i>Meus Itens</a>
             </li>
             <li>
-                <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/anunciante/pesquisar"/>"><i class="material-icons">search</i>Pesquisar</a>
+                <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/anunciante/pesquisar/item"/>"><i class="material-icons">search</i>Pesquisar</a>
             </li>
             <li>
                 <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="#"/>"><i class="material-icons">chat</i>Conversas</a>

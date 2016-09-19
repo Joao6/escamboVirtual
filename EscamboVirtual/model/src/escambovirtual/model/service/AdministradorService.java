@@ -103,5 +103,10 @@ public class AdministradorService implements BaseAdministradorService{
             conn.close();
         }
     }
+
+    @Override
+    public Map<String, String> validate(Map<String, Object> fields) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

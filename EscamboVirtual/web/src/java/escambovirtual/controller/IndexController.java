@@ -24,48 +24,12 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView goIndex() throws Exception {        
+    public ModelAndView goIndex(HttpSession session) throws Exception {        
         ModelAndView mv = new ModelAndView("/index");        
+//        session.invalidate();        
         return mv;
     }    
 
-//    @RequestMapping(value = "/escamboVirtual/login", method = RequestMethod.POST)
-//    public ModelAndView postLogin(String tipo, String email, String senha, HttpSession session) throws Exception {
-//        UsuarioService s = new UsuarioService();
-//        SenhaService ss = new SenhaService();
-//        
-//        String senhaMD5 = ss.convertPasswordToMD5(senha);
-//        ModelAndView mv = new ModelAndView();
-//
-//        if (tipo.equals("0")) {
-//            Administrador adm = new Administrador();
-//            adm = (Administrador) s.login(email, senhaMD5, tipo);
-//            if (adm != null) {
-//                session.setAttribute("administrador", adm);
-//                mv = new ModelAndView("redirect:/administrador/home");
-//                mv.addObject("administrador", adm);
-//            } else {
-//                mv = new ModelAndView("redirect:/index");
-//                mv.addObject("erro", 1);
-//            }
-//            return mv;
-//        } else if (tipo.equals("1")) {
-//            Anunciante anunciante = new Anunciante();
-//            anunciante = (Anunciante) s.login(email, senhaMD5, tipo);
-//            if (anunciante != null) {
-//                session.setAttribute("anunciante", anunciante);
-//                mv = new ModelAndView("redirect:/anunciante/home");
-//                mv.addObject("anunciante", anunciante);
-//            } else {
-//                mv = new ModelAndView("redirect:/index");
-//                mv.addObject("erro", 1);
-//            }
-//            return mv;
-//        }
-//
-//        return mv;
-//    }
-    
     @RequestMapping(value = "/item/search", method = RequestMethod.GET)
     public ModelAndView search(String nomeCriterium) throws Exception{
         

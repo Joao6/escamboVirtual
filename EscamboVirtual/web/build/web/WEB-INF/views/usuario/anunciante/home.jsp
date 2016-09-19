@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
-        <title>Novo Cadastro</title>
+        <title>Home</title>
         <!--Import Google Icon Font-->
         <link href="<c:url value="/resources/css/icon.css"/>" rel="stylesheet">
         <!--Import materialize.css-->

@@ -88,4 +88,9 @@ public class ItemService implements BaseItemService {
         }
     }
 
+    @Override
+    public Map<String, String> validate(Map<String, Object> fields) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

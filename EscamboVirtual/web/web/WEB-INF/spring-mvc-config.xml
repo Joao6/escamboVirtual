@@ -22,6 +22,14 @@
  
     <mvc:resources mapping="/resources/**" location="/resources/" />
     
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="escambovirtual.interceptor.Interceptor">
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>

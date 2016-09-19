@@ -125,7 +125,7 @@ public class ItemDAO implements BaseDAO<Item> {
             anunciante.setSenha(rs.getString("usuario_senha"));
             anunciante.setSexo(rs.getString("usuario_sexo"));
             //anunciante.setNascimento(rs.getDate("usuario_data_nascimento"));
-            anunciante.setPerfil(rs.getInt("usuario_perfil"));
+            anunciante.setPerfil(rs.getLong("usuario_perfil"));
             anunciante.setTelefone(rs.getString("usuario_telefone"));
             anunciante.setData_cadastro(rs.getDate("usuario_data_cadastro"));
             anunciante.setReputacao(rs.getInt("anunciante_reputacao"));
@@ -190,7 +190,7 @@ public class ItemDAO implements BaseDAO<Item> {
             anunciante.setSenha(rs.getString("usuario_senha"));
             anunciante.setSexo(rs.getString("usuario_sexo"));
             //anunciante.setNascimento(rs.getDate("usuario_data_nascimento"));
-            anunciante.setPerfil(rs.getInt("usuario_perfil"));
+            anunciante.setPerfil(rs.getLong("usuario_perfil"));
             anunciante.setTelefone(rs.getString("usuario_telefone"));
             anunciante.setData_cadastro(rs.getDate("usuario_data_cadastro"));
             anunciante.setReputacao(rs.getInt("anunciante_reputacao"));
@@ -299,15 +299,20 @@ public class ItemDAO implements BaseDAO<Item> {
     @Override
     public String applyCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
         String sql = " ";
+        
+        Long usuarioEQ = (Long) criteria.get(ItemCriteria.ID_USUARIO);
+        if(usuarioEQ != null && usuarioEQ > 0){
+            sql += " AND item.usuario_fk = " + usuarioEQ;
+        }
 
         String nomeILike = (String) criteria.get(ItemCriteria.NOME_ILIKE);
         if (nomeILike != null && !nomeILike.isEmpty()) {
-            sql += "AND item.nome ILIKE '%" + nomeILike + "%'";
+            sql += " AND item.nome ILIKE '%" + nomeILike + "%'";
         }
         
         String status = (String) criteria.get(ItemCriteria.STATUS_EQ);
         if(status != null && !status.isEmpty()){            
-            sql += "AND item.status='"+status+"' ";
+            sql += " AND item.status='"+status+"' ";
         }
 
         return sql;

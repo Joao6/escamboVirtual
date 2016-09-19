@@ -19,7 +19,7 @@ public abstract class Usuario extends BaseEntity {
     private String telefone;
     private String nascimento;
     private String sexo;
-    private Integer perfil;
+    private Long perfil;
     private Date data_cadastro;
 
     public Date getData_cadastro() {
@@ -38,11 +38,11 @@ public abstract class Usuario extends BaseEntity {
         this.apelido = apelido;
     }
 
-    public Integer getPerfil() {
+    public Long getPerfil() {
         return perfil;
     }
 
-    public void setPerfil(Integer perfil) {
+    public void setPerfil(Long perfil) {
         this.perfil = perfil;
     }
 

@@ -3,8 +3,8 @@ package escambovirtual.controller;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Item;
+import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.ItemService;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,20 +21,22 @@ import org.springframework.web.servlet.ModelAndView;
 public class ItemController {
 
     @RequestMapping(value = "/anunciante/item", method = RequestMethod.GET)
-    public ModelAndView getItem(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ModelAndView mv = new ModelAndView("usuario/anunciante/item/list");
-        
-        ItemService s = new ItemService(); 
-        
-        HttpSession session = request.getSession();
-        Long id = (Long) session.getAttribute("id");
-        
+    public ModelAndView getItem(Long toast, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        ItemService s = new ItemService();
+
+        Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
+
         Map<Long, Object> criteria = new HashMap<>();
-        criteria.put(ItemCriteria.ID_USUARIO, id);
+        criteria.put(ItemCriteria.ID_USUARIO, usuario.getId());
 
         List<Item> itemList = s.readByCriteria(criteria);
-       
+
+        ModelAndView mv = new ModelAndView("usuario/anunciante/item/list");
         mv.addObject("itemList", itemList);
+        if (toast!=null && toast > 0) {
+            mv.addObject("msg", ((Map<Long, String>) session.getAttribute("toasts")).get(toast));
+            ((Map<Long, String>) session.getAttribute("toasts")).remove(toast);
+        }
         return mv;
     }
 
@@ -46,79 +48,118 @@ public class ItemController {
 
     @RequestMapping(value = "anunciante/item/new", method = RequestMethod.POST)
     public ModelAndView postItemNew(String nome, String dataAquisicao, String descricao, String interesse1, String interesse2, String interesse3,
-                                    String imagem1, String imagem2, String imagem3, String imagem4, String imagem5, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        Item item = new Item();
+            String imagem1, String imagem2, String imagem3, String imagem4, String imagem5, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        ModelAndView mv;
+        try {
+            Item item = new Item();
 
-        HttpSession session = request.getSession();        
-        String status = "Em Avaliação";
-                
-        Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
-        item.setAnunciante(anunciante);
-        item.setNome(nome);
-        item.setDataAquisicao(dataAquisicao);
-        item.setStatus(status);
-        item.setDescricao(descricao);  
-        item.setInteresse1(interesse1);
-        item.setInteresse2(interesse2);
-        item.setInteresse3(interesse3);
-        ItemService s = new ItemService();
-        s.create(item);
+            String status = "Em Avaliação";
 
-        ModelAndView mv = new ModelAndView("redirect:/anunciante/item");
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+            item.setAnunciante(anunciante);
+            item.setNome(nome);
+            item.setDataAquisicao(dataAquisicao);
+            item.setStatus(status);
+            item.setDescricao(descricao);
+            item.setInteresse1(interesse1);
+            item.setInteresse2(interesse2);
+            item.setInteresse3(interesse3);
+            ItemService s = new ItemService();
+            s.create(item);
+            response.setStatus(200);
+
+            mv = new ModelAndView("redirect:/anunciante/item");
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+            response.setStatus(500);
+        }
+        return mv;
+
+    }
+
+    @RequestMapping(value = "/anunciante/item/{id}/edit", method = RequestMethod.GET)
+    public ModelAndView getItemEdit(@PathVariable Long id, HttpSession session, HttpServletResponse response) throws Exception {
+        ModelAndView mv;
+        try {
+            Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
+            ItemService s = new ItemService();
+            Item item = s.readById(id);
+            if (item.getAnunciante().getId() == usuario.getId()) {
+                mv = new ModelAndView("usuario/anunciante/item/edit");
+                mv.addObject("item", item);
+                response.setStatus(200);
+            } else {
+                mv = new ModelAndView("redirect:/permissao-negada");
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+            response.setStatus(500);
+        }
+
         return mv;
 
     }
 
     @RequestMapping(value = "/anunciante/item/{id}/edit", method = RequestMethod.POST)
-    public ModelAndView postItemEdit(@PathVariable Long id, String nome, String dataAquisicao, String status, String descricao, String interesse1, String interesse2, String interesse3, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
-        Anunciante anunciante = (Anunciante)session.getAttribute("anunciante");
-        Item itemSession = (Item) session.getAttribute("item");
+    public ModelAndView postItemEdit(@PathVariable Long id, String nome, String dataAquisicao, String status, String descricao, String interesse1, String interesse2, String interesse3, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        ModelAndView mv;
+        try {
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+//        Item itemSession = (Item) session.getAttribute("item");
 
-        Item item = new Item();
+            ItemService s = new ItemService();
+            Item item = s.readById(id);
 
-        status = "Em Avaliação";
+            status = "Em Avaliação";
 
-        item.setId(id);
-        item.setNome(nome);
-        item.setDataAquisicao(dataAquisicao);        
-        item.setDataCadastro(itemSession.getDataCadastro());
-        item.setStatus(status);
-        item.setDescricao(descricao);
-        item.setInteresse1(interesse1);
-        item.setInteresse2(interesse2);
-        item.setInteresse3(interesse3);
-        item.setAnunciante(anunciante);
-        
+            item.setNome(nome);
+            item.setDataAquisicao(dataAquisicao);
+//        item.setDataCadastro(itemSession.getDataCadastro());
+            item.setStatus(status);
+            item.setDescricao(descricao);
+            item.setInteresse1(interesse1);
+            item.setInteresse2(interesse2);
+            item.setInteresse3(interesse3);
+            item.setAnunciante(anunciante);
 
-        ItemService s = new ItemService();
-        s.update(item);
-
-        ModelAndView mv = new ModelAndView("redirect:/anunciante/item");
+            s.update(item);
+            mv = new ModelAndView("redirect:/anunciante/item");
+            response.setStatus(200);
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+            response.setStatus(500);
+        }
         return mv;
-    }
-
-    @RequestMapping(value = "/anunciante/item/{id}/edit", method = RequestMethod.GET)
-    public ModelAndView getItemEdit(@PathVariable Long id, HttpSession session) throws Exception {
-        ItemService s = new ItemService();
-        Item item = s.readById(id);
-        ModelAndView mv = new ModelAndView("usuario/anunciante/item/edit");
-        mv.addObject("item", item);
-        session.setAttribute("item", item);
-        return mv;
-
     }
 
     @RequestMapping(value = "/anunciante/item/{id}/del", method = RequestMethod.GET)
-    public ModelAndView delete(@PathVariable Long id) throws Exception {
-        ItemService s = new ItemService();
-        s.delete(id);
-        ModelAndView mv = new ModelAndView("redirect:/anunciante/item");
+    public ModelAndView delete(@PathVariable Long id, HttpSession session, HttpServletResponse response) {
+        ModelAndView mv;
+        try {
+            Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
+            ItemService s = new ItemService();
+            Item item = s.readById(id);
+            if (item.getAnunciante().getId() == usuario.getId()) {
+                s.delete(id);
+                mv = new ModelAndView("redirect:/anunciante/item");
+                response.setStatus(200);
+            } else {
+                mv = new ModelAndView("redirect:/permissao-negada");
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+            response.setStatus(500);
+        }
+
         return mv;
     }
-    
-    @RequestMapping(value = "/item/{id}/view", method = RequestMethod.GET)
-    public ModelAndView getItemView(@PathVariable Long id) throws Exception{
+
+    @RequestMapping(value = "/anunciante/pesquisar/item/{id}/view", method = RequestMethod.GET)
+    public ModelAndView getItemView(@PathVariable Long id) throws Exception {
         ItemService s = new ItemService();
         Item item = s.readById(id);
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/view");

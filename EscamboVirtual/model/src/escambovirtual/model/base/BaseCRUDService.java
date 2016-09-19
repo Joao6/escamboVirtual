@@ -19,4 +19,6 @@ public interface BaseCRUDService<E extends BaseEntity> {
     public void update(E entity) throws Exception;
     
     public void delete(Long id) throws Exception;
+    
+    public Map<String, String> validate(Map<String, Object> fields) throws Exception;
 }

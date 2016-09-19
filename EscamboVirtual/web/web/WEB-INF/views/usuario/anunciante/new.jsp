@@ -7,7 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html ng-app="anuncianteApp">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">        
         <title>Novo Cadastro de Anunciante</title>
@@ -22,33 +22,22 @@
         <script src="<c:url value="/resources/js/jquery.maskedinput.min.js"/>"></script>
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <!--ANGULAR-->
+        <script src="<c:url value="/resources/js/angular.js"/>"></script>
+        <!--APP-->
+        <script src="<c:url value="/resources/js/anunciante/app/anunciante-app.js"/>"></script>
+        <!--CONTROLLERS-->
+        <script src="<c:url value="/resources/js/anunciante/controllers/anunciante-controller.js"/>"></script>
+        <!--SERVICES-->
+        <script src="<c:url value="/resources/js/anunciante/services/anunciante-service.js"/>"></script>
+        <!--VALUES-->
+        <script src="<c:url value="/resources/js/anunciante/values/anunciante-value.js"/>"></script>
+        <!--MASCARA-->
+        <script src="<c:url value="/resources/js/anunciante/mask-cadastro.js"/>"></script>
 
-        <script type="text/javascript">
-
-            jQuery(document).ready(function ($) {
-
-                $("#inputTelefone").mask("(99) ?9? 9999-9999");     // Máscara para TELEFONE
-
-                $("#cep").mask("99999-999");    // Máscara para CEP
-
-                $("#inputNascimento").mask("99/99/9999");    // Máscara para DATA
-
-                $("#cnpj").mask("99.999.999/9999-99");    // Máscara para CNPJ
-
-                $("#cpf").mask("999.999.999-99");    // Máscara para CPF
-
-                $('#rg').mask('99.999.999-9');    // Máscara para RG
-
-                $('#agencia').mask('9999-9');    // Máscara para AGÊNCIA BANCÁRIA
-
-                $('#conta').mask('99.999-9');    // Máscara para CONTA BANCÁRIA
-
-            });
-
-        </script>
     </head>
 
-    <body>
+    <body ng-controller="AnuncianteController">
         <!-- TOP BAR -->
         <nav class="grey darken-3" role="navigation">
             <div class="nav-wrapper container">
@@ -68,7 +57,7 @@
         <!-- FORMULARIO -->           
         <div class="fundo-cadastro">
             <div class="container">
-                <form method="post">
+                <form id="anuncianteForm" name="anuncianteForm">
                     <div class="row">
                         <div class="card-panel col s12 m12" id="form1">
                             <div class="card-title">                        
@@ -78,54 +67,54 @@
                             <div class="card-content">
                                 <div class="row">
                                     <div class="input-field col s12 m6">
-                                        <input id="inputNome" name="nome" type="text" class="validate"/>
+                                        <input id="inputNome" name="nome" type="text" class="validate" ng-model="anunciante.nome" required=""/>
                                         <label for="inputNome">Nome</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input id="inputApelido" name="apelido" type="text" class="validate"/>
+                                        <input id="inputApelido" name="apelido" type="text" class="validate" ng-model="anunciante.apelido" required=""/>
                                         <label for="inputApelido">Apelido</label>
                                     </div>                                
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12 m6 l6">
-                                        <input id="inputEmail" name="email" type="email" class="validate"/>
-                                        <label for="inputEmail">Email</label>
-                                    </div>                                
+                                        <input id="email" name="email" type="email" class="validate" ng-blur="checkEmail(anunciante.email)"  ng-model="anunciante.email" required=""/>
+                                        <label for="email">Email</label>
+                                    </div>                                    
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12 m6">
-                                        <input id="inputSenha" name="senha" type="password" class="validate"/>
-                                        <label for="inputSenha">Senha</label>
+                                        <input id="senha" name="senha" type="password" class="validate"  ng-model="anunciante.senha" required=""/>
+                                        <label for="senha">Senha</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input id="inputConfirmaSenha" name="confirmaSenha" type="password" class="validate"/>
-                                        <label for="inputConfirmaSenha">Confirmar Senha</label>
+                                        <input id="senha2" name="conSenha" type="password" class="validate" ng-blur="checkSenha()" required=""/>
+                                        <label for="conSenha">Confirmar Senha</label>                                        
                                     </div>
                                 </div>                                
                                 <div class="row">
                                     <div class="input-field col s12 m6">
-                                        <input id="inputTelefone" name="telefone" type="text" class="validate"/>
-
+                                        <input id="inputTelefone" name="telefone" type="text" ng-model="anunciante.telefone" class="validate"/>
                                         <label for="inputTelefone">Telefone</label>
                                     </div>
                                     <div class="input-field col s12 m6">
-                                        <input id="inputNascimento" name="nascimento" type="text" class="validate"/>
-                                        <label for="inputNascimento">Data de Nascimento</label>
+                                        <input id="inputNascimento" name="nascimento" type="text" class="validate"  ng-model="anunciante.nascimento" required=""/>
+                                        <label for="inputNascimento">Data de Nascimento</label>                                        
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12 m6">                                    
-                                        <select id="inputSexo" name="sexo">
-                                            <option value="" disabled selected>Selecione</option>
-                                            <option value="M">Masculino</option>
-                                            <option value="F">Feminino</option>
-                                        </select>
-                                        <label>Sexo</label>
+                                        <select id="inputSexo" name="sexo" required="" class="browser-default validate"  ng-model="anunciante.sexo" style="border-color: grey;">
+                                            <option value="" disabled selected>Selecione o Sexo</option>
+                                            <option ng-repeat="sexo in sexos" value="{{sexo.sexo}}">{{sexo.sexo}}</option>                                            
+                                        </select>                                        
                                     </div>
-                                </div>
+                                    <div class="input-field col s12 m6" style="padding-top: 20px;">
+                                        <span ng-show="anuncianteForm.$invalid" class="red-text"><strong>*Preencha corretamente todos os campos!</strong></span>
+                                    </div>
+                                </div>                                
                             </div>
-                            <button type="submit" id="btn-cadastrar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light blue" style="margin-bottom: 10px">Cadastrar</button>
-                            <a href="<c:url value="/"/>"><button type="button" id="btn-cancelar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light brown">Cancelar</button></a>                        
+                            <button type="button" id="btn-cadastrar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light blue" ng-click="create(anunciante)" ng-disabled="anuncianteForm.$invalid || !emailOk || !senhaOk" style="margin-bottom: 10px">Cadastrar</button>                            
+                            <a href="<c:url value="/"/>" class="show-on-med-and-down"> <button type="button" class="btn btn-large btn-cancelar brown col s12 m3 push-m6">Cancelar</button></a>
                         </div> 
                     </div>            
                 </form>
@@ -134,8 +123,7 @@
 
 
         <!--Import jQuery before materialize.js-->
-        <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>        
-        <script type="text/javascript" src="<c:url value="/resources/js/jquery.maskedinput.min.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>                
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
     </body>

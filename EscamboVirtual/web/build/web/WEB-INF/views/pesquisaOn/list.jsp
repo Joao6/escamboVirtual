@@ -69,9 +69,9 @@
 
                         <ul>
                             <c:forEach var="item" items="${itemList}">
-                                <a href="<c:url value="/item/${item.id}/view"></c:url>" class="black-text painelAnuncios">
+                                <a href="<c:url value="/anunciante/pesquisar/item/${item.id}/view"></c:url>" class="black-text painelAnuncios hoverable">
                                         <li>
-                                            <div class="col s12 m12 z-depth-1 painelAnuncios">
+                                            <div class="col s12 m12 z-depth-1 painelAnuncios hoverable">
                                                 <div class="card medium" style="height: 160px;">                                       
                                                     <div class="row">                                               
                                                         <div class="card-image col s12 m4 l4">

@@ -1,7 +1,11 @@
 package escambovirtual.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
+import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
@@ -13,6 +17,7 @@ import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.LocalizacaoService;
 import escambovirtual.model.service.SenhaService;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,9 +25,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import org.apache.tomcat.dbcp.pool2.PoolUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -35,24 +44,46 @@ public class AnuncianteController {
     }
 
     @RequestMapping(value = "anunciantes/novo", method = RequestMethod.POST)
-    public ModelAndView postCreateAnunciante(String nome, String apelido, String email, String senha, String cidade, String uf, String telefone, String nascimento, String sexo) throws Exception {
-        Anunciante anunciante = new Anunciante();
-        anunciante.setNome(nome);
-        anunciante.setApelido(apelido);
-        anunciante.setEmail(email);
+    public ModelAndView postCreateAnunciante(String nome, String apelido, String email, String senha, String telefone, String nascimento, String sexo) {
+        ModelAndView mv;
+        try {
+            Map<String, Object> fields = new HashMap<>();
+            fields.put("email", email);
+            AnuncianteService s = new AnuncianteService();
+            Map<String, String> errors = s.validate(fields);
 
-        SenhaService ss = new SenhaService();
-        String senhaMD5 = ss.convertPasswordToMD5(senha);
-        anunciante.setSenha(senhaMD5);
-        anunciante.setPerfil(2);
-        anunciante.setNascimento(nascimento);
-        anunciante.setTelefone(telefone);
-        anunciante.setSexo(sexo);
+            if (errors.isEmpty()) {
+                Anunciante anunciante = new Anunciante();
+                anunciante.setNome(nome);
+                anunciante.setApelido(apelido);
+                anunciante.setEmail(email);
 
-        AnuncianteService s = new AnuncianteService();
-        s.create(anunciante);
+                SenhaService ss = new SenhaService();
+                String senhaMD5 = ss.convertPasswordToMD5(senha);
+                anunciante.setSenha(senhaMD5);
+                anunciante.setPerfil(2L);
+                anunciante.setNascimento(nascimento);
+                anunciante.setTelefone(telefone);
+                anunciante.setSexo(sexo);
 
-        ModelAndView mv = new ModelAndView("redirect:/index");
+                s.create(anunciante);
+                mv = new ModelAndView("redirect:/index");
+            }else{
+                mv = new ModelAndView("usuario/anunciante/new");
+                mv.addObject("errors", errors);
+                mv.addObject("nome", nome);
+                mv.addObject("email", email);                
+                mv.addObject("apelido", apelido);
+                mv.addObject("telefone", telefone);
+                mv.addObject("nascimento", nascimento);
+                mv.addObject("sexo", sexo);
+            }
+
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+
         return mv;
     }
 
@@ -60,13 +91,13 @@ public class AnuncianteController {
     public ModelAndView getAnunciantePerfil(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         LocalizacaoService sl = new LocalizacaoService();
 
-        Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
+        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         Localizacao localizacao = null;
         Map<Long, Object> criteria = new HashMap<>();
         criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
         List<Localizacao> localizacaoList = new ArrayList<>();
         localizacaoList = sl.readByCriteria(criteria);
-        if(localizacaoList != null && localizacaoList.size() == 1){
+        if (localizacaoList != null && localizacaoList.size() == 1) {
             localizacao = localizacaoList.get(0);
         }
         ModelAndView mv = new ModelAndView("usuario/anunciante/perfil");
@@ -76,54 +107,59 @@ public class AnuncianteController {
     }
 
     @RequestMapping(value = "/anunciante/perfil", method = RequestMethod.POST)
-    public ModelAndView postAnunciantePerfil(String nome, String apelido, String senha, String email, String sexo, String nascimento, Integer perfil, String telefone,
+    public ModelAndView postAnunciantePerfil(String nome, String apelido, String senha, String email, String sexo, String nascimento, Long perfil, String telefone,
             Long estado, Long cidade, String bairro, String rua, String numero, String imagem, HttpServletRequest request,
-            HttpServletResponse response, HttpSession session) throws Exception {
+            HttpServletResponse response, HttpSession session) {
 
-        AnuncianteService s = new AnuncianteService();
+        ModelAndView mv;
+        try {
+            AnuncianteService s = new AnuncianteService();
 
-        Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
 
-        anunciante.setId(anunciante.getId());
-        anunciante.setNome(nome);
-        anunciante.setApelido(apelido);
-        anunciante.setSenha(anunciante.getSenha());
-        anunciante.setEmail(email);
-        anunciante.setSexo(sexo);
-        anunciante.setNascimento(nascimento);
-        anunciante.setPerfil(perfil);
-        anunciante.setTelefone(telefone);
+            anunciante.setNome(nome);
+            anunciante.setApelido(apelido);
+            anunciante.setEmail(email);
+            anunciante.setSexo(sexo);
+            anunciante.setNascimento(nascimento);
+            anunciante.setPerfil(perfil);
+            anunciante.setTelefone(telefone);
 //        anunciante.setImagem(imagem);
-        s.update(anunciante);
+            s.update(anunciante);
 
-        //TRATANDO A LOCALIZACAO DO ANUNCIANTE
-        LocalizacaoService sl = new LocalizacaoService();
-        Localizacao localizacao = new Localizacao();                
-        EstadoService es = new EstadoService();
-        Estado estadoEntity = es.readById(estado);
-        localizacao.setEstado(estadoEntity);
-        CidadeService cs = new CidadeService();
-        Cidade cidadeEntity = cs.readById(cidade);
-        localizacao.setCidade(cidadeEntity);
-        localizacao.setBairro(bairro);
-        localizacao.setRua(rua);
-        localizacao.setNumero(numero);
-        localizacao.setUsuario(anunciante);
-        
-        Map<Long, Object> criteria = new HashMap<>();
-        criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
-        List<Localizacao> localizacaoList = new ArrayList<>();
-        localizacaoList = sl.readByCriteria(criteria);
-        if (localizacaoList != null && localizacaoList.size() == 1) {
-            Localizacao aux = localizacaoList.get(0);
-            localizacao.setId(aux.getId());
-            sl.update(localizacao);
-        } else {
-            sl.create(localizacao);
+            //TRATANDO A LOCALIZACAO DO ANUNCIANTE
+            LocalizacaoService sl = new LocalizacaoService();
+            Localizacao localizacao = new Localizacao();
+            EstadoService es = new EstadoService();
+            Estado estadoEntity = es.readById(estado);
+            localizacao.setEstado(estadoEntity);
+            CidadeService cs = new CidadeService();
+            Cidade cidadeEntity = cs.readById(cidade);
+            localizacao.setCidade(cidadeEntity);
+            localizacao.setBairro(bairro);
+            localizacao.setRua(rua);
+            localizacao.setNumero(numero);
+            localizacao.setUsuario(anunciante);
+
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
+            List<Localizacao> localizacaoList = new ArrayList<>();
+            localizacaoList = sl.readByCriteria(criteria);
+            if (localizacaoList != null && localizacaoList.size() == 1) {
+                Localizacao aux = localizacaoList.get(0);
+                localizacao.setId(aux.getId());
+                sl.update(localizacao);
+            } else {
+                sl.create(localizacao);
+            }
+
+            session.setAttribute("usuarioSessao", anunciante);
+            mv = new ModelAndView("redirect:/anunciante/perfil");
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
         }
-                
-        session.setAttribute("anunciante", anunciante);        
-        ModelAndView mv = new ModelAndView("redirect:/anunciante/perfil");
+
         return mv;
     }
 
@@ -139,7 +175,7 @@ public class AnuncianteController {
 
     @RequestMapping(value = "/anunciante/home", method = RequestMethod.GET)
     public ModelAndView anuncianteHome(HttpSession session) {
-        Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
+        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/anunciante/home");
         mv.addObject("anunciante", anunciante);
         return mv;
@@ -155,7 +191,7 @@ public class AnuncianteController {
     public ModelAndView postAnuncianteAlterarSenha(String novasenha, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
 
         AnuncianteService s = new AnuncianteService();
-        Anunciante anunciante = (Anunciante) session.getAttribute("anunciante");
+        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         SenhaService ss = new SenhaService();
         String passwordMD5 = ss.convertPasswordToMD5(novasenha);
         anunciante.setSenha(passwordMD5);
@@ -164,19 +200,97 @@ public class AnuncianteController {
         ModelAndView mv = new ModelAndView("redirect:/anunciante/home");
         return mv;
     }
-    
-    @RequestMapping(value = "/anunciante/pesquisar", method = RequestMethod.GET)
-    public ModelAndView getPesquisaItem(String nomeCriterium) throws Exception{
+
+    @RequestMapping(value = "/anunciante/pesquisar/item", method = RequestMethod.GET)
+    public ModelAndView getPesquisaItem(String nomeCriterium) throws Exception {
         Map<Long, Object> criteria = new HashMap<>();
         criteria.put(ItemCriteria.NOME_ILIKE, nomeCriterium);
         criteria.put(ItemCriteria.STATUS_EQ, "Publicar");
-        
+
         ItemService s = new ItemService();
         List<Item> itemList = s.readByCriteria(criteria);
-        
-        ModelAndView mv = new ModelAndView("pesquisaOn/list"); 
+
+        ModelAndView mv = new ModelAndView("pesquisaOn/list");
         mv.addObject("itemList", itemList);
         mv.addObject("nomeCriterium", nomeCriterium);
         return mv;
-    }        
+    }
+
+    @RequestMapping(value = "/anunciante/email", method = RequestMethod.POST)
+    @ResponseBody
+    public String checkEmail(@RequestBody String email, HttpServletResponse response) {
+        String result;
+        Gson g = new Gson();
+        Map<Long, Object> criteria = new HashMap<>();
+        Map<String, Object> resultado = new HashMap<>();
+        try {
+            List<Anunciante> anuncianteList = null;
+            criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);
+
+            if (!email.equals("")) {
+                AnuncianteService s = new AnuncianteService();
+                anuncianteList = s.readByCriteria(criteria);
+            }
+
+            if (anuncianteList != null && !anuncianteList.isEmpty()) {
+                resultado.put("result", "exist");
+                result = g.toJson(resultado);
+            } else {
+                resultado.put("result", "not");
+                result = g.toJson(resultado);
+            }
+            response.setStatus(200);
+        } catch (Exception e) {
+            response.setStatus(500);
+            e.printStackTrace();
+            resultado.put("result", "null");
+            result = g.toJson(resultado);
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/anunciante/create/api", method = RequestMethod.POST)
+    @ResponseBody
+    public void create(@RequestBody String anunciante, HttpServletResponse response) {
+        try {
+//            Type type = new TypeToken<Anunciante>(){                
+//            }.getType();
+//            Gson g = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+            Gson g = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+
+            Anunciante anuncianteNew = g.fromJson(anunciante, Anunciante.class);
+            Map<String, Object> fields = new HashMap<>();
+            if (anuncianteNew != null) {
+                AnuncianteService s = new AnuncianteService();
+                anuncianteNew.setPerfil(2L);
+                SenhaService ss = new SenhaService();
+                anuncianteNew.setSenha(ss.convertPasswordToMD5(anuncianteNew.getSenha()));
+                s.create(anuncianteNew);
+                response.setStatus(200);
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+    }
+    
+    @RequestMapping(value = "/itens/anunciante/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getItensAnunciante(@PathVariable Long id, HttpServletResponse response){
+        String itens = null;
+        Map<Long, Object> criteria = new HashMap<>();
+        try{
+            criteria.put(ItemCriteria.ID_USUARIO, id);
+            ItemService s = new ItemService();
+            List<Item> itemList = s.readByCriteria(criteria);
+            Gson g = new Gson();
+            itens = g.toJson(itemList);
+            
+            response.setStatus(200);
+        }catch(Exception e){
+            e.printStackTrace();;
+            response.setStatus(500);
+        }
+        return itens;
+    }
+    
 }

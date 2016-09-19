@@ -10,7 +10,7 @@
   
     <session-config>
         <session-timeout>
-            30
+            15
         </session-timeout>
     </session-config>
     
@@ -56,7 +56,17 @@
             <param-value>true</param-value>
         </init-param>
     </filter>
- 
+    <!--/////////-->
+<!--    <filter>
+        <filter-name>sessionfilter</filter-name>
+        <filter-class>com.filter.SessionFilter</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>sessionfilter</filter-name>
+        <url-pattern>*.do</url-pattern>
+    </filter-mapping>-->
+    <!--/////////-->
     <filter-mapping>
         <filter-name>encodingFilter</filter-name>
         <url-pattern>/*</url-pattern>

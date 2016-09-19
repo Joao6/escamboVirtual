@@ -47,7 +47,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             ps.setNull(++i, Types.DATE);
         }
 
-        ps.setInt(++i, entity.getPerfil());
+        ps.setLong(++i, entity.getPerfil());
 
         if (entity.getTelefone() != null) {
             ps.setString(++i, entity.getTelefone());
@@ -119,16 +119,16 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             usuario.setSenha(rs.getString("senha"));
             usuario.setSexo(rs.getString("sexo"));
             //usuario.setNascimento(rs.getDate("data_nascimento"));
-            usuario.setPerfil(rs.getInt("perfil"));
+            usuario.setPerfil(rs.getLong("perfil"));
             usuario.setTelefone(rs.getString("telefone"));
             usuario.setData_cadastro(rs.getDate("data_cadastro"));
 
             if (usuario instanceof Anunciante) {
                 Anunciante anunciante = (Anunciante) usuario;
-                anunciante.setReputacao(rs.getInt("reputacao"));
+                anunciante.setReputacao(rs.getInt("anunciante_reputacao"));
             } else {
                 Administrador administrador = (Administrador) usuario;
-                administrador.setCpf(rs.getString("cpf"));
+                administrador.setCpf(rs.getString("administrador_cpf"));
             }
         }
         rs.close();
@@ -178,7 +178,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             usuario.setSenha(rs.getString("senha"));
             usuario.setSexo(rs.getString("sexo"));
             //usuario.setNascimento(rs.getDate("data_nascimento"));
-            usuario.setPerfil(rs.getInt("perfil"));
+            usuario.setPerfil(rs.getLong("perfil"));
             usuario.setTelefone(rs.getString("telefone"));
             usuario.setData_cadastro(rs.getDate("data_cadastro"));
 
@@ -220,7 +220,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             ps.setNull(++i, Types.DATE);
         }
 
-        ps.setInt(++i, entity.getPerfil());
+        ps.setLong(++i, entity.getPerfil());
 
         if (entity.getTelefone() != null) {
             ps.setString(++i, entity.getTelefone());

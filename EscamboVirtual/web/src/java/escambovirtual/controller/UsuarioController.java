@@ -1,15 +1,11 @@
 package escambovirtual.controller;
 
-import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Administrador;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Usuario;
-import escambovirtual.model.service.EmailService;
 import escambovirtual.model.service.SenhaService;
 import escambovirtual.model.service.UsuarioService;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
@@ -35,11 +31,17 @@ public class UsuarioController {
         Usuario usuario = null;
         usuario = s.login(email, senhaMD5);
         if (usuario instanceof Administrador) {
-            session.setAttribute("administrador", usuario);
+            session.setAttribute("usuarioSessao", usuario);
+            Map<Long, String> toasts = new HashMap<Long, String>();
+            toasts.put(1L, "Teste do toast");
+            session.setAttribute("toasts", toasts);
             mv = new ModelAndView("redirect:/administrador/home");
             mv.addObject("administrador", usuario);
         } else if (usuario instanceof Anunciante) {
-            session.setAttribute("anunciante", usuario);
+            session.setAttribute("usuarioSessao", usuario);
+            Map<Long, String> toasts = new HashMap<Long, String>();
+            toasts.put(1L, "Teste do toast");
+            session.setAttribute("toasts", toasts);
             mv = new ModelAndView("redirect:/anunciante/home");
             mv.addObject("anunciante", usuario);
         } else {
@@ -56,10 +58,10 @@ public class UsuarioController {
         session.invalidate();
         return mv;
     }
-    
+
     @RequestMapping(value = "/usuario/recuperar-senha", method = RequestMethod.GET)
-    public ModelAndView getRecuperarSenha(){
-        ModelAndView mv = new ModelAndView("usuario/recuperarSenha");        
+    public ModelAndView getRecuperarSenha() {
+        ModelAndView mv = new ModelAndView("usuario/recuperarSenha");
         return mv;
     }
 
@@ -69,14 +71,22 @@ public class UsuarioController {
 
         UsuarioService s = new UsuarioService();
         Usuario usuario = s.recuperarSenha(emailRecuperacao);
-        
-        if(usuario != null){
+
+        if (usuario != null) {
             mv = new ModelAndView("redirect:/index");
-        }else{
+        } else {
             mv = new ModelAndView("redirect:/index");
             mv.addObject("erro", 1);
         }
 
+        return mv;
+    }
+
+    //método é mapeado caso o usuário não tenha permissão para acessar
+    //determinada área do sistema
+    @RequestMapping(value = "/permissao-negada", method = RequestMethod.GET)
+    public ModelAndView permissaoNegada() {
+        ModelAndView mv = new ModelAndView("usuario/permissao-negada");
         return mv;
     }
 }

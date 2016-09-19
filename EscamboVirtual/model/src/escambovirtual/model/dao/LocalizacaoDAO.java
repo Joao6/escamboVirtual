@@ -94,7 +94,7 @@ public class LocalizacaoDAO implements BaseDAO<Localizacao> {
             usuario.setNome(rs.getString("usuario_nome"));
             usuario.setEmail(rs.getString("usuario_email"));
             usuario.setApelido(rs.getString("usuario_apelido"));
-            usuario.setPerfil(rs.getInt("usuario_perfil"));
+            usuario.setPerfil(rs.getLong("usuario_perfil"));
 
             localizacao.setUsuario(usuario);
         }
@@ -144,7 +144,7 @@ public class LocalizacaoDAO implements BaseDAO<Localizacao> {
             usuario.setNome(rs.getString("usuario_nome"));
             usuario.setEmail(rs.getString("usuario_email"));
             usuario.setApelido(rs.getString("usuario_apelido"));
-            usuario.setPerfil(rs.getInt("usuario_perfil"));
+            usuario.setPerfil(rs.getLong("usuario_perfil"));
 
             localizacao.setUsuario(usuario);
             localizaoList.add(localizacao);

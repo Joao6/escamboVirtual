@@ -31,10 +31,10 @@
                     <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/administrador/perfil"/>"><i class="material-icons">perm_identity</i>Perfil</a>
                 </li>
                 <li>
-                    <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/administrador/new"/>"><i class="material-icons">note_add</i>Cadastrar Admin</a>
+                    <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/administrador/list"/>"><i class="material-icons">note_add</i>Administradores</a>
                 </li>
                 <li>
-                    <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/administrador/list"/>"><i class="material-icons">assignment</i>Avaliar Itens</a>
+                    <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/administrador/list/itens"/>"><i class="material-icons">assignment</i>Avaliar Itens</a>
                 </li>                        
                 <li>
                     <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="#"/>"><i class="material-icons">assessment</i>Estatísticas</a>

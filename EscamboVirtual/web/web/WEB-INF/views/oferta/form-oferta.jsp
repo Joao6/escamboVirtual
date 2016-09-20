@@ -47,7 +47,7 @@
                             <div class="col s12">
                                 <a href="<c:url value="/anunciante/home"/>" class="breadcrumb">Home</a>
                                 <a href="<c:url value="/anunciante/pesquisar/item"/>" class="breadcrumb">Pesquisa</a>
-                                <a href="<c:url value="/anunciante/pesquisar/item/${item.id}/view"/>" class="breadcrumb">Ver Item</a>
+                                <a href="<c:url value="/anunciante/pesquisar/item/${itemReceptor.id}/view"/>" class="breadcrumb">Ver Item</a>
                                 <a href="#!" class="breadcrumb">Fazer Oferta</a>
                             </div>                        
                         </div>

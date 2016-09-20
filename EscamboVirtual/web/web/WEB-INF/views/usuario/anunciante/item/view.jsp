@@ -23,6 +23,11 @@
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
+        <script>
+            $(document).ready(function () {
+                $('.carousel').carousel();
+            });
+        </script>
     </head>
     <body style="background-color: #b0bec5;">
         <header>
@@ -54,7 +59,17 @@
                                             </td>                                        
                                         </tr>                                    
                                         <tr>
-                                            <td rowspan="4"><img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200"></td>
+                                            <!--<td rowspan="4"><img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200"></td>-->
+                                            <td colspan="4">
+                                                <div class="carousel" style="margin-top: -10%; margin-bottom: -20%;">
+                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
+                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
+                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
+                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
+                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
+                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
+                                                </div>
+                                            </td>
                                         </tr>
                                         <tr>                                            
                                             <td><b>Anunciante: &nbsp;</b>${item.anunciante.nome}</td>
@@ -69,8 +84,8 @@
                                             <td><b>Interesse 3: &nbsp;</b>${item.interesse3}</td>
                                         </tr>
                                         <tr>
-                                            <td><b>Descrição: </b></td>
-                                            <td>${item.descricao}</td> 
+                                            <td><b>Descrição: </b><p>${item.descricao}</p></td>
+                                            <!--<td>${item.descricao}</td>--> 
                                         </tr>
                                         <tr>
                                             <td class="right-align" colspan="4">

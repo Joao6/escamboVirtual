@@ -19,6 +19,16 @@
         <link href="<c:url value="/resources/css/ghpages-materialize.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>
 
         <!--SCRIPTS-->
+        <!--ANGULAR-->
+        <script src="<c:url value="/resources/js/angular.js"/>"></script>
+        <!--APP-->
+        <script src="<c:url value="/resources/js/anunciante/app/anunciante-app.js"/>"></script>
+        <!--CONTROLLERS-->
+        <script src="<c:url value="/resources/js/anunciante/controllers/anunciante-controller.js"/>"></script>
+        <!--SERVICES-->
+        <script src="<c:url value="/resources/js/anunciante/services/anunciante-service.js"/>"></script>
+        <!--VALUES-->
+        <script src="<c:url value="/resources/js/anunciante/values/anunciante-value.js"/>"></script>
         <script>
             function mascaraTel(t, mask) {
                 var i = t.value.length;
@@ -50,6 +60,16 @@
                 reader.readAsDataURL(this.files[0]);
             };
         </script>
+        <script>
+            function buscar_cidades() {
+                var estado = $('#estado').val();
+                if (estado) {
+                    var url = '/web/anunciante/cidades/' + estado;
+                    $.get(url, function (dataReturn) {
+                        $('#load_cidades').html(dataReturn);
+                    });
+                }
+            }
         </script>
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
@@ -122,13 +142,13 @@
                             <label for="nascimento">Data de Nascimento</label>
                         </div>
                         <div class="input-field col s12 m4 l4">                                    
-                            <select id="sexo" name="sexo" >
-                                <option value="${anunciante.sexo}"  selected>${anunciante.sexo}</option>
+                            <select id="sexo" class="browser-default" name="sexo"  style="border-color: grey;">
+                                <option value="${anunciante.sexo}" selected>${anunciante.sexo}</option>
                                 <option></option>
                                 <option value="Masculino">Masculino</option>
                                 <option value="Feminino">Feminino</option>
                             </select>
-                            <label>Sexo</label>
+                            <!--<label>Sexo</label>-->
                         </div>
                     </div>
                     <br />
@@ -138,12 +158,24 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
-                            <input id="estado" name="estado" type="text" class="validate" value="${localizacao.estado.nome}"/>
-                            <label for="estado">Estado</label>
+                            <select name="estado" id="estado" class="browser-default" style="border-color: grey;" onchange="buscar_cidades()">
+                                <option value="" selected="">Selecione o Estado</option>
+                                <c:forEach items="${estados}" var="estado">
+                                    <option value="${estado.id}">${estado.nome}</option>
+                                </c:forEach>
+                            </select>
+                            <!--<input id="estado" name="estado" type="text" class="validate" value="${localizacao.estado.nome}"/>-->
+                            <!--<label for="estado">Estado</label>-->
                         </div>
-                        <div class="input-field col s12 m6 l6">
-                            <input id="estado" name="cidade" type="text" class="validate" value="${localizacao.cidade.nome}"/>
-                            <label for="estado">Cidade</label>
+                        <div id="load_cidades" class="input-field col s12 m6 l6">
+                            <select name="cidade" id="cidade" class="browser-default" style="border-color: grey;">
+                                <option>Cidades...</option>
+                                <c:forEach items="${cidadeList}" var="cidade">
+                                    <option value="${cidade.id}">${cidade.nome}</option>
+                                </c:forEach>
+                            </select>
+                            <!--<input id="estado" name="cidade" type="text" class="validate" value="${localizacao.cidade.nome}"/>-->
+                            <!--<label for="estado">Cidade</label>-->
                         </div>
                     </div>
                     <div class="row">
@@ -162,7 +194,7 @@
 
                     </div>
                     <div class="row">            
-                        <button class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-left: 0.6rem;">Salvar</button>
+                        <button id="btn-salvar" class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-left: 0.6rem;">Salvar</button>
                         <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/home"/>">Voltar</a>
                     </div>
                 </form>

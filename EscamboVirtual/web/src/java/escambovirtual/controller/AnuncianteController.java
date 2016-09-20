@@ -2,7 +2,7 @@ package escambovirtual.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import escambovirtual.model.criteria.CidadeCriteria;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
 import escambovirtual.model.criteria.UsuarioCriteria;
@@ -17,7 +17,6 @@ import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.LocalizacaoService;
 import escambovirtual.model.service.SenhaService;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,7 +24,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.tomcat.dbcp.pool2.PoolUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,11 +66,11 @@ public class AnuncianteController {
 
                 s.create(anunciante);
                 mv = new ModelAndView("redirect:/index");
-            }else{
+            } else {
                 mv = new ModelAndView("usuario/anunciante/new");
                 mv.addObject("errors", errors);
                 mv.addObject("nome", nome);
-                mv.addObject("email", email);                
+                mv.addObject("email", email);
                 mv.addObject("apelido", apelido);
                 mv.addObject("telefone", telefone);
                 mv.addObject("nascimento", nascimento);
@@ -92,6 +90,8 @@ public class AnuncianteController {
         LocalizacaoService sl = new LocalizacaoService();
 
         Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+        EstadoService es = new EstadoService();
+        List<Estado> estados = es.readByCriteria(null);
         Localizacao localizacao = null;
         Map<Long, Object> criteria = new HashMap<>();
         criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
@@ -103,6 +103,7 @@ public class AnuncianteController {
         ModelAndView mv = new ModelAndView("usuario/anunciante/perfil");
         mv.addObject("anunciante", anunciante);
         mv.addObject("localizacao", localizacao);
+        mv.addObject("estados", estados);
         return mv;
     }
 
@@ -215,40 +216,7 @@ public class AnuncianteController {
         mv.addObject("nomeCriterium", nomeCriterium);
         return mv;
     }
-
-    @RequestMapping(value = "/anunciante/email", method = RequestMethod.POST)
-    @ResponseBody
-    public String checkEmail(@RequestBody String email, HttpServletResponse response) {
-        String result;
-        Gson g = new Gson();
-        Map<Long, Object> criteria = new HashMap<>();
-        Map<String, Object> resultado = new HashMap<>();
-        try {
-            List<Anunciante> anuncianteList = null;
-            criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);
-
-            if (!email.equals("")) {
-                AnuncianteService s = new AnuncianteService();
-                anuncianteList = s.readByCriteria(criteria);
-            }
-
-            if (anuncianteList != null && !anuncianteList.isEmpty()) {
-                resultado.put("result", "exist");
-                result = g.toJson(resultado);
-            } else {
-                resultado.put("result", "not");
-                result = g.toJson(resultado);
-            }
-            response.setStatus(200);
-        } catch (Exception e) {
-            response.setStatus(500);
-            e.printStackTrace();
-            resultado.put("result", "null");
-            result = g.toJson(resultado);
-        }
-        return result;
-    }
-
+    
     @RequestMapping(value = "/anunciante/create/api", method = RequestMethod.POST)
     @ResponseBody
     public void create(@RequestBody String anunciante, HttpServletResponse response) {
@@ -272,25 +240,46 @@ public class AnuncianteController {
             response.setStatus(500);
         }
     }
-    
+
     @RequestMapping(value = "/itens/anunciante/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String getItensAnunciante(@PathVariable Long id, HttpServletResponse response){
+    public String getItensAnunciante(@PathVariable Long id, HttpServletResponse response) {
         String itens = null;
         Map<Long, Object> criteria = new HashMap<>();
-        try{
+        try {
             criteria.put(ItemCriteria.ID_USUARIO, id);
             ItemService s = new ItemService();
             List<Item> itemList = s.readByCriteria(criteria);
             Gson g = new Gson();
             itens = g.toJson(itemList);
-            
+
             response.setStatus(200);
-        }catch(Exception e){
-            e.printStackTrace();;
+        } catch (Exception e) {
+            e.printStackTrace();
             response.setStatus(500);
         }
         return itens;
     }
-    
+
+    @RequestMapping(value = "/anunciante/cidades/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getEstados(HttpServletResponse response, @PathVariable Long id) {
+        List<Cidade> cidadeList = new ArrayList<>();
+        String cidades = null;
+        try {
+
+            CidadeService cs = new CidadeService();
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(CidadeCriteria.ESTADO_FK, id);
+            cidadeList = cs.readByCriteria(criteria);
+            Gson g = new Gson();
+            cidades = g.toJson(cidadeList);
+
+            response.setStatus(200);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return cidades;
+    }
 }

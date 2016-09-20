@@ -58,7 +58,7 @@ public class Interceptor implements HandlerInterceptor {
             }
         }
 
-        if (!url.endsWith("/web/index") && !url.endsWith("/usuario/login") && !url.endsWith("/anunciantes/novo") && !url.endsWith("item/search") && !url.endsWith("/anunciante/create/api") && !url.endsWith("/anunciante/email")) {
+        if (!url.endsWith("/web/index") && !url.endsWith("/usuario/login") && !url.endsWith("/anunciantes/novo") && !url.endsWith("item/search") && !url.endsWith("/anunciante/create/api") && !url.endsWith("/usuario/check/email")) {
             if (req.getSession().getAttribute("usuarioSessao") == null) {
                 req.getSession().setAttribute("urlDesejada", url);
                 res.sendRedirect("/web/index");
@@ -79,13 +79,13 @@ public class Interceptor implements HandlerInterceptor {
             req.getSession().setAttribute("usuarioSessao", usuario);
             if (usuario.getPerfil() == Usuario.USUARIO_TIPO_ADMINISTRADOR) {
                 if (url.contains("anunciante")) {
-                    res.sendRedirect("/web/permissao-negada");
+                    res.sendRedirect("/web/administrador/permissao-negada");
                     return false;
                 }               
             }
             if (usuario.getPerfil() == Usuario.USUARIO_TIPO_ANUNCIANTE) {
                 if (url.contains("administrador")) {
-                    res.sendRedirect("/web/permissao-negada");
+                    res.sendRedirect("/web/anunciante/permissao-negada");
                     return false;
                 }
             }

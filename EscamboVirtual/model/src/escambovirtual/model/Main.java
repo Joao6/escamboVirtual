@@ -7,6 +7,7 @@ import escambovirtual.model.entity.Oferta;
 import escambovirtual.model.entity.OfertaItem;
 import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.OfertaService;
+import escambovirtual.model.service.UsuarioService;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -123,33 +124,38 @@ public class Main {
 ////        
 //        OfertaService os = new OfertaService();
 //        List<Oferta> ofertaList = os.readByCriteria(null);
-        try {
-            ItemService s = new ItemService();
-            List<Item> itensLista = new ArrayList<>();
-            Item item = new Item();
-            item = s.readById(1L);
-            itensLista.add(item);
-            item = s.readById(2L);
-            itensLista.add(item);
+//        try {
+//            ItemService s = new ItemService();
+//            List<Item> itensLista = new ArrayList<>();
+//            Item item = new Item();
+//            item = s.readById(1L);
+//            itensLista.add(item);
+//            item = s.readById(2L);
+//            itensLista.add(item);
+//
+//            Gson gson = new Gson();
+//            String itens = gson.toJson(itensLista);
+//
+////            Type type = new TypeToken<List<Item>>() {
+////            }.getType();
+//            TypeToken<List<Item>> token = new TypeToken<List<Item>>() {
+//            };
+//            List<Item> ofertaItens = gson.fromJson(itens, token.getType());
+//
+//            Oferta oferta = new Oferta();
+//            item = s.readById(3L);
+//            oferta.setItem(item);
+//            OfertaItem ofertaItem = new OfertaItem();
+//            ofertaItem.setItemList(ofertaItens);
+//            oferta.setOfertaItem(ofertaItem);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-            Gson gson = new Gson();
-            String itens = gson.toJson(itensLista);
-
-//            Type type = new TypeToken<List<Item>>() {
-//            }.getType();
-            TypeToken<List<Item>> token = new TypeToken<List<Item>>() {
-            };
-            List<Item> ofertaItens = gson.fromJson(itens, token.getType());
-
-            Oferta oferta = new Oferta();
-            item = s.readById(3L);
-            oferta.setItem(item);
-            OfertaItem ofertaItem = new OfertaItem();
-            ofertaItem.setItemList(ofertaItens);
-            oferta.setOfertaItem(ofertaItem);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
+        Boolean emailOk = null;
+        String email = "estenaoesta@gmail.com";
+        UsuarioService s = new UsuarioService();
+        emailOk = s.checkEmailUsuario(email);
+        System.out.println(emailOk);
     }
 }

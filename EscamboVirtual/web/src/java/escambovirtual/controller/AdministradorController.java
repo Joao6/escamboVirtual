@@ -1,14 +1,18 @@
 package escambovirtual.controller;
 
-import escambovirtual.model.criteria.AdministradorCriteria;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
+import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Administrador;
+import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
 import escambovirtual.model.service.AdministradorService;
+import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.CidadeService;
 import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.ItemService;
@@ -23,12 +27,29 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AdministradorController {
+    
+    @RequestMapping(value = "/administrador/list", method = RequestMethod.GET)
+    public ModelAndView admList(){
+        ModelAndView mv;
+        try{
+            AdministradorService s = new AdministradorService();
+            List<Administrador> admList = s.readByCriteria(null);            
+            mv = new ModelAndView("usuario/administrador/listAdm");
+            mv.addObject("admList", admList);
+        }catch(Exception e){
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
+    }
 
     @RequestMapping(value = "/administrador/home", method = RequestMethod.GET)
     public ModelAndView homeAdministrador(HttpSession session) {
@@ -89,7 +110,7 @@ public class AdministradorController {
         return mv;
     }
 
-    @RequestMapping(value = "/administrador/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/administrador/list/itens", method = RequestMethod.GET)
     public ModelAndView getAvaliarItem() throws Exception {
         ModelAndView mv = new ModelAndView("usuario/administrador/item/list");
         ItemService s = new ItemService();
@@ -192,4 +213,29 @@ public class AdministradorController {
         }
         return mv;
     }
+    
+    @RequestMapping(value = "/administrador/create/api", method = RequestMethod.POST)
+    @ResponseBody
+    public void create(@RequestBody String administrador, HttpServletResponse response) {
+        try {
+//            Type type = new TypeToken<Anunciante>(){                
+//            }.getType();
+//            Gson g = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+            Gson g = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
+
+            Administrador admNew = g.fromJson(administrador, Administrador.class);
+            Map<String, Object> fields = new HashMap<>();
+            if (admNew != null) {
+                AdministradorService s = new AdministradorService();
+                admNew.setPerfil(1L);
+                SenhaService ss = new SenhaService();
+                admNew.setSenha(ss.convertPasswordToMD5(admNew.getSenha()));
+                s.create(admNew);
+                response.setStatus(200);
+            }
+        } catch (Exception e) {
+            response.setStatus(500);
+        }
+    }
+    
 }

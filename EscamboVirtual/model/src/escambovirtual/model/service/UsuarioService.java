@@ -1,10 +1,13 @@
 package escambovirtual.model.service;
 
+import escambovirtual.model.ConnectionManager;
 import escambovirtual.model.base.service.BaseUsuarioService;
 import escambovirtual.model.criteria.UsuarioCriteria;
+import escambovirtual.model.dao.UsuarioDAO;
 import escambovirtual.model.entity.Administrador;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Usuario;
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +90,30 @@ public class UsuarioService implements BaseUsuarioService {
         }
 
         return usuario;
+    }
+
+    @Override
+    public Boolean checkEmailUsuario(String email) throws Exception {
+        Boolean emailOk = false;
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        Map<Long, Object> criteria = new HashMap<>();
+        List<Usuario> usuarioList = null;
+        criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);        
+        try{
+            UsuarioDAO dao = new UsuarioDAO();
+            usuarioList = dao.readByCriteria(conn, criteria);
+            if(usuarioList.isEmpty()){
+                emailOk = true;
+            }else if(!usuarioList.isEmpty()){
+                emailOk = false;
+            }
+//            conn.commit();
+            conn.close();
+        }catch(Exception e){
+//            conn.rollback();
+            conn.close();
+        }        
+        return emailOk;
     }
 
 }

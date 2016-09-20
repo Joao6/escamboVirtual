@@ -19,9 +19,14 @@
              return $http.post(AnuncianteValue.url_create_anunciante, anunciante, HEADERS)  ;
            };
            
+           var _getEstados = function(){
+             return $http.get('/web/anunciante/estados/api', HEADERS);  
+           };
+           
            return {
              checkEmail: _checkEmail,
-             createAnunciante: _createAnunciante
+             createAnunciante: _createAnunciante,
+             getEstados: _getEstados
            };
    });
 })();

@@ -1,16 +1,23 @@
 package escambovirtual.controller;
 
+import com.google.gson.Gson;
+import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Administrador;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Usuario;
+import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.SenhaService;
 import escambovirtual.model.service.UsuarioService;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -84,9 +91,45 @@ public class UsuarioController {
 
     //método é mapeado caso o usuário não tenha permissão para acessar
     //determinada área do sistema
-    @RequestMapping(value = "/permissao-negada", method = RequestMethod.GET)
-    public ModelAndView permissaoNegada() {
-        ModelAndView mv = new ModelAndView("usuario/permissao-negada");
+    @RequestMapping(value = "/anunciante/permissao-negada", method = RequestMethod.GET)
+    public ModelAndView permissaoNegadaAnunciante() {
+        ModelAndView mv = new ModelAndView("usuario/anunciante/permissao-negada");
         return mv;
+    }
+
+    @RequestMapping(value = "/administrador/permissao-negada", method = RequestMethod.GET)
+    public ModelAndView permissaoNegadaAdm() {
+        ModelAndView mv = new ModelAndView("usuario/administrador/permissao-negada");
+        return mv;
+    }
+
+    @RequestMapping(value = "/usuario/check/email", method = RequestMethod.POST)
+    @ResponseBody
+    public String checkEmail(@RequestBody String email, HttpServletResponse response) {
+        String result = null;
+        Boolean emailOk = null;
+        Gson g = new Gson();
+        Map<String, Object> resultado = new HashMap<>();
+        try {
+            if (!email.equals("")) {
+                UsuarioService us = new UsuarioService();
+                emailOk = us.checkEmailUsuario(email);
+            }
+
+            if (emailOk == false) {
+                resultado.put("result", "exist");
+                result = g.toJson(resultado);
+            } else if (emailOk == true) {
+                resultado.put("result", "not");
+                result = g.toJson(resultado);
+            }
+            response.setStatus(200);
+        } catch (Exception e) {
+            response.setStatus(500);
+            e.printStackTrace();
+            resultado.put("result", "null");
+            result = g.toJson(resultado);
+        }
+        return result;
     }
 }

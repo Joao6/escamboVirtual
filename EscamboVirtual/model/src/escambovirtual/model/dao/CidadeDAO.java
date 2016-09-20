@@ -1,6 +1,7 @@
 package escambovirtual.model.dao;
 
 import escambovirtual.model.base.BaseDAO;
+import escambovirtual.model.criteria.CidadeCriteria;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
 import java.sql.Connection;
@@ -47,8 +48,11 @@ public class CidadeDAO implements BaseDAO<Cidade> {
 
     @Override
     public List<Cidade> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
-        String sql = "SELECT cidade.*, estado.id estado_id, estado.nome estado_nome, estado.uf estado_uf FROM cidade JOIN estado ON cidade.estado_fk=estado.id WHERE 1=1;";
-        PreparedStatement ps = conn.prepareStatement(sql);
+        String sql = "SELECT cidade.*, estado.id estado_id, estado.nome estado_nome, estado.uf estado_uf FROM cidade JOIN estado ON cidade.estado_fk=estado.id WHERE 1=1 ";
+        
+        sql += applyCriteria(conn, criteria);
+        
+        PreparedStatement ps = conn.prepareStatement(sql);        
         ResultSet rs = ps.executeQuery();
         List<Cidade> cidadeList = new ArrayList<>();
         
@@ -81,7 +85,14 @@ public class CidadeDAO implements BaseDAO<Cidade> {
 
     @Override
     public String applyCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        String sql = "";
+        
+        Long estadoFK = (Long)criteria.get(CidadeCriteria.ESTADO_FK);
+        if(estadoFK != null && estadoFK > 0){
+            sql += " AND cidade.estado_fk ="+estadoFK;
+        }
+        return sql;
     }
     
 }

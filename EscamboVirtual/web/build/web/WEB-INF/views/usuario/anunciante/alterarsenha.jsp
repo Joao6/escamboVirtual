@@ -66,17 +66,17 @@
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
-                            <input id="senhaatual" name="senhaatual" type="password" class="validate" required/>
+                            <input id="senhaatual" name="senhaatual" type="password" class="validate" required=""/>
                             <label for="senhaatual">Senha Atual</label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
-                            <input id="novasenha" name="novasenha" type="password" class="validate" required/>
+                            <input id="novasenha" name="novasenha" type="password" class="validate" required=""/>
                             <label for="novasenha">Nova Senha</label>
                         </div>
                         <div class="input-field col s12 m6 l6">
-                            <input id="confirmarSenha" name="confirmarSenha" type="password" class="validate" required/>
+                            <input id="confirmarSenha" name="confirmarSenha" type="password" class="validate" required=""/>
                             <label for="confirmarSenha">Confirmar Nova Senha</label>
                         </div>
                     </div>

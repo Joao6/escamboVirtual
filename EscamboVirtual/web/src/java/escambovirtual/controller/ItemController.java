@@ -90,7 +90,7 @@ public class ItemController {
                 mv.addObject("item", item);
                 response.setStatus(200);
             } else {
-                mv = new ModelAndView("redirect:/permissao-negada");
+                mv = new ModelAndView("redirect:/anunciante/item/permissao-negada");
             }
         } catch (Exception e) {
             mv = new ModelAndView("error");
@@ -99,7 +99,6 @@ public class ItemController {
         }
 
         return mv;
-
     }
 
     @RequestMapping(value = "/anunciante/item/{id}/edit", method = RequestMethod.POST)
@@ -107,7 +106,6 @@ public class ItemController {
         ModelAndView mv;
         try {
             Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
-//        Item itemSession = (Item) session.getAttribute("item");
 
             ItemService s = new ItemService();
             Item item = s.readById(id);
@@ -147,7 +145,7 @@ public class ItemController {
                 mv = new ModelAndView("redirect:/anunciante/item");
                 response.setStatus(200);
             } else {
-                mv = new ModelAndView("redirect:/permissao-negada");
+                mv = new ModelAndView("redirect:/anunciante/item/permissao-negada");
             }
         } catch (Exception e) {
             mv = new ModelAndView("error");
@@ -164,6 +162,12 @@ public class ItemController {
         Item item = s.readById(id);
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/view");
         mv.addObject("item", item);
+        return mv;
+    }
+    
+    @RequestMapping(value = "/anunciante/item/permissao-negada", method = RequestMethod.GET)
+    public ModelAndView permissaoNegada() throws Exception {
+        ModelAndView mv = new ModelAndView("usuario/anunciante/item/permissao-negada");
         return mv;
     }
 }

@@ -23,11 +23,37 @@
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
+
+        <script>
+            $(document).ready(function () {
+                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                $('.modal-trigger').leanModal();
+            });
+
+            function setId(id) {
+                document.getElementById('delete-item').value = id;
+            }
+            ;            
+        </script>
     </head>
     <body style="background-color: #b0bec5;">
         <header>
             <jsp:include page="/resources/templates/menu-lateral-anunciante.jsp"/>
-            
+
+            <!--MODAL EXCLUIR ITEM-->                                    
+            <div id="modal-excluir" class="modal">
+                <div class="modal-content">
+                    <h4>Exclusão de Item</h4>
+                    <p>Você tem certeza que deseja excluir este item? Esta exclusão não poderá ser desfeita posteriormente e, todos os dados referentes a este item serão excluídos do sistema.</p>
+                    <input value="" id="delete-item">
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn brown">Cancelar</a>
+                    <a href="/anunciante/item//del" id="delete-item" class=" modal-action modal-close waves-effect waves-green btn blue" style="margin-right: 0.6rem;">Excluir</a>
+                </div>
+            </div>
+            <!--FIM MODAL-->
+
             <div class="row" style="padding-left:15%;padding-right: 15%;">
                 <nav class="grey darken-3 card-panel col s12 z-depth-2">
                     <div class="nav-wrapper">
@@ -37,7 +63,7 @@
                         </div>
                     </div>
                 </nav>
-                <div class="card-panel col s12 m12 l12">
+                <div class="card-panel col s12 m12 l12 grey">
                     <div class="right-align">
                         <a class="waves-effect waves-light btn blue" href="<c:url value="/anunciante/item/new"/>" style="margin-top: 1rem;">Cadastrar item</a>
                     </div>
@@ -78,7 +104,7 @@
                                                 <tr>
                                                     <td class="right-align" colspan="4">
                                                         <a class="waves-effect waves-light btn brown" href="<c:url value="/anunciante/item/${item.id}/edit"/>" style="margin-left: 0.6rem;">Editar</a>
-                                                        <a class="waves-effect waves-light btn red" href="<c:url value="/anunciante/item/${item.id}/del"/>">Apagar</a>                                        
+                                                        <a class="waves-effect waves-light btn red modal-trigger" href="<c:url value="#modal-excluir"/>" onclick="setId(${item.id})">Excluir</a>                                        
                                                     </td>
                                                 </tr>
                                             </table>
@@ -93,6 +119,6 @@
 
             </div>
         </header>
-                    ${msg}
+        ${msg}
     </body>
 </html>

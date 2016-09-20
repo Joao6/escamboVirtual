@@ -53,15 +53,15 @@
                         </div>
                     </nav>
                 </div>
-                <div class="card-panel" style="margin-top: -20px;">
-                    <div class="card-content">
+                <!--<div class="card-panel blue lighten-1" style="margin-top: -20px;">-->
+                    <!--<div class="card-content">-->
 
-                        <div class="card-panel">
+                        <div class="card-panel blue lighten-1">
                             <div class="card-content">
                                 <div class="card-panel">
                                     <div class="card-content">
-                                        <div class="card-title"><h6 class="center-align" style="text-transform: uppercase;"><strong>Realizar Oferta ao Item:</strong> ${item.nome}</h6></div>
-                                        <h6 class="center-align" style="text-transform: uppercase;"><strong>Pertencente ao anunciante: </strong>${item.anunciante.nome}</h6>
+                                        <div class="card-title"><h6 class="center-align" style="text-transform: uppercase;"><strong>Realizar Oferta ao Item:</strong> ${itemReceptor.nome}</h6></div>
+                                        <h6 class="center-align" style="text-transform: uppercase;"><strong>Pertencente ao anunciante: </strong>${itemReceptor.anunciante.nome}</h6>
                                     </div>
                                 </div> 
                                 <div class="card-panel">

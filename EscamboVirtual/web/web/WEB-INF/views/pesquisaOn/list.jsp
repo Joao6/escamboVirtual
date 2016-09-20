@@ -71,22 +71,22 @@
                             <c:forEach var="item" items="${itemList}">
                                 <a href="<c:url value="/anunciante/pesquisar/item/${item.id}/view"></c:url>" class="black-text painelAnuncios hoverable">
                                         <li>
-                                            <div class="col s12 m12 z-depth-1 painelAnuncios hoverable">
-                                                <div class="card medium" style="height: 160px;">                                       
-                                                    <div class="row">                                               
-                                                        <div class="card-image col s12 m4 l4">
-                                                            <img src="<c:url value="/resources/img/background2.jpg"></c:url>" class="responsive-img" style="padding-top: 3px;">
-                                                        </div>
-                                                        <div class="card-content">
-                                                            <span><strong>${item.nome}</strong></span>                                                    
-                                                        <br/>
-                                                        <div class="divider"></div>
-                                                        <br/>
-                                                        <span class=""><strong>Descrição:</strong></span>
-                                                        <p>${item.descricao}</p>
-                                                    </div> 
-                                                </div>
+                                            <div class="col s12 m12 z-depth-1 painelAnuncios hoverable" style="margin-bottom: 2%;">
+                                                <!--<div class="card small">-->                                       
+                                                <div class="row">                                               
+                                                    <div class="card-image col s12 m4 l4">
+                                                        <img src="<c:url value="/resources/img/background2.jpg"></c:url>" class="responsive-img" style="padding-top: 8%;">
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <span><strong>${item.nome}</strong></span>                                                    
+                                                    <br/>
+                                                    <div class="divider"></div>
+                                                    <br/>
+                                                    <span class=""><strong>Descrição:</strong></span>
+                                                    <p>${item.descricao}</p>
+                                                </div> 
                                             </div>
+                                            <!--</div>-->
                                         </div>
                                     </li>
                                 </a>

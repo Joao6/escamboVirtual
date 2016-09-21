@@ -33,7 +33,7 @@
             function setId(id) {
                 document.getElementById('delete-item').value = id;
             }
-            ;            
+            ;
         </script>
     </head>
     <body style="background-color: #b0bec5;">
@@ -45,11 +45,14 @@
                 <div class="modal-content">
                     <h4>Exclusão de Item</h4>
                     <p>Você tem certeza que deseja excluir este item? Esta exclusão não poderá ser desfeita posteriormente e, todos os dados referentes a este item serão excluídos do sistema.</p>
-                    <input value="" id="delete-item">
-                </div>
-                <div class="modal-footer">
-                    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn brown">Cancelar</a>
-                    <a href="/anunciante/item//del" id="delete-item" class=" modal-action modal-close waves-effect waves-green btn blue" style="margin-right: 0.6rem;">Excluir</a>
+                    <form action="/web/anunciante/item/del" method="post">
+                        <input type="hidden" name="idItem" value="" id="delete-item">
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn brown">Cancelar</a>
+                            <!--<a href="/anunciante/item//del" id="delete-item" class=" modal-action modal-close waves-effect waves-green btn blue" style="margin-right: 0.6rem;">Excluir</a>-->
+                            <button class="btn blue modal-close" style="margin-right: 0.6rem;">Excluir</button>
+                    </form>
                 </div>
             </div>
             <!--FIM MODAL-->

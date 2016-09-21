@@ -5,10 +5,8 @@ import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.AdministradorService;
 import escambovirtual.model.service.AnuncianteService;
-import escambovirtual.model.service.UsuarioService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

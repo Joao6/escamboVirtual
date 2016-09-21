@@ -131,5 +131,5 @@ public class UsuarioController {
             result = g.toJson(resultado);
         }
         return result;
-    }
+    }        
 }

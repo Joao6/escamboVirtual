@@ -5,18 +5,19 @@ import com.google.gson.GsonBuilder;
 import escambovirtual.model.criteria.CidadeCriteria;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
-import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
+import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.CidadeService;
 import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.LocalizacaoService;
 import escambovirtual.model.service.SenhaService;
+import escambovirtual.model.service.UsuarioService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -189,16 +190,22 @@ public class AnuncianteController {
     }
 
     @RequestMapping(value = "anunciante/alterarsenha", method = RequestMethod.POST)
-    public ModelAndView postAnuncianteAlterarSenha(String novasenha, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
-
+    public ModelAndView postAnuncianteAlterarSenha(String novasenha, String senhaatual, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+        ModelAndView mv;
         AnuncianteService s = new AnuncianteService();
         Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         SenhaService ss = new SenhaService();
         String passwordMD5 = ss.convertPasswordToMD5(novasenha);
-        anunciante.setSenha(passwordMD5);
-        s.update(anunciante);
-
-        ModelAndView mv = new ModelAndView("redirect:/anunciante/home");
+        UsuarioService us = new UsuarioService();
+        Map<String, String> errors = us.validarSenha(senhaatual, anunciante);
+        if (errors.isEmpty()) {
+            anunciante.setSenha(passwordMD5);
+            s.update(anunciante);
+            mv = new ModelAndView("redirect:/anunciante/home");
+        } else {                        
+            mv = new ModelAndView("usuario/anunciante/alterarsenha");
+            mv.addObject("validSenha", errors);
+        }        
         return mv;
     }
 
@@ -216,7 +223,7 @@ public class AnuncianteController {
         mv.addObject("nomeCriterium", nomeCriterium);
         return mv;
     }
-    
+
     @RequestMapping(value = "/anunciante/create/api", method = RequestMethod.POST)
     @ResponseBody
     public void create(@RequestBody String anunciante, HttpServletResponse response) {
@@ -272,6 +279,7 @@ public class AnuncianteController {
             Map<Long, Object> criteria = new HashMap<>();
             criteria.put(CidadeCriteria.ESTADO_FK, id);
             cidadeList = cs.readByCriteria(criteria);
+
             Gson g = new Gson();
             cidades = g.toJson(cidadeList);
 
@@ -282,4 +290,27 @@ public class AnuncianteController {
         }
         return cidades;
     }
+
+//    @RequestMapping(value = "/anunciante/validar-senha", method = RequestMethod.POST)
+//    @ResponseBody
+//    public Boolean validarSenha(String senha, HttpServletResponse response, HttpSession session) {
+//        Boolean senhaOk = false;
+//        try {
+//            SenhaService ss = new SenhaService();
+//            String senhaMD5 = ss.convertPasswordToMD5(senha);
+//            Usuario usuario = (Usuario) session.getAttribute("usuarioSessao");
+//            if(usuario != null){
+//                if(usuario.getSenha().equals(senhaMD5)){
+//                    senhaOk = true;
+//                }else{
+//                    senhaOk = false;
+//                }
+//            }
+//            response.setStatus(200);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            response.setStatus(500);
+//        }
+//        return senhaOk;
+//    }
 }

@@ -98,22 +98,42 @@ public class UsuarioService implements BaseUsuarioService {
         Connection conn = ConnectionManager.getInstance().getConnection();
         Map<Long, Object> criteria = new HashMap<>();
         List<Usuario> usuarioList = null;
-        criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);        
-        try{
+        criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);
+        try {
             UsuarioDAO dao = new UsuarioDAO();
             usuarioList = dao.readByCriteria(conn, criteria);
-            if(usuarioList.isEmpty()){
+            if (usuarioList.isEmpty()) {
                 emailOk = true;
-            }else if(!usuarioList.isEmpty()){
+            } else if (!usuarioList.isEmpty()) {
                 emailOk = false;
             }
 //            conn.commit();
             conn.close();
-        }catch(Exception e){
+        } catch (Exception e) {
 //            conn.rollback();
             conn.close();
-        }        
+        }
         return emailOk;
+    }
+
+    @Override
+    public Map<String, String> validarSenha(String senha, Usuario usuario) throws Exception {
+        Map<String, String> errors = new HashMap<>();
+        Boolean senhaOk = false;
+        try {
+            if (usuario != null) {
+                SenhaService ss = new SenhaService();
+                String passwordMD5 = ss.convertPasswordToMD5(senha);
+                if (usuario.getSenha().equals(passwordMD5)) {
+                    senhaOk = true;
+                } else {
+                    errors.put("senha", "Esta senha não corresponde à sua senha atual!");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return errors;
     }
 
 }

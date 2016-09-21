@@ -50,6 +50,7 @@
                             <th>Email</th>
                             <th>CPF</th>
                             <th>Telefone</th>
+                            <th></th>
                             </thead>
                             <tbody>
                                 <c:forEach items="${admList}" var="adm">
@@ -57,7 +58,7 @@
                                         <td>${adm.nome}</td>
                                         <td>${adm.email}</td>
                                         <td>${adm.cpf}</td>
-                                        <td>${adm.telefone}</td>
+                                        <td>${adm.telefone}</td>                                        
                                     </tr>
                                 </c:forEach>
                             </tbody>

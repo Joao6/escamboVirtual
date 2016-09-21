@@ -1,7 +1,7 @@
 package escambovirtual.model.base.service;
 
-import escambovirtual.model.base.BaseCRUDService;
 import escambovirtual.model.entity.Usuario;
+import java.util.Map;
 
 /**
  *
@@ -14,4 +14,6 @@ public interface BaseUsuarioService{
     public Usuario recuperarSenha(String email) throws Exception;
     
     public Boolean checkEmailUsuario(String email) throws Exception;
+    
+    public Map<String, String> validarSenha(String senha, Usuario usuario) throws Exception;
 }

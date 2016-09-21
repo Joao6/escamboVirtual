@@ -29,6 +29,23 @@
         <script src="<c:url value="/resources/js/anunciante/services/anunciante-service.js"/>"></script>
         <!--VALUES-->
         <script src="<c:url value="/resources/js/anunciante/values/anunciante-value.js"/>"></script>
+        <script type="text/javascript" src="<c:url value="/resources/js/cidade_estado.js"/>"></script>
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $("select[name=estado]").change(function () {
+                    $("select[name=cidade]").html('<option value="0">Carregando...</option>');
+
+                    $.get("/web/anunciante/cidades/" + $(this).val(),                            
+                            function (valor) {
+                                $("select[name=cidade]").html('<option value="">Carregando...</option>');
+                            }
+                    )
+
+                })
+            });
+        </script>
         <script>
             function mascaraTel(t, mask) {
                 var i = t.value.length;
@@ -159,7 +176,8 @@
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
                             <select name="estado" id="estado" class="browser-default" style="border-color: grey;" onchange="buscar_cidades()">
-                                <option value="" selected="">Selecione o Estado</option>
+                                <option value="" disabled="" selected="">Selecione o Estado</option>
+                                <option value="${localizacao.estado.id}" disabled="" selected="">${localizacao.estado.nome}</option>
                                 <c:forEach items="${estados}" var="estado">
                                     <option value="${estado.id}">${estado.nome}</option>
                                 </c:forEach>
@@ -169,10 +187,7 @@
                         </div>
                         <div id="load_cidades" class="input-field col s12 m6 l6">
                             <select name="cidade" id="cidade" class="browser-default" style="border-color: grey;">
-                                <option>Cidades...</option>
-                                <c:forEach items="${cidadeList}" var="cidade">
-                                    <option value="${cidade.id}">${cidade.nome}</option>
-                                </c:forEach>
+                                <option value="0" disabled="disabled">Escolha um Estado Primeiro</option>
                             </select>
                             <!--<input id="estado" name="cidade" type="text" class="validate" value="${localizacao.cidade.nome}"/>-->
                             <!--<label for="estado">Cidade</label>-->

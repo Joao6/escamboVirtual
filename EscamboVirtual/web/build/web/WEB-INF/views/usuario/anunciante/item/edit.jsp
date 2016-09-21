@@ -90,19 +90,19 @@
                         </tr>
                         <tr>
                             <td>
-                                <img class="card-panel col s12 z-depth-2" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                <img class="card-panel col s12 z-depth-2 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                             </td>
                             <td>
-                                <img class="card-panel col s12" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                             </td>
                             <td>
-                                <img class="card-panel col s12" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                             </td>
                             <td>
-                                <img class="card-panel col s12" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                             </td>
                             <td>
-                                <img class="card-panel col s12" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                             </td>
                         </tr>
                     </table>

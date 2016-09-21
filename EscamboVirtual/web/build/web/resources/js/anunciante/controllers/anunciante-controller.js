@@ -44,10 +44,12 @@
                                         if (data.result === 'exist') {
                                             Materialize.toast(app.MESSAGE_EMAIL_CADASTRADO, 4000, 'orange rounded toast');
                                             $("form #email").css({"background-color": "rgba(255, 192, 206, 0.4)"});
+                                            $("form #email").css({"border-color": "red"});
                                             $scope.emailOk = false;
                                         } else if (data.result === 'not') {
                                             Materialize.toast(app.MESSAGE_EMAIL_DISPONIVEL, 4000, 'green rounded toast');
                                             $("form #email").css({"background-color": "#FFF"});
+                                            $("form #email").css({"border-color": "green"});                                                                                        
                                             $scope.emailOk = true;
                                         }
                                         console.log(data.result);

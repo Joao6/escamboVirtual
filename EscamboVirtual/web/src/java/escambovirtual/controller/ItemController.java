@@ -133,28 +133,50 @@ public class ItemController {
         return mv;
     }
 
-    @RequestMapping(value = "/anunciante/item/{id}/del", method = RequestMethod.GET)
-    public ModelAndView delete(@PathVariable Long id, HttpSession session, HttpServletResponse response) {
-        ModelAndView mv;
-        try {
+//    @RequestMapping(value = "/anunciante/item/{id}/del", method = RequestMethod.GET)
+//    public ModelAndView delete(@PathVariable Long id, HttpSession session, HttpServletResponse response) {
+//        ModelAndView mv;
+//        try {
+//            Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
+//            ItemService s = new ItemService();
+//            Item item = s.readById(id);
+//            if (item.getAnunciante().getId() == usuario.getId()) {
+//                s.delete(id);
+//                mv = new ModelAndView("redirect:/anunciante/item");
+//                response.setStatus(200);
+//            } else {
+//                mv = new ModelAndView("redirect:/anunciante/item/permissao-negada");
+//            }
+//        } catch (Exception e) {
+//            mv = new ModelAndView("error");
+//            mv.addObject("error", e);
+//            response.setStatus(500);
+//        }
+//
+//        return mv;
+//    }
+    
+        @RequestMapping(value = "/anunciante/item/del", method = RequestMethod.POST)
+        public ModelAndView delete (Long idItem, HttpSession session){
+            ModelAndView mv;
+            try {
             Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
             ItemService s = new ItemService();
-            Item item = s.readById(id);
+            Item item = s.readById(idItem);
             if (item.getAnunciante().getId() == usuario.getId()) {
-                s.delete(id);
+                s.delete(idItem);
                 mv = new ModelAndView("redirect:/anunciante/item");
-                response.setStatus(200);
+//                response.setStatus(200);
             } else {
                 mv = new ModelAndView("redirect:/anunciante/item/permissao-negada");
             }
         } catch (Exception e) {
             mv = new ModelAndView("error");
             mv.addObject("error", e);
-            response.setStatus(500);
+//            response.setStatus(500);
+        }            
+            return mv;
         }
-
-        return mv;
-    }
 
     @RequestMapping(value = "/anunciante/pesquisar/item/{id}/view", method = RequestMethod.GET)
     public ModelAndView getItemView(@PathVariable Long id) throws Exception {

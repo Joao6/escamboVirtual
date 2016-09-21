@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12 m6 l6">
-                                        <input id="email" name="email" type="email" class="validate" ng-blur="checkEmail(anunciante.email)"  ng-model="anunciante.email" required=""/>
+                                        <input id="email" name="email" type="email" class="" ng-blur="checkEmail(anunciante.email)"  ng-model="anunciante.email" required=""/>
                                         <label for="email">Email</label>
                                     </div>                                    
                                 </div>

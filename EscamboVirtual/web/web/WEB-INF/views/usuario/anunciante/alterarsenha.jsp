@@ -45,7 +45,7 @@
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
         
-        <script src="<c:url value="/resources/js/anunciante/validate-senha.js"/>"></script>
+        <script src="<c:url value="/resources/js/validate-senha.js"/>"></script>
     </head>
     <body style="background-color: #b0bec5;">
         <header>
@@ -70,7 +70,7 @@
                             <input id="senhaatual" name="senhaatual" type="password" class="" required=""/>
                             <label for="senhaatual">Senha Atual</label>
                         </div>
-                        <div class="col s12 m6 l6">
+                        <div class="col s12 m6 l6" style="margin-top: 15px;">
                             <c:if test="${not empty validSenha.senha}">
                                 <h6 class="red-text" style="margin-top: 15px;"><strong>${validSenha.senha}</strong></h6>
                             </c:if>                                

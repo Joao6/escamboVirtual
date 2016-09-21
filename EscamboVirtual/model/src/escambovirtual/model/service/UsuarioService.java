@@ -127,7 +127,7 @@ public class UsuarioService implements BaseUsuarioService {
                 if (usuario.getSenha().equals(passwordMD5)) {
                     senhaOk = true;
                 } else {
-                    errors.put("senha", "Esta senha não corresponde à sua senha atual!");
+                    errors.put("senha", "A senha digitada não corresponde à sua senha atual!");
                 }
             }
         } catch (Exception e) {

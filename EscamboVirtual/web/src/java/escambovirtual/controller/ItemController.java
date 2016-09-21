@@ -3,8 +3,10 @@ package escambovirtual.controller;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Item;
+import escambovirtual.model.entity.PalavraChave;
 import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.ItemService;
+import escambovirtual.model.service.PalavraChaveService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ public class ItemController {
 
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/list");
         mv.addObject("itemList", itemList);
+        mv.addObject("anunciante", usuario);
         if (toast!=null && toast > 0) {
             mv.addObject("msg", ((Map<Long, String>) session.getAttribute("toasts")).get(toast));
             ((Map<Long, String>) session.getAttribute("toasts")).remove(toast);
@@ -41,8 +44,14 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/anunciante/item/new", method = RequestMethod.GET)
-    public ModelAndView getItemNew() throws Exception {
+    public ModelAndView getItemNew(HttpSession session) throws Exception {
+        Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
+        PalavraChaveService s = new PalavraChaveService();
+        Map<Long, Object> criteria = new HashMap<>();
+        List<PalavraChave> palavraChaveList = s.readByCriteria(criteria);
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/new");
+        mv.addObject("palavraChaveList", palavraChaveList);
+        mv.addObject("anunciante", usuario);
         return mv;
     }
 
@@ -88,6 +97,7 @@ public class ItemController {
             if (item.getAnunciante().getId() == usuario.getId()) {
                 mv = new ModelAndView("usuario/anunciante/item/edit");
                 mv.addObject("item", item);
+                mv.addObject("anunciante", usuario);
                 response.setStatus(200);
             } else {
                 mv = new ModelAndView("redirect:/anunciante/item/permissao-negada");
@@ -132,29 +142,6 @@ public class ItemController {
         }
         return mv;
     }
-
-//    @RequestMapping(value = "/anunciante/item/{id}/del", method = RequestMethod.GET)
-//    public ModelAndView delete(@PathVariable Long id, HttpSession session, HttpServletResponse response) {
-//        ModelAndView mv;
-//        try {
-//            Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
-//            ItemService s = new ItemService();
-//            Item item = s.readById(id);
-//            if (item.getAnunciante().getId() == usuario.getId()) {
-//                s.delete(id);
-//                mv = new ModelAndView("redirect:/anunciante/item");
-//                response.setStatus(200);
-//            } else {
-//                mv = new ModelAndView("redirect:/anunciante/item/permissao-negada");
-//            }
-//        } catch (Exception e) {
-//            mv = new ModelAndView("error");
-//            mv.addObject("error", e);
-//            response.setStatus(500);
-//        }
-//
-//        return mv;
-//    }
     
         @RequestMapping(value = "/anunciante/item/del", method = RequestMethod.POST)
         public ModelAndView delete (Long idItem, HttpSession session){
@@ -179,17 +166,21 @@ public class ItemController {
         }
 
     @RequestMapping(value = "/anunciante/pesquisar/item/{id}/view", method = RequestMethod.GET)
-    public ModelAndView getItemView(@PathVariable Long id) throws Exception {
+    public ModelAndView getItemView(@PathVariable Long id, HttpSession session) throws Exception {
+        Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
         ItemService s = new ItemService();
         Item item = s.readById(id);
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/view");
         mv.addObject("item", item);
+        mv.addObject("anunciante", usuario);
         return mv;
     }
     
     @RequestMapping(value = "/anunciante/item/permissao-negada", method = RequestMethod.GET)
-    public ModelAndView permissaoNegada() throws Exception {
+    public ModelAndView permissaoNegada(HttpSession session) throws Exception {
+        Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/permissao-negada");
+        mv.addObject("anunciante", usuario);
         return mv;
     }
 }

@@ -13,7 +13,7 @@
 <ul id="nav-mobile" class="side-nav fixed collapsible grey lighten-4" style="transform: translateX(0%);">
     <li class="logo" >
         <!--<a href="escambovirtual"><img src="resources/img/LogoDiferenciada.png" height="60" width="60"></a>-->
-        <h5>Escambo Virtual</h5>
+        <!--<h5>Escambo Virtual</h5>-->
     </li>
     <center>
         <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/resources/img/background1.jpg"/>" height="80" width="80"></a>
@@ -37,7 +37,10 @@
             </li>
             <li>
                 <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="#"/>"><i class="material-icons">chat</i>Conversas</a>
-            </li>                         
+            </li>  
+            <li>
+                <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="/anunciante/oferta/list"/>"><i class="material-icons">call_received</i>Ofertas Recebidas</a>
+            </li>                                   
             <li>
                 <a class="collapsible-header black-text waves-effect waves-color-demo" href="<c:url value="#"/>"><i class="material-icons">import_export</i>Trocas Realizadas</a>
             </li>

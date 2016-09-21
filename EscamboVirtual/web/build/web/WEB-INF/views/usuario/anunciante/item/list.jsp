@@ -66,7 +66,7 @@
                         </div>
                     </div>
                 </nav>
-                <div class="card-panel col s12 m12 l12 grey">
+                <div class="card-panel col s12 m12 l12 grey darken-3">
                     <div class="right-align">
                         <a class="waves-effect waves-light btn blue" href="<c:url value="/anunciante/item/new"/>" style="margin-top: 1rem;">Cadastrar item</a>
                     </div>

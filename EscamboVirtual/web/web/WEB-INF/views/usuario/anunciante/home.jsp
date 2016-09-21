@@ -17,7 +17,7 @@
         <link type="text/css" rel="stylesheet" href="<c:url value="/resources/css/materialize.min.css"/>"  media="screen,projection"/>
         <link href="<c:url value="/resources/css/style.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link href="<c:url value="/resources/css/ghpages-materialize.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>
-        
+
         <!--SCRIPTS-->
         <!--Import jQuery before materialize.js-->
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>        
@@ -30,12 +30,24 @@
         <header>
             <jsp:include page="/resources/templates/menu-lateral-anunciante.jsp"/>
 
-            <div class="row" style="padding-left: 15%; padding-right: 15%;">
-                <div class="card-panel">
-                    <div class="card-content">
-                        <span>sdfsf</span>
+            <div class="row" style="padding-left: 10%; padding-right: 10%;">         
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <div class="card">
+                            <div class="card-image">
+                                <img src="<c:url value="/resources/img/background1.jpg"/>">                                
+                            </div>
+                            <div class="card-content">
+                                <p>I am a very simple card. I am good at containing small bits of information.
+                                    I am convenient because I require little markup to use effectively.
+                                good at containing small bits of information.
+                                    I am convenient because I require little markup to use effectively.
+                                good at containing small bits of information.
+                                    I am convenient because I require little markup to use effectively.</p>
+                            </div>                            
+                        </div>
                     </div>
-                </div>
+                </div>            
             </div>
         </header>
     </body>

@@ -23,7 +23,7 @@
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
-        
+
         <script src="<c:url value="/resources/js/angular.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/oferta/app/oferta-app.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/oferta/controllers/oferta-controller.js"/>"></script>
@@ -33,8 +33,8 @@
         <script>
             $(document).ready(function () {
                 $('.carousel').carousel();
-            });                       
-        </script>
+            });            
+        </script>        
     </head>
     <body  style="background-color: #b0bec5;" ng-controller="OfertaController" ng-init="itens(${anunciante.id})">
         <header>
@@ -52,67 +52,68 @@
                             </div>                        
                         </div>
                     </nav>
-                </div>
-                <!--<div class="card-panel blue lighten-1" style="margin-top: -20px;">-->
-                    <!--<div class="card-content">-->
+                </div>                
 
-                        <div class="card-panel blue lighten-1">
+                <div class="card-panel grey darken-3" style="margin-top: -2%;">
+                    <div class="card-content">
+                        <div class="card-panel">
                             <div class="card-content">
-                                <div class="card-panel">
-                                    <div class="card-content">
-                                        <div class="card-title"><h6 class="center-align" style="text-transform: uppercase;"><strong>Realizar Oferta ao Item:</strong> ${itemReceptor.nome}</h6></div>
-                                        <h6 class="center-align" style="text-transform: uppercase;"><strong>Pertencente ao anunciante: </strong>${itemReceptor.anunciante.nome}</h6>
-                                    </div>
-                                </div> 
-                                <div class="card-panel">
-                                    <div class="card-content">
-                                        <h6 class="center-align" style="text-transform: uppercase;"><strong>Imagens do item:</strong></h6>
-                                        <div class="carousel" style="margin-top: -70px;">
-                                            <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
-                                            <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
-                                            <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
-                                            <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
-                                            <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
-                                            <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
-                                        </div>
-                                        <p style="margin-top: -130px;"></p>
-                                    </div>
+                                <div class="card-title"><h6 class="center-align" style="text-transform: uppercase;"><strong>Realizar Oferta ao Item:</strong> ${itemReceptor.nome}</h6></div>
+                                <h6 class="center-align" style="text-transform: uppercase;"><strong>Pertencente ao anunciante: </strong>${itemReceptor.anunciante.nome}</h6>
+                            </div>
+                        </div> 
+                        <div class="card-panel">
+                            <div class="card-content">
+                                <h6 class="center-align" style="text-transform: uppercase;"><strong>Imagens do item:</strong></h6>
+                                <div class="carousel" style="margin-top: -70px;">
+                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
+                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
+                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
+                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
+                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
+                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
                                 </div>
-                                <div class="card-panel">
-                                    <div class="card-content">
-                                        <form name="formOferta">
-                                            <div class="card-title"><h6 class="center-align" style="text-transform: uppercase;"><strong>Selecione os itens que você deseja ofertar</strong></h6></div>
-                                            <br/>
-                                            <select class="browser-default" style="border-color: grey;" ng-model="item.id" ng-change="addItem(item)">
-                                                <option value="">Selecione</option>
-                                                <option ng-repeat="item in itens" value="{{item.id}}">{{item.nome}}</option>
-                                            </select>
+                                <p style="margin-top: -130px;"></p>
+                            </div>
+                        </div>
+                        <div class="card-panel">
+                            <div class="card-content">
+                                <form name="formOferta">
+                                    <div class="card-title"><h6 class="center-align" style="text-transform: uppercase;"><strong>Selecione os itens que você deseja ofertar</strong></h6></div>
+                                    <br/>
+                                    <select class="browser-default" style="border-color: grey;" ng-model="item.id" ng-change="addItem(item)">
+                                        <option value="">Selecione</option>
+                                        <option ng-repeat="item in itens" value="{{item.id}}">{{item.nome}}</option>
+                                    </select>
 
-                                            <div class="row" ng-repeat="item in itensOferta" ng-model="ofertaItem.itemList">                                                
-                                                <!--aqui vai aparecer os itens selecionados-->
-                                                <div class="card small col s12 m6 l6">
-                                                    <div class="card-image waves-effect waves-block waves-light">
-                                                        <img class="activator" src="<c:url value="/resources/img/background3.jpg"/>">
-                                                    </div>
-                                                    <div class="card-content">
-                                                        <span class="card-title activator grey-text text-darken-4">{{item.nome}}</span>
-                                                        <span class="center-align">Clique sobre a imagem para ver informações</span>
-                                                    </div>
-                                                    <div class="card-reveal">
-                                                        <span class="card-title grey-text text-darken-4">Informações<i class="material-icons right">close</i></span>
-                                                        <p>{{item.descricao}}</p>
-                                                    </div>
+                                    <div class="row">
+                                        <div ng-repeat="item in itensOferta" ng-model="ofertaItem.itemList">                                                
+                                            <!--aqui vai aparecer os itens selecionados-->
+                                            <div class="card small col s12 m6 l6">
+                                                <div class="card-image waves-effect waves-block waves-light">
+                                                    <img class="activator" src="<c:url value="/resources/img/background3.jpg"/>">
+                                                </div>
+                                                <div class="card-content">
+                                                    <span class="card-title activator grey-text text-darken-4">{{item.nome}}</span>
+                                                    <br/>
+                                                    <span class="center-align">Clique sobre a imagem para ver informações</span>
+                                                </div>
+                                                <div class="card-reveal">
+                                                    <span class="card-title grey-text text-darken-4">Informações<i class="material-icons right">close</i></span>
+                                                    <p>{{item.descricao}}</p>
                                                 </div>
                                             </div>
-                                            <button class="btn blue large " ng-click="createOferta(${itemReceptor.id})">Adicionar itens</button>
-                                        </form>
+                                        </div>
                                     </div>
-                                </div>
+                                                    <button class="btn blue large " ng-click="createOferta(${itemReceptor.id})" title="Após preencher os dados você poderá enviar uma proposta de troca ao anunciante.">Adicionar itens</button>
+                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </header>
-    </body>
+        </div>
+    </div>
+</header>
+</body>
 </html>

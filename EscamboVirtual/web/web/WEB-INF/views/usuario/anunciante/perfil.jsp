@@ -45,29 +45,7 @@
 
                 })
             });
-        </script>
-        <script>
-            function mascaraTel(t, mask) {
-                var i = t.value.length;
-                var saida = mask.substring(1, 0);
-                var texto = mask.substring(i)
-                if (texto.substring(0, 1) != saida) {
-                    t.value += texto.substring(0, 1);
-                }
-            }
-        </script>
-
-        <script>
-            function mascaraData(t, mask) {
-                var i = t.value.length;
-                var saida = mask.substring(1, 0);
-                var texto = mask.substring(i)
-                if (texto.substring(0, 1) != saida) {
-                    t.value += texto.substring(0, 1);
-                }
-            }
-        </script>
-
+        </script>       
         <script>
             document.getElementById("file").onchange = function () {
                 var reader = new FileReader();
@@ -209,8 +187,8 @@
 
                     </div>
                     <div class="row">            
-                        <button id="btn-salvar" class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-left: 0.6rem;">Salvar</button>
                         <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/home"/>">Voltar</a>
+                        <button id="btn-salvar" class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-right: 0.6rem;">Salvar</button>
                     </div>
                 </form>
             </div>

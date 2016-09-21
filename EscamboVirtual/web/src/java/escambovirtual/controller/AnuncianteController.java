@@ -185,7 +185,9 @@ public class AnuncianteController {
 
     @RequestMapping(value = "anunciante/alterarsenha", method = RequestMethod.GET)
     public ModelAndView getAnuncianteAlterarSenha(HttpSession session) throws Exception {
+        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/anunciante/alterarsenha");
+        mv.addObject("anunciante", anunciante);
         return mv;
     }
 
@@ -210,7 +212,8 @@ public class AnuncianteController {
     }
 
     @RequestMapping(value = "/anunciante/pesquisar/item", method = RequestMethod.GET)
-    public ModelAndView getPesquisaItem(String nomeCriterium) throws Exception {
+    public ModelAndView getPesquisaItem(String nomeCriterium, HttpSession session) throws Exception {
+        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         Map<Long, Object> criteria = new HashMap<>();
         criteria.put(ItemCriteria.NOME_ILIKE, nomeCriterium);
         criteria.put(ItemCriteria.STATUS_EQ, "Publicar");
@@ -221,6 +224,7 @@ public class AnuncianteController {
         ModelAndView mv = new ModelAndView("pesquisaOn/list");
         mv.addObject("itemList", itemList);
         mv.addObject("nomeCriterium", nomeCriterium);
+        mv.addObject("anunciante", anunciante);
         return mv;
     }
 

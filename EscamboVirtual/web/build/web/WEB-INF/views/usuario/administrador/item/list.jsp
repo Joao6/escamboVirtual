@@ -66,7 +66,7 @@
                                                         <td  colspan="4">
                                                             <div class="card-title">                        
                                                                 <h5>${item.nome}</h5>
-                                                                <div class="form divider"></div>
+                                                                <!--<div class="form divider"></div>-->
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -77,7 +77,7 @@
                                                         <td rowspan="4"><img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200"></td>
                                                     </tr>
                                                     <tr>
-                                                        <td><b>ID Usuario: &nbsp;</b>${item.anunciante.id}</td>
+                                                        <td><b>Anunciante: &nbsp;</b>${item.anunciante.nome}</td>
                                                         <td><b>Interesse 1: &nbsp;</b>${item.interesse1}</td>
                                                     </tr>
                                                     <tr>
@@ -91,17 +91,12 @@
                                                     <tr>
                                                         <td><b>Descrição: </b></td>
                                                         <td colspan="3">${item.descricao}</td> 
-                                                    </tr>
-                                                    <!--
-                                                        <tr>
-                                                            <td><b>ID Item: &nbsp;</b>${item.id}</td>     
-                                                        </tr>
-                                                    -->
+                                                    </tr>                                                    
                                                     <tr>
                                                         <td><b>Status</b></td>
                                                         <td>
-                                                            <select name="status">
-                                                                <option value="${item.status}">${item.status}</option>
+                                                            <select name="status" class="browser-default" style="border-color: grey;">
+                                                                <option value="${item.status}" selected="">${item.status}</option>
                                                                 <option value="Publicar">Publicar</option>
                                                                 <option value="Cancelar Publicação">Cancelar Publicação</option>
                                                             </select>

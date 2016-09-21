@@ -4,20 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
-import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Administrador;
-import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
 import escambovirtual.model.service.AdministradorService;
-import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.CidadeService;
 import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.LocalizacaoService;
 import escambovirtual.model.service.SenhaService;
+import escambovirtual.model.service.UsuarioService;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -100,13 +98,21 @@ public class AdministradorController {
     }
 
     @RequestMapping(value = "/administrador/alterar-senha", method = RequestMethod.POST)
-    public ModelAndView postAlterarSenha(String novasenha, HttpSession session) throws Exception {
+    public ModelAndView postAlterarSenha(String novasenha, String senhaatual, HttpSession session) throws Exception {
+        ModelAndView mv;
         SenhaService ss = new SenhaService();
         Administrador administrador = (Administrador) session.getAttribute("usuarioSessao");
-        administrador.setSenha(ss.convertPasswordToMD5(novasenha));
         AdministradorService s = new AdministradorService();
-        s.update(administrador);
-        ModelAndView mv = new ModelAndView("redirect:/administrador/home");
+        UsuarioService us = new UsuarioService();
+        Map<String, String> errors = us.validarSenha(senhaatual, administrador);
+        if (errors.isEmpty()) {
+            administrador.setSenha(ss.convertPasswordToMD5(novasenha));
+            s.update(administrador);
+            mv = new ModelAndView("redirect:/administrador/home");
+        } else {                        
+            mv = new ModelAndView("usuario/administrador/alterarsenha");
+            mv.addObject("validSenha", errors);
+        }                                
         return mv;
     }
 
@@ -133,7 +139,7 @@ public class AdministradorController {
 
         s.update(item);
 
-        ModelAndView mv = new ModelAndView("redirect:/administrador/list");
+        ModelAndView mv = new ModelAndView("redirect:/administrador/list/itens");
         return mv;
     }
 

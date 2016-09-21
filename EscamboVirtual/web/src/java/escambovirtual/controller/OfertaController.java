@@ -83,5 +83,19 @@ public class OfertaController {
             e.printStackTrace();
         }
     }
+    
+    @RequestMapping(value = "/anunciante/oferta/list", method = RequestMethod.GET)
+    public ModelAndView getOfertaList(HttpSession session){
+        ModelAndView mv;
+        try{
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+            mv = new ModelAndView("oferta/list");
+            mv.addObject("anunciante", anunciante);
+        }catch(Exception e){
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
+    }
 
 }

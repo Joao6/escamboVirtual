@@ -124,8 +124,8 @@
                         </div>
                     </div>
                     <div class="row">            
-                        <button class="waves-effect waves-light btn blue right" style="margin-left: 0.6rem;">Salvar</button>
                         <a class="waves-effect waves-light btn right brown" href="<c:url value="/anunciante/item"/>">Cancelar</a>
+                        <button class="waves-effect waves-light btn blue right" style="margin-right: 0.6rem;">Salvar</button>
                     </div> 
                 </form>
             </div>

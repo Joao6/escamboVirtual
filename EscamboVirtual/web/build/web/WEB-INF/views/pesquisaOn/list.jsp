@@ -50,7 +50,7 @@
                                     <div class="row">
                                         <div class="input-field col s12 m6">
                                             <input id="pesquisar" name="nomeCriterium" type="text" value="${nomeCriterium}"/>
-                                        <label for="pesquisar">Pesquise por nome de itens</label>
+                                        <label for="pesquisar">Pesquise por itens</label>
                                     </div>   
                                     <button type="submit" class="btn blue" style="margin-top: 25px;">Search</button>
                                 </div>

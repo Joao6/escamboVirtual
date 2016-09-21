@@ -30,30 +30,14 @@
         <!--VALUES-->
         <script src="<c:url value="/resources/js/anunciante/values/anunciante-value.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/cidade_estado.js"/>"></script>
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-                $("select[name=estado]").change(function () {
-                    $("select[name=cidade]").html('<option value="0">Carregando...</option>');
-
-                    $.get("/web/anunciante/cidades/" + $(this).val(),                            
-                            function (valor) {
-                                $("select[name=cidade]").html('<option value="">Carregando...</option>');
-                            }
-                    )
-
-                })
-            });
-        </script>       
         <script>
-            document.getElementById("file").onchange = function () {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById("imagem").src = e.target.result;
-                };
-                reader.readAsDataURL(this.files[0]);
-            };
+//            document.getElementById("file").onchange = function () {
+//                var reader = new FileReader();
+//                reader.onload = function (e) {
+//                    document.getElementById("imagem").src = e.target.result;
+//                };
+//                reader.readAsDataURL(this.files[0]);
+//            };
         </script>
         <script>
             function buscar_cidades() {
@@ -61,7 +45,17 @@
                 if (estado) {
                     var url = '/web/anunciante/cidades/' + estado;
                     $.get(url, function (dataReturn) {
-                        $('#load_cidades').html(dataReturn);
+                        var cidades = jQuery.parseJSON(dataReturn);
+                        
+                        var select = $('#cidade');                        
+                        select.find('option').remove(); 
+                        $('<option>').val('').text('Bla bla bla').appendTo(select);
+                        
+                        var i = 0;
+                        while(i<cidades.length){
+                            $('<option>').val(cidades[i].id).text(cidades[i].nome).appendTo(select); 
+                            i++;
+                        }                        
                     });
                 }
             }
@@ -164,8 +158,7 @@
                             <!--<label for="estado">Estado</label>-->
                         </div>
                         <div id="load_cidades" class="input-field col s12 m6 l6">
-                            <select name="cidade" id="cidade" class="browser-default" style="border-color: grey;">
-                                <option value="0" disabled="disabled">Escolha um Estado Primeiro</option>
+                            <select name="cidade" id="cidade" class="browser-default" style="border-color: grey;">                                
                             </select>
                             <!--<input id="estado" name="cidade" type="text" class="validate" value="${localizacao.cidade.nome}"/>-->
                             <!--<label for="estado">Cidade</label>-->

@@ -36,12 +36,12 @@ public class EstadoService implements BaseEstadoService{
     }
 
     @Override
-    public List<Estado> readByCriteria(Map<Long, Object> criteria) throws Exception {
+    public List<Estado> readByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         Connection conn = ConnectionManager.getInstance().getConnection();
         List<Estado> estadoList = null;
         try {
             EstadoDAO dao = new EstadoDAO();
-            estadoList = dao.readByCriteria(conn, criteria);
+            estadoList = dao.readByCriteria(conn, criteria, null, null);
             conn.commit();
             conn.close();
         } catch (Exception e) {
@@ -63,6 +63,11 @@ public class EstadoService implements BaseEstadoService{
 
     @Override
     public Map<String, String> validate(Map<String, Object> fields) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

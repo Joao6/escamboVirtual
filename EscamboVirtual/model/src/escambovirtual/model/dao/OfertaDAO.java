@@ -141,7 +141,7 @@ public class OfertaDAO implements BaseDAO<Oferta> {
     }
 
     @Override
-    public List<Oferta> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+    public List<Oferta> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "SELECT oferta.id oferta_id, oferta.data_hora oferta_data_hora, oferta.item_fk, item.id item_id, item.nome item_nome, item.descricao item_descricao, item.data_compra item_data_compra, usuario.id anunciante_id, usuario.nome anunciante_nome, usuario.email anunciante_email, usuario.apelido anunciante_apelido, anunciante.reputacao anunciante_reputacao FROM oferta left join item on item.id=oferta.item_fk left join anunciante on anunciante.usuario_fk=item.usuario_fk left join usuario on usuario.id=anunciante.usuario_fk where 1=1";
         PreparedStatement ps = conn.prepareStatement(sql);
         
@@ -233,6 +233,11 @@ public class OfertaDAO implements BaseDAO<Oferta> {
         }
         
         return sql;
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

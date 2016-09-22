@@ -27,7 +27,7 @@ public class UsuarioService implements BaseUsuarioService {
         criteria.put(UsuarioCriteria.USUARIO_SENHA_EQ, senha);
         AnuncianteService as = new AnuncianteService();
         List<Usuario> usuarioList = new ArrayList<>();
-        usuarioList = (List) as.readByCriteria(criteria);
+        usuarioList = (List) as.readByCriteria(criteria, null, null);
 
         if (usuarioList != null && usuarioList.size() == 1) {
             usuario = new Anunciante();
@@ -38,7 +38,7 @@ public class UsuarioService implements BaseUsuarioService {
             }
         } else {
             AdministradorService ads = new AdministradorService();
-            usuarioList = (List) ads.readByCriteria(criteria);
+            usuarioList = (List) ads.readByCriteria(criteria, null, null);
             if (usuarioList != null && usuarioList.size() == 1) {
                 usuario = new Administrador();
                 Administrador aux = new Administrador();
@@ -60,7 +60,7 @@ public class UsuarioService implements BaseUsuarioService {
         Usuario usuario = null;
         List<Usuario> usuarioList = new ArrayList<>();
         AnuncianteService as = new AnuncianteService();
-        usuarioList = (List) as.readByCriteria(criteria);
+        usuarioList = (List) as.readByCriteria(criteria, null, null);
         SenhaService senhaService = new SenhaService();
         String senha = senhaService.gerarSenhaAleatoria();
         String senhaMD5 = senhaService.convertPasswordToMD5(senha);
@@ -72,7 +72,7 @@ public class UsuarioService implements BaseUsuarioService {
             as.update((Anunciante) usuario);
         } else {
             AdministradorService ads = new AdministradorService();
-            usuarioList = (List) ads.readByCriteria(criteria);
+            usuarioList = (List) ads.readByCriteria(criteria, null, null);
             if (usuarioList != null && usuarioList.size() == 1) {
                 usuario = new Administrador();
                 usuario = usuarioList.get(0);
@@ -101,7 +101,7 @@ public class UsuarioService implements BaseUsuarioService {
         criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);
         try {
             UsuarioDAO dao = new UsuarioDAO();
-            usuarioList = dao.readByCriteria(conn, criteria);
+            usuarioList = dao.readByCriteria(conn, criteria, null, null);
             if (usuarioList.isEmpty()) {
                 emailOk = true;
             } else if (!usuarioList.isEmpty()) {

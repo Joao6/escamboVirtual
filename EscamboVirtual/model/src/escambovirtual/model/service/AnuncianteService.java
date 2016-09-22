@@ -48,7 +48,7 @@ public class AnuncianteService implements BaseAnuncianteService {
     }
 
     @Override
-    public List<Anunciante> readByCriteria(Map<Long, Object> criteria) throws Exception {
+    public List<Anunciante> readByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
 
         Connection conn = ConnectionManager.getInstance().getConnection();
         List<Anunciante> anuncianteList = null;
@@ -60,7 +60,7 @@ public class AnuncianteService implements BaseAnuncianteService {
             }
             criteria.remove(UsuarioCriteria.ADMINISTRADOR);
             criteria.put(UsuarioCriteria.ANUNCIANTE, Boolean.TRUE);
-            anuncianteList = (List)dao.readByCriteria(conn,criteria);
+            anuncianteList = (List)dao.readByCriteria(conn,criteria, null, null);
             conn.commit();
             conn.close();
         } catch (Exception e) {
@@ -109,12 +109,17 @@ public class AnuncianteService implements BaseAnuncianteService {
         }else{
             Map<Long, Object> criteria = new HashMap<>();
             criteria.put(UsuarioCriteria.USUARIO_EMAIL_EQ, email);            
-            List<Anunciante> anuncianteList = readByCriteria(criteria);
+            List<Anunciante> anuncianteList = readByCriteria(criteria, null, null);
             if(!anuncianteList.isEmpty()){
                 errors.put("email", "Este email já está cadastrado no sistema!");
             }
         }        
         return errors;
+    }
+
+    @Override
+    public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

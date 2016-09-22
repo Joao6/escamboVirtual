@@ -46,13 +46,13 @@ public class LocalizacaoService implements BaseLocalizacaoService {
     }
 
     @Override
-    public List<Localizacao> readByCriteria(Map<Long, Object> criteria) throws Exception {
+    public List<Localizacao> readByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         List<Localizacao> localizacaoList = null;
         Connection conn = ConnectionManager.getInstance().getConnection();
 
         try {
             LocalizacaoDAO dao = new LocalizacaoDAO();
-            localizacaoList = dao.readByCriteria(conn, criteria);
+            localizacaoList = dao.readByCriteria(conn, criteria, null, null);
         } catch (Exception e) {
             conn.rollback();
         } finally {
@@ -93,6 +93,11 @@ public class LocalizacaoService implements BaseLocalizacaoService {
 
     @Override
     public Map<String, String> validate(Map<String, Object> fields) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

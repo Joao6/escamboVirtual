@@ -139,7 +139,7 @@ public class ItemDAO implements BaseDAO<Item> {
     }
 
     @Override
-    public List<Item> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+    public List<Item> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "SELECT item.*, usuario.id usuario_id, usuario.nome usuario_nome, usuario.email usuario_email, usuario.senha usuario_senha, usuario.apelido usuario_apelido, usuario.sexo usuario_sexo, usuario.data_nascimento usuario_data_nascimento, usuario.perfil usuario_perfil, usuario.telefone usuario_telefone, usuario.imagem usuario_imagem, usuario.data_cadastro usuario_data_cadastro, anunciante.reputacao anunciante_reputacao FROM item LEFT JOIN usuario on item.usuario_fk=usuario.id LEFT JOIN anunciante on usuario.id=anunciante.usuario_fk WHERE 1=1 ";
 
         //acrescentado critérios
@@ -163,6 +163,14 @@ public class ItemDAO implements BaseDAO<Item> {
 //        }
 //        
 //        sql += " order by id asc";
+
+        if(limit != null && limit > 0){
+            sql += " limit " + limit;
+        }
+        if(offset != null && offset >= 0){
+            sql += " offset " + offset;
+        }
+
         Statement s = conn.createStatement();
         ResultSet rs = s.executeQuery(sql);
         List<Item> itemList = new ArrayList<>();
@@ -317,6 +325,19 @@ public class ItemDAO implements BaseDAO<Item> {
         }
 
         return sql;
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
+        Long count = null;
+        String sql = "SELECT count(*) count FROM item WHERE 1=1";
+        sql += applyCriteria(conn, criteria);
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            count = rs.getLong("count");
+        }        
+        return count;
     }
 
 }

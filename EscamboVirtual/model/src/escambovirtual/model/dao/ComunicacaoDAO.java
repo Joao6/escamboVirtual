@@ -62,7 +62,7 @@ public class ComunicacaoDAO implements BaseDAO<Comunicacao> {
     }
 
     @Override
-    public List<Comunicacao> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+    public List<Comunicacao> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -78,6 +78,11 @@ public class ComunicacaoDAO implements BaseDAO<Comunicacao> {
 
     @Override
     public String applyCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

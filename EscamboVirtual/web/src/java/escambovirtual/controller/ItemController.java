@@ -31,7 +31,7 @@ public class ItemController {
         Map<Long, Object> criteria = new HashMap<>();
         criteria.put(ItemCriteria.ID_USUARIO, usuario.getId());
 
-        List<Item> itemList = s.readByCriteria(criteria);
+        List<Item> itemList = s.readByCriteria(criteria, null, null);
 
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/list");
         mv.addObject("itemList", itemList);
@@ -48,7 +48,7 @@ public class ItemController {
         Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
         PalavraChaveService s = new PalavraChaveService();
         Map<Long, Object> criteria = new HashMap<>();
-        List<PalavraChave> palavraChaveList = s.readByCriteria(criteria);
+        List<PalavraChave> palavraChaveList = s.readByCriteria(criteria, null, null);
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/new");
         mv.addObject("palavraChaveList", palavraChaveList);
         mv.addObject("anunciante", usuario);

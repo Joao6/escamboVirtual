@@ -137,7 +137,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
     }
 
     @Override
-    public List<Usuario> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+    public List<Usuario> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "select usuario.*, anunciante.reputacao, administrador.cpf, anunciante.usuario_fk anunciante, administrador.usuario_fk administrador from usuario left join administrador on administrador.usuario_fk=usuario.id left join anunciante on anunciante.usuario_fk=usuario.id WHERE 1=1";
         
         List<Object> params = new ArrayList<>();
@@ -155,6 +155,13 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
         }                
         
         sql += applyCriteria(conn, criteria);
+        
+        if(limit != null && limit > 0){
+            sql += " AND limit " + limit;
+        }
+        if(offset != null && offset >= 0){
+            sql += " AND offset " + offset;
+        }
         
         PreparedStatement ps = conn.prepareStatement(sql);
         int x = 0;
@@ -300,6 +307,11 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
         }
        
         return sql;
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

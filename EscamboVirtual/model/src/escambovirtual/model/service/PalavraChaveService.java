@@ -35,12 +35,12 @@ public class PalavraChaveService implements BasePalavraChaveService {
     }
 
     @Override
-    public List<PalavraChave> readByCriteria(Map<Long, Object> criteria) throws Exception {
+    public List<PalavraChave> readByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         Connection conn = ConnectionManager.getInstance().getConnection();
         List<PalavraChave> palavraChaveList = new ArrayList<>();
         try{
             PalavraChaveDAO dao = new PalavraChaveDAO();
-            palavraChaveList = dao.readByCriteria(conn, criteria);
+            palavraChaveList = dao.readByCriteria(conn, criteria, null, null);
             conn.close();
         }catch(Exception e){
             conn.close();
@@ -60,6 +60,11 @@ public class PalavraChaveService implements BasePalavraChaveService {
 
     @Override
     public Map<String, String> validate(Map<String, Object> fields) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

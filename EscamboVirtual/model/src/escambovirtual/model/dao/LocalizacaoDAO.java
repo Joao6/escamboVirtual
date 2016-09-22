@@ -105,7 +105,7 @@ public class LocalizacaoDAO implements BaseDAO<Localizacao> {
     }
 
     @Override
-    public List<Localizacao> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+    public List<Localizacao> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "select localizacao.*, estado.nome estado_nome, estado.uf estado_uf, cidade.nome cidade_nome, usuario.id usuario_id, usuario.nome usuario_nome, usuario.apelido usuario_apelido, usuario.email usuario_email, usuario.perfil usuario_perfil from localizacao join usuario on localizacao.usuario_fk=usuario.id left join anunciante on anunciante.usuario_fk=usuario.id left join administrador on administrador.usuario_fk=usuario.id left join estado on localizacao.estado_fk=estado.id left join cidade on localizacao.cidade_fk=cidade.id WHERE 1=1 ";
 
         //Critérios de busca caso existam.
@@ -203,5 +203,10 @@ public class LocalizacaoDAO implements BaseDAO<Localizacao> {
             sql += " AND localizacao.usuario_fk="+usuarioID;
         }
         return sql;
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

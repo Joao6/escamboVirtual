@@ -1,12 +1,9 @@
 package escambovirtual.controller;
 
+import escambovirtual.constraints.AppConstraints;
 import escambovirtual.model.criteria.ItemCriteria;
-import escambovirtual.model.entity.Administrador;
-import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.service.ItemService;
-import escambovirtual.model.service.SenhaService;
-import escambovirtual.model.service.UsuarioService;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,25 +21,41 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public ModelAndView goIndex(HttpSession session) throws Exception {        
-        ModelAndView mv = new ModelAndView("/index");        
+    public ModelAndView goIndex(HttpSession session) throws Exception {
+        ModelAndView mv = new ModelAndView("/index");
 //        session.invalidate();        
         return mv;
-    }    
+    }
 
     @RequestMapping(value = "/item/search", method = RequestMethod.GET)
-    public ModelAndView search(String nomeCriterium) throws Exception{
-        
-        ItemService is = new ItemService();
-        
-        Map<Long, Object>itemCriteria = new HashMap<Long, Object>();
-        String status = "Publicar";
-        itemCriteria.put(ItemCriteria.NOME_ILIKE, nomeCriterium);
-        itemCriteria.put(ItemCriteria.STATUS_EQ, status);
-        List<Item> itemList = is.readByCriteria(itemCriteria);
-        ModelAndView mv = new ModelAndView("pesquisa/list");
-        mv.addObject("nomeCriterium", nomeCriterium);
-        mv.addObject("itemList", itemList);
+    public ModelAndView search(String nomeCriterium, Long limit, Long offset) throws Exception {
+        ModelAndView mv = null;
+        if (limit != null && offset != null) {
+            ItemService is = new ItemService();
+
+            Map<Long, Object> itemCriteria = new HashMap<Long, Object>();
+            String status = "Publicar";
+            itemCriteria.put(ItemCriteria.NOME_ILIKE, nomeCriterium);
+            itemCriteria.put(ItemCriteria.STATUS_EQ, status);
+            List<Item> itemList = is.readByCriteria(itemCriteria, limit, offset);
+            Long count = is.countByCriteria(itemCriteria, limit, offset);
+            mv = new ModelAndView("pesquisa/list");
+            mv.addObject("nomeCriterium", nomeCriterium);
+            mv.addObject("itemList", itemList);
+            mv.addObject("count", count);
+            mv.addObject("limit", limit);
+            mv.addObject("offset", offset);            
+        } else {
+            String redirect = "redirect:/item/search?";
+            if(nomeCriterium != null){
+                redirect += "nomeCriterium="+nomeCriterium+"&";
+            }
+            
+            if(limit == null){
+                redirect += "limit="+AppConstraints.LIMIT_DEFAULT + "&offset=0";
+            }
+            mv = new ModelAndView(redirect);            
+        }
         return mv;
-    }       
+    }
 }

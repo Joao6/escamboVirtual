@@ -43,7 +43,7 @@ public class OfertaController {
                 Map<Long, Object> criteria = new HashMap<>();
                 criteria.put(ItemCriteria.ID_USUARIO, anunciante.getId());
                 List<Item> itemList = new ArrayList<>();
-                itemList = s.readByCriteria(criteria);
+                itemList = s.readByCriteria(criteria, null, null);
                 mv = new ModelAndView("oferta/form-oferta");
                 mv.addObject("itemReceptor", item);
                 mv.addObject("anunciante", anunciante);

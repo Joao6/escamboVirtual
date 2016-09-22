@@ -39,7 +39,7 @@ public class AdministradorController {
         ModelAndView mv;
         try{
             AdministradorService s = new AdministradorService();
-            List<Administrador> admList = s.readByCriteria(null);            
+            List<Administrador> admList = s.readByCriteria(null, null, null);            
             mv = new ModelAndView("usuario/administrador/listAdm");
             mv.addObject("admList", admList);
         }catch(Exception e){
@@ -124,7 +124,7 @@ public class AdministradorController {
         Map<Long, Object> criteria = new HashMap<>();
         String status = "Em Avaliação";
         criteria.put(ItemCriteria.STATUS_EQ, status);
-        List<Item> itemList = s.readByCriteria(criteria);
+        List<Item> itemList = s.readByCriteria(criteria, null, null);
         mv.addObject("itemList", itemList);
         return mv;
     }
@@ -152,7 +152,7 @@ public class AdministradorController {
             LocalizacaoService localizacaoService = new LocalizacaoService();
             Map<Long, Object> criteria = new HashMap<>();
             criteria.put(LocalizacaoCriteria.USUARIO_EQ, adm.getId());
-            List<Localizacao> localizacaoList = localizacaoService.readByCriteria(criteria);
+            List<Localizacao> localizacaoList = localizacaoService.readByCriteria(criteria, null, null);
             if (localizacaoList != null && localizacaoList.size() == 1) {
                 localizacao = localizacaoList.get(0);
             }
@@ -202,7 +202,7 @@ public class AdministradorController {
             Map<Long, Object> criteria = new HashMap<>();
             criteria.put(LocalizacaoCriteria.USUARIO_EQ, adm.getId());
             List<Localizacao> localizacaoList = new ArrayList<>();
-            localizacaoList = sl.readByCriteria(criteria);
+            localizacaoList = sl.readByCriteria(criteria, null, null);
             if (localizacaoList != null && localizacaoList.size() == 1) {
                 Localizacao aux = localizacaoList.get(0);
                 localizacao.setId(aux.getId());

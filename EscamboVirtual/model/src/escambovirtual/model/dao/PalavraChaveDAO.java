@@ -39,7 +39,7 @@ public class PalavraChaveDAO implements BaseDAO<PalavraChave> {
     }
 
     @Override
-    public List<PalavraChave> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+    public List<PalavraChave> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "SELECT id, nome, descricao FROM palavra_chave";
         List<PalavraChave> palavraChaveList = new ArrayList<>();
         PreparedStatement ps = conn.prepareStatement(sql);
@@ -69,6 +69,11 @@ public class PalavraChaveDAO implements BaseDAO<PalavraChave> {
 
     @Override
     public String applyCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

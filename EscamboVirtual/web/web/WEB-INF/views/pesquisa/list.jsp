@@ -53,7 +53,7 @@
                                     <input id="pesquisar" name="nomeCriterium" type="text" value="${nomeCriterium}"/>
                                 <label for="pesquisar">Pesquise por nome de itens</label>
                             </div>   
-                                <button type="submit" class="btn blue" style="margin-top: 25px;">Pesquisar</button>
+                            <button type="submit" class="btn blue" style="margin-top: 25px;">Pesquisar</button>
                         </div>
                     </form>
                 </div>
@@ -61,14 +61,15 @@
                     <div class="card-content">
                         <c:if test="${empty itemList}">
                             <!--<div class="card-panel col s12 z-depth-2">-->
-                                <!--<div class="card-content">-->
-                                <div class="card-title" style="padding-top: 15px;">
-                                        <span style="font-size: 16pt;"><i class="material-icons small">thumb_down</i>
-                                            <strong>Nenhum resultado encontrado para esta pesquisa!</strong></span>
-                                    </div>
-                                <!--</div>-->
+                            <!--<div class="card-content">-->
+                            <div class="card-title" style="padding-top: 15px;">
+                                <span style="font-size: 16pt;"><i class="material-icons small">thumb_down</i>
+                                    <strong>Nenhum resultado encontrado para esta pesquisa!</strong></span>
+                            </div>
+                            <!--</div>-->
                             <!--</div>-->
                         </c:if>
+                            <h6>Resultados encontrados: ${count}</h6>
                         <ul>
                             <c:forEach var="item" items="${itemList}">
                                 <a href="<c:url value="/item/${item.id}/view"></c:url>" class="black-text painelAnuncios">
@@ -93,6 +94,24 @@
                                     </li>
                                 </a>
                             </c:forEach>
+                        </ul>
+                        <ul class="pagination center">
+                            <c:if test="${offset > 0}">
+                                <li class=""><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset - limit}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                            </c:if>
+
+                            <c:if test="${offset <= 0}">
+                                <li class=""><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                            </c:if>
+
+
+                            <c:if test="${(offset + limit) < count}">
+                                <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset + limit}"/>"><i class="material-icons">chevron_right</i></a></li>
+                            </c:if>
+
+                            <c:if test="${(offset + limit) == count}">
+                                <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
+                            </c:if>
                         </ul>
                     </div>
                 </div>

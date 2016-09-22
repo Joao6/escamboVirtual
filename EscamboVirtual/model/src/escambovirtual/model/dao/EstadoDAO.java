@@ -40,7 +40,7 @@ public class EstadoDAO implements BaseDAO<Estado> {
     }
 
     @Override
-    public List<Estado> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {        
+    public List<Estado> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {        
         String sql = "SELECT id, nome, uf FROM estado WHERE 1=1 ";   
         PreparedStatement ps = conn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -72,6 +72,11 @@ public class EstadoDAO implements BaseDAO<Estado> {
 
     @Override
     public String applyCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

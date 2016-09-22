@@ -45,12 +45,12 @@ public class ItemService implements BaseItemService {
     }
 
     @Override
-    public List<Item> readByCriteria(Map<Long, Object> criteria) throws Exception {
+    public List<Item> readByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         Connection conn = ConnectionManager.getInstance().getConnection();
         List<Item> itemList = null;
         try {
             ItemDAO dao = new ItemDAO();
-            itemList = dao.readByCriteria(conn, criteria);
+            itemList = dao.readByCriteria(conn, criteria, limit, offset);
             conn.commit();
             conn.close();
         } catch (Exception e) {
@@ -91,6 +91,22 @@ public class ItemService implements BaseItemService {
     @Override
     public Map<String, String> validate(Map<String, Object> fields) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        Long count = null;
+        try {
+            ItemDAO dao = new ItemDAO();
+            count = dao.countByCriteria(conn, criteria, limit, offset);
+            conn.commit();
+            conn.close();
+        } catch (Exception e) {
+            conn.rollback();
+            conn.close();
+        }
+        return count;
     }
 
 }

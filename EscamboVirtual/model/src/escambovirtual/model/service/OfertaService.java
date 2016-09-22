@@ -43,12 +43,12 @@ public class OfertaService implements BaseOfertaService {
     }
 
     @Override
-    public List<Oferta> readByCriteria(Map<Long, Object> criteria) throws Exception {
+    public List<Oferta> readByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         Connection conn = ConnectionManager.getInstance().getConnection();
         List<Oferta> ofertaList = null;
         try {
             OfertaDAO dao = new OfertaDAO();
-            ofertaList = dao.readByCriteria(conn, criteria);
+            ofertaList = dao.readByCriteria(conn, criteria, null, null);
             conn.close();
         } catch (Exception e) {
             conn.close();
@@ -68,6 +68,11 @@ public class OfertaService implements BaseOfertaService {
 
     @Override
     public Map<String, String> validate(Map<String, Object> fields) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

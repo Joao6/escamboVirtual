@@ -47,7 +47,7 @@ public class CidadeDAO implements BaseDAO<Cidade> {
     }
 
     @Override
-    public List<Cidade> readByCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
+    public List<Cidade> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "SELECT cidade.*, estado.id estado_id, estado.nome estado_nome, estado.uf estado_uf FROM cidade JOIN estado ON cidade.estado_fk=estado.id WHERE 1=1 ";
         
         sql += applyCriteria(conn, criteria);
@@ -93,6 +93,11 @@ public class CidadeDAO implements BaseDAO<Cidade> {
             sql += " AND cidade.estado_fk ="+estadoFK;
         }
         return sql;
+    }
+
+    @Override
+    public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

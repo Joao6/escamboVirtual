@@ -92,12 +92,12 @@ public class AnuncianteController {
 
         Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         EstadoService es = new EstadoService();
-        List<Estado> estados = es.readByCriteria(null);
+        List<Estado> estados = es.readByCriteria(null, null, null);
         Localizacao localizacao = null;
         Map<Long, Object> criteria = new HashMap<>();
         criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
         List<Localizacao> localizacaoList = new ArrayList<>();
-        localizacaoList = sl.readByCriteria(criteria);
+        localizacaoList = sl.readByCriteria(criteria, null, null);
         if (localizacaoList != null && localizacaoList.size() == 1) {
             localizacao = localizacaoList.get(0);
         }
@@ -146,7 +146,7 @@ public class AnuncianteController {
             Map<Long, Object> criteria = new HashMap<>();
             criteria.put(LocalizacaoCriteria.USUARIO_EQ, anunciante.getId());
             List<Localizacao> localizacaoList = new ArrayList<>();
-            localizacaoList = sl.readByCriteria(criteria);
+            localizacaoList = sl.readByCriteria(criteria, null, null);
             if (localizacaoList != null && localizacaoList.size() == 1) {
                 Localizacao aux = localizacaoList.get(0);
                 localizacao.setId(aux.getId());
@@ -169,7 +169,7 @@ public class AnuncianteController {
     public ModelAndView postAnunciantes() throws Exception {
         ModelAndView mv = new ModelAndView("usuario/anunciante/list");
         AnuncianteService s = new AnuncianteService();
-        List<Anunciante> anuncianteList = s.readByCriteria(null);
+        List<Anunciante> anuncianteList = s.readByCriteria(null, null, null);
 
         mv.addObject("anuncianteList", anuncianteList);
         return mv;
@@ -219,7 +219,7 @@ public class AnuncianteController {
         criteria.put(ItemCriteria.STATUS_EQ, "Publicar");
 
         ItemService s = new ItemService();
-        List<Item> itemList = s.readByCriteria(criteria);
+        List<Item> itemList = s.readByCriteria(criteria, null, null);
 
         ModelAndView mv = new ModelAndView("pesquisaOn/list");
         mv.addObject("itemList", itemList);
@@ -260,7 +260,7 @@ public class AnuncianteController {
         try {
             criteria.put(ItemCriteria.ID_USUARIO, id);
             ItemService s = new ItemService();
-            List<Item> itemList = s.readByCriteria(criteria);
+            List<Item> itemList = s.readByCriteria(criteria, null, null);
             Gson g = new Gson();
             itens = g.toJson(itemList);
 
@@ -282,7 +282,7 @@ public class AnuncianteController {
             CidadeService cs = new CidadeService();
             Map<Long, Object> criteria = new HashMap<>();
             criteria.put(CidadeCriteria.ESTADO_FK, id);
-            cidadeList = cs.readByCriteria(criteria);
+            cidadeList = cs.readByCriteria(criteria, null, null);
 
             Gson g = new Gson();
             cidades = g.toJson(cidadeList);

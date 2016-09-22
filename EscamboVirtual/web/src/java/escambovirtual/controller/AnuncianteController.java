@@ -2,7 +2,7 @@ package escambovirtual.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import escambovirtual.model.criteria.CidadeCriteria;
+import escambovirtual.constraints.AppConstraints;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
 import escambovirtual.model.entity.Anunciante;
@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -128,7 +129,7 @@ public class AnuncianteController {
             anunciante.setNascimento(nascimento);
             anunciante.setPerfil(perfil);
             anunciante.setTelefone(telefone);
-            s.update(anunciante);            
+            s.update(anunciante);
 
             //TRATANDO A LOCALIZACAO DO ANUNCIANTE
             LocalizacaoService sl = new LocalizacaoService();
@@ -164,15 +165,6 @@ public class AnuncianteController {
         }
 
         return mv;
-    }
-
-    @RequestMapping(value = "/usuario/{id}/img.jpg", method = RequestMethod.GET)
-    public void streamImagem(@PathVariable Long id, HttpServletResponse response) throws Exception {
-        UsuarioService s = new UsuarioService();
-        Imagem imagem = s.getImagem(id);
-        response.setContentType("imagem/jpg");
-        response.getOutputStream().write(imagem.getConteudo());
-        response.flushBuffer();
     }
 
     @RequestMapping(value = "/anunciante/imagem-perfil/alterar", method = RequestMethod.GET)
@@ -244,19 +236,41 @@ public class AnuncianteController {
     }
 
     @RequestMapping(value = "/anunciante/pesquisar/item", method = RequestMethod.GET)
-    public ModelAndView getPesquisaItem(String nomeCriterium, HttpSession session) throws Exception {
-        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
-        Map<Long, Object> criteria = new HashMap<>();
-        criteria.put(ItemCriteria.NOME_ILIKE, nomeCriterium);
-        criteria.put(ItemCriteria.STATUS_EQ, "Publicar");
+    public ModelAndView getPesquisaItem(String nomeCriterium, HttpSession session, Long limit, Long offset) throws Exception {
+        ModelAndView mv = null;
+        try {
+            if (limit != null && offset != null) {
+                Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+                Map<Long, Object> criteria = new HashMap<>();
+                criteria.put(ItemCriteria.NOME_ILIKE, nomeCriterium);
+                criteria.put(ItemCriteria.STATUS_EQ, "Publicar");
 
-        ItemService s = new ItemService();
-        List<Item> itemList = s.readByCriteria(criteria, null, null);
+                ItemService s = new ItemService();
+                List<Item> itemList = s.readByCriteria(criteria, limit, offset);
+                Long count = s.countByCriteria(criteria, limit, offset);
+                mv = new ModelAndView("pesquisaOn/list");
+                mv.addObject("itemList", itemList);
+                mv.addObject("nomeCriterium", nomeCriterium);
+                mv.addObject("anunciante", anunciante);
+                mv.addObject("count", count);
+                mv.addObject("limit", limit);
+                mv.addObject("offset", offset);
+            } else {
+                String redirect = "redirect:/anunciante/pesquisar/item?";
+                if (nomeCriterium != null) {
+                    redirect += "nomeCriterium=" + nomeCriterium + "&";
+                }
 
-        ModelAndView mv = new ModelAndView("pesquisaOn/list");
-        mv.addObject("itemList", itemList);
-        mv.addObject("nomeCriterium", nomeCriterium);
-        mv.addObject("anunciante", anunciante);
+                if (limit == null) {
+                    redirect += "limit=" + AppConstraints.LIMIT_LIST_PESQUISA_INTERNA + "&offset=0";
+                }
+                mv = new ModelAndView(redirect);
+            }
+
+        } catch (Exception e) {
+
+        }
+
         return mv;
     }
 
@@ -264,9 +278,6 @@ public class AnuncianteController {
     @ResponseBody
     public void create(@RequestBody String anunciante, HttpServletResponse response) {
         try {
-//            Type type = new TypeToken<Anunciante>(){                
-//            }.getType();
-//            Gson g = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
             Gson g = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
 
             Anunciante anuncianteNew = g.fromJson(anunciante, Anunciante.class);
@@ -277,6 +288,7 @@ public class AnuncianteController {
                 SenhaService ss = new SenhaService();
                 anuncianteNew.setSenha(ss.convertPasswordToMD5(anuncianteNew.getSenha()));
                 s.create(anuncianteNew);
+                
                 response.setStatus(200);
             }
         } catch (Exception e) {
@@ -303,50 +315,4 @@ public class AnuncianteController {
         }
         return itens;
     }
-
-    @RequestMapping(value = "/anunciante/cidades/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public String getEstados(HttpServletResponse response, @PathVariable Long id) {
-        List<Cidade> cidadeList = new ArrayList<>();
-        String cidades = null;
-        try {
-
-            CidadeService cs = new CidadeService();
-            Map<Long, Object> criteria = new HashMap<>();
-            criteria.put(CidadeCriteria.ESTADO_FK, id);
-            cidadeList = cs.readByCriteria(criteria, null, null);
-
-            Gson g = new Gson();
-            cidades = g.toJson(cidadeList);
-
-            response.setStatus(200);
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.setStatus(500);
-        }
-        return cidades;
-    }
-
-//    @RequestMapping(value = "/anunciante/validar-senha", method = RequestMethod.POST)
-//    @ResponseBody
-//    public Boolean validarSenha(String senha, HttpServletResponse response, HttpSession session) {
-//        Boolean senhaOk = false;
-//        try {
-//            SenhaService ss = new SenhaService();
-//            String senhaMD5 = ss.convertPasswordToMD5(senha);
-//            Usuario usuario = (Usuario) session.getAttribute("usuarioSessao");
-//            if(usuario != null){
-//                if(usuario.getSenha().equals(senhaMD5)){
-//                    senhaOk = true;
-//                }else{
-//                    senhaOk = false;
-//                }
-//            }
-//            response.setStatus(200);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            response.setStatus(500);
-//        }
-//        return senhaOk;
-//    }
 }

@@ -1,19 +1,25 @@
 package escambovirtual.controller;
 
 import com.google.gson.Gson;
+import escambovirtual.model.criteria.CidadeCriteria;
 import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Administrador;
 import escambovirtual.model.entity.Anunciante;
+import escambovirtual.model.entity.Cidade;
+import escambovirtual.model.entity.Imagem;
 import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.AnuncianteService;
+import escambovirtual.model.service.CidadeService;
 import escambovirtual.model.service.SenhaService;
 import escambovirtual.model.service.UsuarioService;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,7 +68,7 @@ public class UsuarioController {
     @RequestMapping(value = "/sair", method = RequestMethod.GET)
     public ModelAndView logout(HttpSession session) {
         ModelAndView mv = new ModelAndView("/../../index");
-        session.invalidate();
+        session.removeAttribute("usuarioSessao");
         return mv;
     }
 
@@ -92,14 +98,18 @@ public class UsuarioController {
     //método é mapeado caso o usuário não tenha permissão para acessar
     //determinada área do sistema
     @RequestMapping(value = "/anunciante/permissao-negada", method = RequestMethod.GET)
-    public ModelAndView permissaoNegadaAnunciante() {
+    public ModelAndView permissaoNegadaAnunciante(HttpSession session) {
+        Anunciante anunciante  = (Anunciante) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/anunciante/permissao-negada");
+        mv.addObject("anunciante", anunciante);
         return mv;
     }
 
     @RequestMapping(value = "/administrador/permissao-negada", method = RequestMethod.GET)
-    public ModelAndView permissaoNegadaAdm() {
+    public ModelAndView permissaoNegadaAdm(HttpSession session) {
+        Administrador administrador = (Administrador) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/administrador/permissao-negada");
+        mv.addObject("administrador", administrador);
         return mv;
     }
 
@@ -131,5 +141,37 @@ public class UsuarioController {
             result = g.toJson(resultado);
         }
         return result;
-    }        
+    }
+
+    @RequestMapping(value = "/usuario/cidades/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public String getEstados(HttpServletResponse response, @PathVariable Long id) {
+        List<Cidade> cidadeList = new ArrayList<>();
+        String cidades = null;
+        try {
+
+            CidadeService cs = new CidadeService();
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(CidadeCriteria.ESTADO_FK, id);
+            cidadeList = cs.readByCriteria(criteria, null, null);
+
+            Gson g = new Gson();
+            cidades = g.toJson(cidadeList);
+
+            response.setStatus(200);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(500);
+        }
+        return cidades;
+    }
+
+    @RequestMapping(value = "/usuario/{id}/img.jpg", method = RequestMethod.GET)
+    public void streamImagem(@PathVariable Long id, HttpServletResponse response) throws Exception {
+        UsuarioService s = new UsuarioService();
+        Imagem imagem = s.getImagem(id);
+        response.setContentType("imagem/jpg");
+        response.getOutputStream().write(imagem.getConteudo());
+        response.flushBuffer();
+    }
 }

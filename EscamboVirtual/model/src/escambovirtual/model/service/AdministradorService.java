@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * @author Joao
  */
-public class AdministradorService implements BaseAdministradorService{
+public class AdministradorService implements BaseAdministradorService {
 
     @Override
     public void create(Administrador entity) throws Exception {
@@ -57,15 +57,15 @@ public class AdministradorService implements BaseAdministradorService{
 
         Connection conn = ConnectionManager.getInstance().getConnection();
         List<Administrador> administradorList = null;
-        
+
         try {
-            UsuarioDAO dao = new UsuarioDAO();    
+            UsuarioDAO dao = new UsuarioDAO();
             if (criteria == null) {
                 criteria = new HashMap<>();
             }
             criteria.remove(UsuarioCriteria.ANUNCIANTE);
             criteria.put(UsuarioCriteria.ADMINISTRADOR, Boolean.TRUE);
-            administradorList = (List)dao.readByCriteria(conn,criteria, limit, offset);
+            administradorList = (List) dao.readByCriteria(conn, criteria, limit, offset);
             conn.commit();
             conn.close();
         } catch (Exception e) {
@@ -79,12 +79,12 @@ public class AdministradorService implements BaseAdministradorService{
     @Override
     public void update(Administrador entity) throws Exception {
         Connection conn = ConnectionManager.getInstance().getConnection();
-        try{
+        try {
             UsuarioDAO dao = new UsuarioDAO();
             dao.update(conn, entity);
             conn.commit();
             conn.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             conn.rollback();
             conn.close();
         }
@@ -93,12 +93,12 @@ public class AdministradorService implements BaseAdministradorService{
     @Override
     public void delete(Long id) throws Exception {
         Connection conn = ConnectionManager.getInstance().getConnection();
-        try{
+        try {
             UsuarioDAO dao = new UsuarioDAO();
             dao.delete(conn, id);
             conn.commit();
             conn.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             conn.rollback();
             conn.close();
         }
@@ -111,7 +111,23 @@ public class AdministradorService implements BaseAdministradorService{
 
     @Override
     public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        Long count = null;
+        try {
+            UsuarioDAO dao = new UsuarioDAO();
+            if (criteria == null) {
+                criteria = new HashMap<>();
+            }
+            criteria.remove(UsuarioCriteria.ANUNCIANTE);
+            criteria.put(UsuarioCriteria.ADMINISTRADOR, Boolean.TRUE);
+            count = dao.countByCriteria(conn, criteria, limit, offset);
+            conn.commit();
+            conn.close();
+        } catch (Exception e) {
+            conn.rollback();
+            conn.close();
+        }
+        return count;
     }
-    
+
 }

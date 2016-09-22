@@ -63,6 +63,24 @@
                                 </c:forEach>
                             </tbody>
                         </table>
+                        <ul class="pagination center">
+                            <c:if test="${offset > 0}">
+                                <li class="waves-effect"><a href="<c:url value="/administrador/list?limit=${limit}&offset=${offset - limit}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                                </c:if>
+
+                            <c:if test="${offset <= 0}">
+                                <li class="waves-effect"><a href="<c:url value="/administrador/list?limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                                </c:if>
+
+
+                            <c:if test="${(offset + limit) < count}">
+                                <li class="waves-effect"><a href="<c:url value="/administrador/list?limit=${limit}&offset=${offset + limit}"/>"><i class="material-icons">chevron_right</i></a></li>
+                                </c:if>
+
+                                <c:if test="${(offset + limit) >= count}">
+                                <li class="waves-effect"><a href="<c:url value="/administrador/list?limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
+                                </c:if>
+                        </ul>
                     </div>
                 </div> 
             </div>

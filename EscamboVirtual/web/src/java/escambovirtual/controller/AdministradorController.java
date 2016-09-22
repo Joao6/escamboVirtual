@@ -2,11 +2,13 @@ package escambovirtual.controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import escambovirtual.constraints.AppConstraints;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
 import escambovirtual.model.entity.Administrador;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
+import escambovirtual.model.entity.Imagem;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
 import escambovirtual.model.service.AdministradorService;
@@ -29,20 +31,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AdministradorController {
-    
+
     @RequestMapping(value = "/administrador/list", method = RequestMethod.GET)
-    public ModelAndView admList(){
-        ModelAndView mv;
-        try{
-            AdministradorService s = new AdministradorService();
-            List<Administrador> admList = s.readByCriteria(null, null, null);            
-            mv = new ModelAndView("usuario/administrador/listAdm");
-            mv.addObject("admList", admList);
-        }catch(Exception e){
+    public ModelAndView admList(HttpSession session, Long limit, Long offset) {
+        ModelAndView mv = null;
+        try {
+            if (limit != null && offset != null) {
+                Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
+                AdministradorService s = new AdministradorService();
+                List<Administrador> admList = s.readByCriteria(null, limit, offset);
+                Long count = s.countByCriteria(null, limit, offset);
+                mv = new ModelAndView("usuario/administrador/listAdm");
+                mv.addObject("admList", admList);
+                mv.addObject("administrador", adm);
+                mv.addObject("count", count);
+                mv.addObject("limit", limit);
+                mv.addObject("offset", offset);
+            } else {
+                String redirect = "redirect:/administrador/list?";
+
+                if (limit == null) {
+                    redirect += "limit=" + AppConstraints.LIMIT_LIST_ADM + "&offset=0";
+                }
+                mv = new ModelAndView(redirect);
+            }
+
+        } catch (Exception e) {
             mv = new ModelAndView("error");
             mv.addObject("error", e);
         }
@@ -53,13 +72,15 @@ public class AdministradorController {
     public ModelAndView homeAdministrador(HttpSession session) {
         Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/administrador/home");
-        mv.addObject("adm", adm);
+        mv.addObject("administrador", adm);
         return mv;
     }
 
     @RequestMapping(value = "/administrador/new", method = RequestMethod.GET)
-    public ModelAndView getAdministradorNew() {
+    public ModelAndView getAdministradorNew(HttpSession session) {
+        Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/administrador/new");
+        mv.addObject("administrador", adm);
         return mv;
     }
 
@@ -92,8 +113,10 @@ public class AdministradorController {
     }
 
     @RequestMapping(value = "/administrador/alterar-senha", method = RequestMethod.GET)
-    public ModelAndView getAlterarSenha() {
+    public ModelAndView getAlterarSenha(HttpSession session) {
+        Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/administrador/alterarsenha");
+        mv.addObject("administrador", adm);
         return mv;
     }
 
@@ -109,23 +132,45 @@ public class AdministradorController {
             administrador.setSenha(ss.convertPasswordToMD5(novasenha));
             s.update(administrador);
             mv = new ModelAndView("redirect:/administrador/home");
-        } else {                        
+        } else {
             mv = new ModelAndView("usuario/administrador/alterarsenha");
             mv.addObject("validSenha", errors);
-        }                                
+        }
         return mv;
     }
 
     @RequestMapping(value = "/administrador/list/itens", method = RequestMethod.GET)
-    public ModelAndView getAvaliarItem() throws Exception {
-        ModelAndView mv = new ModelAndView("usuario/administrador/item/list");
-        ItemService s = new ItemService();
+    public ModelAndView getAvaliarItem(HttpSession session, Long limit, Long offset) throws Exception {
+        ModelAndView mv = null;
+        try {
+            if (limit != null && offset != null) {
+                Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
+                mv = new ModelAndView("usuario/administrador/item/list");
+                mv.addObject("administrador", adm);
+                ItemService s = new ItemService();
 
-        Map<Long, Object> criteria = new HashMap<>();
-        String status = "Em Avaliação";
-        criteria.put(ItemCriteria.STATUS_EQ, status);
-        List<Item> itemList = s.readByCriteria(criteria, null, null);
-        mv.addObject("itemList", itemList);
+                Map<Long, Object> criteria = new HashMap<>();
+                String status = "Em Avaliação";
+                criteria.put(ItemCriteria.STATUS_EQ, status);
+                List<Item> itemList = s.readByCriteria(criteria, limit, offset);
+                Long count = s.countByCriteria(criteria, limit, offset);
+                mv.addObject("itemList", itemList);
+                mv.addObject("count", count);
+                mv.addObject("limit", limit);
+                mv.addObject("offset", offset);
+            } else {
+                String redirect = "redirect:/administrador/list/itens?";
+
+                if (limit == null) {
+                    redirect += "limit=" + AppConstraints.LIMIT_LIST_AVALIACAO_ITENS + "&offset=0";
+                }
+                mv = new ModelAndView(redirect);
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+
         return mv;
     }
 
@@ -148,6 +193,8 @@ public class AdministradorController {
         ModelAndView mv;
         try {
             Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
+            EstadoService es = new EstadoService();
+            List<Estado> estados = es.readByCriteria(null, null, null);
             Localizacao localizacao = null;
             LocalizacaoService localizacaoService = new LocalizacaoService();
             Map<Long, Object> criteria = new HashMap<>();
@@ -159,6 +206,7 @@ public class AdministradorController {
             mv = new ModelAndView("usuario/administrador/perfil");
             mv.addObject("administrador", adm);
             mv.addObject("localizacao", localizacao);
+            mv.addObject("estados", estados);
         } catch (Exception e) {
             mv = new ModelAndView("usuario/administrador/perfil");
             mv.addObject("error", e);
@@ -181,7 +229,6 @@ public class AdministradorController {
             adm.setNascimento(nascimento);
             adm.setPerfil(perfil);
             adm.setTelefone(telefone);
-//        adm.setImagem(imagem);
             AdministradorService s = new AdministradorService();
             s.update(adm);
 
@@ -212,14 +259,16 @@ public class AdministradorController {
             }
 
             session.setAttribute("usuarioSessao", adm);
+            adm = (Administrador) session.getAttribute("usuarioSessao");
             mv = new ModelAndView("redirect:/administrador/perfil");
+            mv.addObject("administrador", adm);
         } catch (Exception e) {
             mv = new ModelAndView("error");
             mv.addObject("error", e);
         }
         return mv;
     }
-    
+
     @RequestMapping(value = "/administrador/create/api", method = RequestMethod.POST)
     @ResponseBody
     public void create(@RequestBody String administrador, HttpServletResponse response) {
@@ -243,5 +292,37 @@ public class AdministradorController {
             response.setStatus(500);
         }
     }
-    
+
+    @RequestMapping(value = "/administrador/imagem-perfil/alterar", method = RequestMethod.GET)
+    public ModelAndView getAlterarImagem(HttpSession session) {
+        ModelAndView mv = null;
+        try {
+            Administrador administrador = (Administrador) session.getAttribute("usuarioSessao");
+            mv = new ModelAndView("usuario/administrador/img-perfil");
+            mv.addObject("administrador", administrador);
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = "/administrador/imagem-perfil/alterar", method = RequestMethod.POST)
+    public ModelAndView postAlterarImagem(MultipartFile file, HttpSession session) {
+        ModelAndView mv = null;
+        try {
+            Administrador administrador = (Administrador) session.getAttribute("usuarioSessao");
+            //IMAGEM DO USUARIO
+            Imagem imagem = new Imagem();
+            imagem.setConteudo(file.getBytes());
+            UsuarioService us = new UsuarioService();
+            us.setImagem(administrador.getId(), imagem);
+            mv = new ModelAndView("redirect:/administrador/perfil");
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
+    }
+
 }

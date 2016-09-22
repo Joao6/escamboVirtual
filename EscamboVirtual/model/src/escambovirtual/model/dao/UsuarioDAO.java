@@ -139,7 +139,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
     @Override
     public List<Usuario> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "select usuario.*, anunciante.reputacao, administrador.cpf, anunciante.usuario_fk anunciante, administrador.usuario_fk administrador from usuario left join administrador on administrador.usuario_fk=usuario.id left join anunciante on anunciante.usuario_fk=usuario.id WHERE 1=1";
-        
+
         List<Object> params = new ArrayList<>();
 
         String email = (String) criteria.get(UsuarioCriteria.USUARIO_EMAIL_EQ);
@@ -152,17 +152,17 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
         if (senha != null && !senha.isEmpty()) {
             sql += " AND senha=? ";
             params.add(senha);
-        }                
-        
+        }
+
         sql += applyCriteria(conn, criteria);
-        
-        if(limit != null && limit > 0){
-            sql += " AND limit " + limit;
+
+        if (limit != null && limit > 0) {
+            sql += " limit " + limit;
         }
-        if(offset != null && offset >= 0){
-            sql += " AND offset " + offset;
+        if (offset != null && offset >= 0) {
+            sql += " offset " + offset;
         }
-        
+
         PreparedStatement ps = conn.prepareStatement(sql);
         int x = 0;
         for (Object param : params) {
@@ -259,7 +259,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
         PreparedStatement ps = conn.prepareStatement(sql);
         int i = 0;
         ps.setString(++i, entity.getCpf());
-        ps.setLong(++i, entity.getId());        
+        ps.setLong(++i, entity.getId());
         ps.execute();
         ps.close();
     }
@@ -269,7 +269,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
         PreparedStatement ps = conn.prepareStatement(sql);
         int i = 0;
         ps.setInt(++i, entity.getReputacao());
-        ps.setLong(++i, entity.getId());        
+        ps.setLong(++i, entity.getId());
         ps.execute();
         ps.close();
     }
@@ -286,7 +286,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
 
     @Override
     public String applyCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
-        String sql = "";        
+        String sql = "";
 
         Boolean administrador = (Boolean) criteria.get(UsuarioCriteria.ADMINISTRADOR);
         if (administrador != null) {
@@ -296,7 +296,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
                 sql += " and perfil=2";
             }
         }
-        
+
         Boolean anunciante = (Boolean) criteria.get(UsuarioCriteria.ANUNCIANTE);
         if (anunciante != null) {
             if (anunciante) {
@@ -305,16 +305,24 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
                 sql += " and perfil=1";
             }
         }
-       
+
         return sql;
     }
 
     @Override
     public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Long count = null;
+        String sql = "SELECT count(*) count FROM usuario WHERE 1=1";
+        sql += applyCriteria(conn, criteria);
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getLong("count");
+        }
+        return count;
     }
-    
-    public void setImagem(Connection conn, Long id, Imagem imagem) throws SQLException{
+
+    public void setImagem(Connection conn, Long id, Imagem imagem) throws SQLException {
         String sql = "DELETE FROM usuario_imagem WHERE usuario_fk=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setLong(1, id);
@@ -328,14 +336,14 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
         ps.execute();
         ps.close();
     }
-    
-    public Imagem getImagem(Connection conn, Long id) throws SQLException{
+
+    public Imagem getImagem(Connection conn, Long id) throws SQLException {
         Imagem imagem = null;
         String sql = "SELECT * FROM usuario_imagem WHERE usuario_fk=?";
         PreparedStatement ps = conn.prepareStatement(sql);
         ps.setLong(1, id);
         ResultSet rs = ps.executeQuery();
-        if(rs.next()){
+        if (rs.next()) {
             imagem = new Imagem();
             imagem.setConteudo(rs.getBytes("imagem"));
         }

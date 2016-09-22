@@ -66,7 +66,10 @@
                                 </div>
                             </div>
                         </c:if>
-
+                        <c:if test="${count > 0}">
+                            <span style="margin-top: -20%;"><strong>Resultados encontrados: ${count}</strong></span>
+                            <br/>
+                        </c:if>
                         <ul>
                             <c:forEach var="item" items="${itemList}">
                                 <a href="<c:url value="/anunciante/pesquisar/item/${item.id}/view"></c:url>" class="black-text painelAnuncios hoverable">
@@ -91,6 +94,24 @@
                                     </li>
                                 </a>
                             </c:forEach>
+                        </ul>
+                        <ul class="pagination center">
+                            <c:if test="${offset > 0}">
+                                <li class="waves-effect"><a href="<c:url value="/anunciante/pesquisar/item?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset - limit}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                                </c:if>
+
+                            <c:if test="${offset <= 0}">
+                                <li class="waves-effect"><a href="<c:url value="/anunciante/pesquisar/item?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                                </c:if>
+
+
+                            <c:if test="${(offset + limit) < count}">
+                                <li class="waves-effect"><a href="<c:url value="/anunciante/pesquisar/item?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset + limit}"/>"><i class="material-icons">chevron_right</i></a></li>
+                                </c:if>
+
+                            <c:if test="${(offset + limit) >= count}">
+                                <li class="waves-effect"><a href="<c:url value="/anunciante/pesquisar/item?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
+                                </c:if>
                         </ul>
                     </div>
                 </div>

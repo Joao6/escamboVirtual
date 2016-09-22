@@ -69,7 +69,7 @@
                             <!--</div>-->
                             <!--</div>-->
                         </c:if>
-                            <h6>Resultados encontrados: ${count}</h6>
+                            <h6><strong>Resultados encontrados:</strong> ${count}</h6>
                         <ul>
                             <c:forEach var="item" items="${itemList}">
                                 <a href="<c:url value="/item/${item.id}/view"></c:url>" class="black-text painelAnuncios">
@@ -97,11 +97,11 @@
                         </ul>
                         <ul class="pagination center">
                             <c:if test="${offset > 0}">
-                                <li class=""><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset - limit}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                                <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset - limit}"/>"><i class="material-icons">chevron_left</i></a></li>                            
                             </c:if>
 
                             <c:if test="${offset <= 0}">
-                                <li class=""><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_left</i></a></li>                            
+                                <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_left</i></a></li>                            
                             </c:if>
 
 
@@ -109,8 +109,8 @@
                                 <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset + limit}"/>"><i class="material-icons">chevron_right</i></a></li>
                             </c:if>
 
-                            <c:if test="${(offset + limit) == count}">
-                                <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
+                                <c:if test="${(offset + limit) >= count}">
+                                    <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
                             </c:if>
                         </ul>
                     </div>

@@ -11,16 +11,16 @@
     </a>
 </div> 
 <ul id="nav-mobile" class="side-nav fixed collapsible grey lighten-4" style="transform: translateX(0%);">
-    <li class="logo" >
-        <!--<a href="escambovirtual"><img src="resources/img/LogoDiferenciada.png" height="60" width="60"></a>-->
-        <!--<h5>Escambo Virtual</h5>-->
-    </li>
-    <center>
-        <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>" height="90" width="90"></a>
-        <br/>
-        ${anunciante.apelido}
-    </center>
+    <div style="margin-top: 15%;">
+        <center>
+            <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>" height="100" width="100"></a>
+            <br/>
+            <br/>
+            <strong>Olá, ${anunciante.apelido}!</strong>
+        </center>
+    </div>
     <br/>                
+    <div class="divider"></div>
     <li class="no-padding">
         <ul class="collapsible">                       
             <li>

@@ -34,7 +34,7 @@
             function buscar_cidades() {
                 var estado = $('#estado').val();
                 if (estado) {
-                    var url = '/web/anunciante/cidades/' + estado;
+                    var url = '/web/usuario/cidades/' + estado;
                     $.get(url, function (dataReturn) {
                         var cidades = jQuery.parseJSON(dataReturn);
 
@@ -76,18 +76,14 @@
                         <div class="form divider"></div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s12 m6 l6">
-                            <!--
-                            <%--<c:if test="${not empty  anunciante.imagem} ">--%>
-                                <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="">
-                            <%--</c:if>--%>
-                            -->
+                        <div class="input-field col s12 m6 l6">                            
                             <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>">
                             <br/>
                             <a class="btn blue" href="<c:url value="/anunciante/imagem-perfil/alterar"/>">Alterar imagem</a>
                         </div>
                     </div>
-                    
+                    <div class="divider"></div>
+                    <br/>
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
                             <input id="inputNome" name="nome" type="text" class="validate" value="${anunciante.nome}" />

@@ -93,7 +93,7 @@ public class ItemDAO implements BaseDAO<Item> {
 
     @Override
     public Item readById(Connection conn, Long id) throws Exception {
-        String query = "SELECT item.*, usuario.id usuario_id, usuario.nome usuario_nome, usuario.email usuario_email, usuario.senha usuario_senha, usuario.apelido usuario_apelido, usuario.sexo usuario_sexo, usuario.data_nascimento usuario_data_nascimento, usuario.perfil usuario_perfil, usuario.telefone usuario_telefone, usuario.imagem usuario_imagem, usuario.data_cadastro usuario_data_cadastro, anunciante.reputacao anunciante_reputacao FROM item LEFT JOIN usuario on item.usuario_fk=usuario.id LEFT JOIN anunciante on usuario.id=anunciante.usuario_fk WHERE item.id=?;";
+        String query = "SELECT item.*, usuario.id usuario_id, usuario.nome usuario_nome, usuario.email usuario_email, usuario.senha usuario_senha, usuario.apelido usuario_apelido, usuario.sexo usuario_sexo, usuario.data_nascimento usuario_data_nascimento, usuario.perfil usuario_perfil, usuario.telefone usuario_telefone, usuario.data_cadastro usuario_data_cadastro, anunciante.reputacao anunciante_reputacao FROM item LEFT JOIN usuario on item.usuario_fk=usuario.id LEFT JOIN anunciante on usuario.id=anunciante.usuario_fk WHERE item.id=?;";
 
         PreparedStatement ps = conn.prepareStatement(query);
         ps.setLong(1, id);
@@ -140,7 +140,7 @@ public class ItemDAO implements BaseDAO<Item> {
 
     @Override
     public List<Item> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
-        String sql = "SELECT item.*, usuario.id usuario_id, usuario.nome usuario_nome, usuario.email usuario_email, usuario.senha usuario_senha, usuario.apelido usuario_apelido, usuario.sexo usuario_sexo, usuario.data_nascimento usuario_data_nascimento, usuario.perfil usuario_perfil, usuario.telefone usuario_telefone, usuario.imagem usuario_imagem, usuario.data_cadastro usuario_data_cadastro, anunciante.reputacao anunciante_reputacao FROM item LEFT JOIN usuario on item.usuario_fk=usuario.id LEFT JOIN anunciante on usuario.id=anunciante.usuario_fk WHERE 1=1 ";
+        String sql = "SELECT item.*, usuario.id usuario_id, usuario.nome usuario_nome, usuario.email usuario_email, usuario.senha usuario_senha, usuario.apelido usuario_apelido, usuario.sexo usuario_sexo, usuario.data_nascimento usuario_data_nascimento, usuario.perfil usuario_perfil, usuario.telefone usuario_telefone, usuario.data_cadastro usuario_data_cadastro, anunciante.reputacao anunciante_reputacao FROM item LEFT JOIN usuario on item.usuario_fk=usuario.id LEFT JOIN anunciante on usuario.id=anunciante.usuario_fk WHERE 1=1 ";
 
         //acrescentado critérios
         sql += this.applyCriteria(conn, criteria);

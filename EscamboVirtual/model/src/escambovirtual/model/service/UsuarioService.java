@@ -6,6 +6,7 @@ import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.dao.UsuarioDAO;
 import escambovirtual.model.entity.Administrador;
 import escambovirtual.model.entity.Anunciante;
+import escambovirtual.model.entity.Imagem;
 import escambovirtual.model.entity.Usuario;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -134,6 +135,38 @@ public class UsuarioService implements BaseUsuarioService {
             e.printStackTrace();
         }
         return errors;
+    }
+
+    @Override
+    public void setImagem(Long id, Imagem imagem) throws Exception {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        try{
+            UsuarioDAO dao = new UsuarioDAO();
+            dao.setImagem(conn, id, imagem);
+            conn.commit();
+            conn.close();
+        }catch(Exception e){
+            conn.rollback();
+            conn.close();
+            throw e;
+        }
+    }
+
+    @Override
+    public Imagem getImagem(Long id) throws Exception {
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        Imagem imagem = null;
+        try{
+            UsuarioDAO dao = new UsuarioDAO();
+            imagem = dao.getImagem(conn, id);
+            conn.commit();
+            conn.close();
+        }catch(Exception e){
+            conn.rollback();
+            conn.close();
+            throw e;
+        }
+        return imagem;
     }
 
 }

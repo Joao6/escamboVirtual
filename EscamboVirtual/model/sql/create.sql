@@ -7,8 +7,7 @@ CREATE TABLE usuario(
 	sexo VARCHAR(20),
 	data_nascimento DATE,
 	perfil INTEGER NOT NULL,
-	telefone VARCHAR(20),	
-	imagem oid,
+	telefone VARCHAR(20),		
         data_cadastro DATE NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -60,11 +59,11 @@ CREATE TABLE item(
 
 CREATE TABLE item_imagem(
         item_fk BIGINT NOT NULL,
-        imagem1 oid,
-        imagem2 oid,
-        imagem3 oid,
-        imagem4 oid,
-        imagem5 oid,
+        imagem1 bytea,
+        imagem2 bytea,
+        imagem3 bytea,
+        imagem4 bytea,
+        imagem5 bytea,
         PRIMARY KEY(item_fk)
 );
 
@@ -143,6 +142,14 @@ CREATE TABLE log(
 	usuario_fk BIGINT NOT NULL,
 	PRIMARY KEY(id)
 );
+
+create table usuario_imagem(
+	usuario_fk bigint not null,
+	imagem bytea,
+	primary key(usuario_fk)
+);
+
+alter table usuario_imagem add constraint usuario_imagem_usuario_fk foreign key (usuario_fk) references usuario(id) on update cascade on delete cascade;
 ALTER TABLE anunciante ADD CONSTRAINT anunciante_usuario_fk FOREIGN KEY (usuario_fk) REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE administrador ADD CONSTRAINT administrador_usuario_fk FOREIGN KEY (usuario_fk) REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE comunicacao ADD CONSTRAINT comunicacao_usuario_fk FOREIGN KEY (usuario_fk) REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE CASCADE;-- ON UPDATE CASCADE ON DELETE CASCADE;

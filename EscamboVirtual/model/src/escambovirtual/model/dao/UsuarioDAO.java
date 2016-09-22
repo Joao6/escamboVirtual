@@ -4,12 +4,12 @@ import escambovirtual.model.base.BaseDAO;
 import escambovirtual.model.criteria.UsuarioCriteria;
 import escambovirtual.model.entity.Administrador;
 import escambovirtual.model.entity.Anunciante;
+import escambovirtual.model.entity.Imagem;
 import escambovirtual.model.entity.Usuario;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.sql.Types;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -312,6 +312,36 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
     @Override
     public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void setImagem(Connection conn, Long id, Imagem imagem) throws SQLException{
+        String sql = "DELETE FROM usuario_imagem WHERE usuario_fk=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, id);
+        ps.execute();
+        ps.close();
+        sql = "INSERT INTO usuario_imagem(usuario_fk, imagem) VALUES(?,?);";
+        ps = conn.prepareStatement(sql);
+        int i = 0;
+        ps.setLong(++i, id);
+        ps.setBytes(++i, imagem.getConteudo());
+        ps.execute();
+        ps.close();
+    }
+    
+    public Imagem getImagem(Connection conn, Long id) throws SQLException{
+        Imagem imagem = null;
+        String sql = "SELECT * FROM usuario_imagem WHERE usuario_fk=?";
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ps.setLong(1, id);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            imagem = new Imagem();
+            imagem.setConteudo(rs.getBytes("imagem"));
+        }
+        rs.close();
+        ps.close();
+        return imagem;
     }
 
 }

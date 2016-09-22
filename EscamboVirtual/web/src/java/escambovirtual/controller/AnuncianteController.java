@@ -8,9 +8,9 @@ import escambovirtual.model.criteria.LocalizacaoCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
+import escambovirtual.model.entity.Imagem;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
-import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.CidadeService;
 import escambovirtual.model.service.EstadoService;
@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -105,12 +106,13 @@ public class AnuncianteController {
         mv.addObject("anunciante", anunciante);
         mv.addObject("localizacao", localizacao);
         mv.addObject("estados", estados);
+//        mv.addObject("cidade", localizacao.getCidade());
         return mv;
     }
 
     @RequestMapping(value = "/anunciante/perfil", method = RequestMethod.POST)
     public ModelAndView postAnunciantePerfil(String nome, String apelido, String senha, String email, String sexo, String nascimento, Long perfil, String telefone,
-            Long estado, Long cidade, String bairro, String rua, String numero, String imagem, HttpServletRequest request,
+            Long estado, Long cidade, String bairro, String rua, String numero, HttpServletRequest request,
             HttpServletResponse response, HttpSession session) {
 
         ModelAndView mv;
@@ -126,8 +128,7 @@ public class AnuncianteController {
             anunciante.setNascimento(nascimento);
             anunciante.setPerfil(perfil);
             anunciante.setTelefone(telefone);
-//        anunciante.setImagem(imagem);
-            s.update(anunciante);
+            s.update(anunciante);            
 
             //TRATANDO A LOCALIZACAO DO ANUNCIANTE
             LocalizacaoService sl = new LocalizacaoService();
@@ -165,13 +166,44 @@ public class AnuncianteController {
         return mv;
     }
 
-    @RequestMapping(value = "anunciantes", method = RequestMethod.GET)
-    public ModelAndView postAnunciantes() throws Exception {
-        ModelAndView mv = new ModelAndView("usuario/anunciante/list");
-        AnuncianteService s = new AnuncianteService();
-        List<Anunciante> anuncianteList = s.readByCriteria(null, null, null);
+    @RequestMapping(value = "/usuario/{id}/img.jpg", method = RequestMethod.GET)
+    public void streamImagem(@PathVariable Long id, HttpServletResponse response) throws Exception {
+        UsuarioService s = new UsuarioService();
+        Imagem imagem = s.getImagem(id);
+        response.setContentType("imagem/jpg");
+        response.getOutputStream().write(imagem.getConteudo());
+        response.flushBuffer();
+    }
 
-        mv.addObject("anuncianteList", anuncianteList);
+    @RequestMapping(value = "/anunciante/imagem-perfil/alterar", method = RequestMethod.GET)
+    public ModelAndView getAlterarImagem(HttpSession session) {
+        ModelAndView mv = null;
+        try {
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+            mv = new ModelAndView("usuario/anunciante/img-perfil");
+            mv.addObject("anunciante", anunciante);
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = "/anunciante/imagem-perfil/alterar", method = RequestMethod.POST)
+    public ModelAndView postAlterarImagem(MultipartFile file, HttpSession session) {
+        ModelAndView mv = null;
+        try {
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+            //IMAGEM DO USUARIO
+            Imagem imagem = new Imagem();
+            imagem.setConteudo(file.getBytes());
+            UsuarioService us = new UsuarioService();
+            us.setImagem(anunciante.getId(), imagem);
+            mv = new ModelAndView("redirect:/anunciante/perfil");
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
         return mv;
     }
 
@@ -204,10 +236,10 @@ public class AnuncianteController {
             anunciante.setSenha(passwordMD5);
             s.update(anunciante);
             mv = new ModelAndView("redirect:/anunciante/home");
-        } else {                        
+        } else {
             mv = new ModelAndView("usuario/anunciante/alterarsenha");
             mv.addObject("validSenha", errors);
-        }        
+        }
         return mv;
     }
 

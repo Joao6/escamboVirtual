@@ -29,16 +29,7 @@
         <script src="<c:url value="/resources/js/anunciante/services/anunciante-service.js"/>"></script>
         <!--VALUES-->
         <script src="<c:url value="/resources/js/anunciante/values/anunciante-value.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/resources/js/cidade_estado.js"/>"></script>
-        <script>
-//            document.getElementById("file").onchange = function () {
-//                var reader = new FileReader();
-//                reader.onload = function (e) {
-//                    document.getElementById("imagem").src = e.target.result;
-//                };
-//                reader.readAsDataURL(this.files[0]);
-//            };
-        </script>
+        <script type="text/javascript" src="<c:url value="/resources/js/cidade_estado.js"/>"></script>        
         <script>
             function buscar_cidades() {
                 var estado = $('#estado').val();
@@ -46,16 +37,16 @@
                     var url = '/web/anunciante/cidades/' + estado;
                     $.get(url, function (dataReturn) {
                         var cidades = jQuery.parseJSON(dataReturn);
-                        
-                        var select = $('#cidade');                        
-                        select.find('option').remove(); 
-                        $('<option>').val('').text('Bla bla bla').appendTo(select);
-                        
+
+                        var select = $('#cidade');
+                        select.find('option').remove();
+                        $('<option>').val('').text('Selecione a Cidade').appendTo(select);
+
                         var i = 0;
-                        while(i<cidades.length){
-                            $('<option>').val(cidades[i].id).text(cidades[i].nome).appendTo(select); 
+                        while (i < cidades.length) {
+                            $('<option>').val(cidades[i].id).text(cidades[i].nome).appendTo(select);
                             i++;
-                        }                        
+                        }
                     });
                 }
             }
@@ -78,6 +69,7 @@
                         </div>
                     </div>
                 </nav>
+
                 <form class="card-panel col s12 z-depth-2" method="post">
                     <div class="card-title">                        
                         <h5>Meus Dados</h5>
@@ -90,20 +82,12 @@
                                 <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="">
                             <%--</c:if>--%>
                             -->
-                            <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/resources/img/background3.jpg"/>">
+                            <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>">
+                            <br/>
+                            <a class="btn blue" href="<c:url value="/anunciante/imagem-perfil/alterar"/>">Alterar imagem</a>
                         </div>
                     </div>
-                    <div calss="row">
-                        <div class="file-field input-field">
-                            <div class="btn blue">
-                                <span>Adicionar imagem de perfil</span>
-                                <input type="file" id="file" anme="file" multiple>
-                            </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" type="text" placeholder="Adicione uma imagem de perfil">
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="row">
                         <div class="input-field col s12 m6 l6">
                             <input id="inputNome" name="nome" type="text" class="validate" value="${anunciante.nome}" />
@@ -149,19 +133,16 @@
                         <div class="input-field col s12 m6 l6">
                             <select name="estado" id="estado" class="browser-default" style="border-color: grey;" onchange="buscar_cidades()">
                                 <option value="" disabled="" selected="">Selecione o Estado</option>
-                                <option value="${localizacao.estado.id}" disabled="" selected="">${localizacao.estado.nome}</option>
+                                <option value="${localizacao.estado.id}" selected="">${localizacao.estado.nome}</option>
                                 <c:forEach items="${estados}" var="estado">
                                     <option value="${estado.id}">${estado.nome}</option>
                                 </c:forEach>
-                            </select>
-                            <!--<input id="estado" name="estado" type="text" class="validate" value="${localizacao.estado.nome}"/>-->
-                            <!--<label for="estado">Estado</label>-->
+                            </select>                            
                         </div>
                         <div id="load_cidades" class="input-field col s12 m6 l6">
                             <select name="cidade" id="cidade" class="browser-default" style="border-color: grey;">                                
-                            </select>
-                            <!--<input id="estado" name="cidade" type="text" class="validate" value="${localizacao.cidade.nome}"/>-->
-                            <!--<label for="estado">Cidade</label>-->
+                                <option value="${localizacao.cidade.id}" selected="">${localizacao.cidade.nome}</option>
+                            </select>                            
                         </div>
                     </div>
                     <div class="row">

@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Documentos/FAI/Fai%202016/www/git/gitHub/EscamboVirtual/web/web/WEB-INF/views/usuario/anunciante/perfil.jsp</file>
+            <file>file:/D:/Documentos/FAI/Fai%202016/www/git/gitHub/EscamboVirtual/web/web/WEB-INF/views/usuario/administrador/item/list.jsp</file>
+            <file>file:/D:/Documentos/FAI/Fai%202016/www/git/gitHub/EscamboVirtual/web/web/WEB-INF/views/usuario/anunciante/img-perfil.jsp</file>
             <file>file:/D:/Documentos/FAI/Fai%202016/www/git/gitHub/EscamboVirtual/web/src/java/escambovirtual/controller/AnuncianteController.java</file>
-            <file>file:/D:/Documentos/FAI/Fai%202016/www/git/gitHub/EscamboVirtual/web/web/WEB-INF/spring-mvc-config.xml</file>
-            <file>file:/D:/Documentos/FAI/Fai%202016/www/git/gitHub/EscamboVirtual/web/src/java/escambovirtual/interceptor/Interceptor.java</file>
+            <file>file:/D:/Documentos/FAI/Fai%202016/www/git/gitHub/EscamboVirtual/web/web/WEB-INF/views/usuario/anunciante/perfil.jsp</file>
         </group>
     </open-files>
 </project-private>

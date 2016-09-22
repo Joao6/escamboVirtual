@@ -16,7 +16,7 @@
         <!--<h5>Escambo Virtual</h5>-->
     </li>
     <center>
-        <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/resources/img/background1.jpg"/>" height="80" width="80"></a>
+        <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>" height="90" width="90"></a>
         <br/>
         ${anunciante.apelido}
     </center>

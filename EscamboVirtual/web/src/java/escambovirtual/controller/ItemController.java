@@ -1,11 +1,14 @@
 package escambovirtual.controller;
 
 import escambovirtual.model.criteria.ItemCriteria;
+import escambovirtual.model.criteria.OfertaCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Item;
+import escambovirtual.model.entity.Oferta;
 import escambovirtual.model.entity.PalavraChave;
 import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.ItemService;
+import escambovirtual.model.service.OfertaService;
 import escambovirtual.model.service.PalavraChaveService;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +39,7 @@ public class ItemController {
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/list");
         mv.addObject("itemList", itemList);
         mv.addObject("anunciante", usuario);
-        if (toast!=null && toast > 0) {
+        if (toast != null && toast > 0) {
             mv.addObject("msg", ((Map<Long, String>) session.getAttribute("toasts")).get(toast));
             ((Map<Long, String>) session.getAttribute("toasts")).remove(toast);
         }
@@ -142,11 +145,11 @@ public class ItemController {
         }
         return mv;
     }
-    
-        @RequestMapping(value = "/anunciante/item/del", method = RequestMethod.POST)
-        public ModelAndView delete (Long idItem, HttpSession session){
-            ModelAndView mv;
-            try {
+
+    @RequestMapping(value = "/anunciante/item/del", method = RequestMethod.POST)
+    public ModelAndView delete(Long idItem, HttpSession session) {
+        ModelAndView mv;
+        try {
             Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
             ItemService s = new ItemService();
             Item item = s.readById(idItem);
@@ -161,21 +164,48 @@ public class ItemController {
             mv = new ModelAndView("error");
             mv.addObject("error", e);
 //            response.setStatus(500);
-        }            
-            return mv;
         }
+        return mv;
+    }
 
     @RequestMapping(value = "/anunciante/pesquisar/item/{id}/view", method = RequestMethod.GET)
     public ModelAndView getItemView(@PathVariable Long id, HttpSession session) throws Exception {
-        Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
-        ItemService s = new ItemService();
-        Item item = s.readById(id);
-        ModelAndView mv = new ModelAndView("usuario/anunciante/item/view");
-        mv.addObject("item", item);
-        mv.addObject("anunciante", usuario);
+        ModelAndView mv = null;
+        try {
+            Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
+            ItemService s = new ItemService();
+            Item item = s.readById(id);
+            OfertaService os = new OfertaService();
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(OfertaCriteria.ITEM_ID, item.getId());
+            List<Oferta> ofertaList = os.readByCriteria(criteria, null, null);
+            if (item != null) {
+                Boolean fezOferta = false;
+                if (ofertaList != null) {
+                    for (Oferta aux : ofertaList) {
+                        for (Item itemAux : aux.getOfertaItem().getItemList()) {
+                            if (itemAux.getAnunciante().getId().equals(usuario.getId())) {
+                                fezOferta = true;
+                            }
+                        }
+                    }
+                }
+                mv = new ModelAndView("usuario/anunciante/item/view");
+                mv.addObject("item", item);
+                mv.addObject("anunciante", usuario);
+                mv.addObject("fezOferta",fezOferta);
+            } else {
+                mv = new ModelAndView("usuario/anunciante/item/item-not-found");
+                mv.addObject("anunciante", usuario);
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+
         return mv;
     }
-    
+
     @RequestMapping(value = "/anunciante/item/permissao-negada", method = RequestMethod.GET)
     public ModelAndView permissaoNegada(HttpSession session) throws Exception {
         Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");

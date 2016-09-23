@@ -55,8 +55,10 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
                     .success(function () {
                         delete $scope.itensOferta;
                         delete $scope.itensID;
-                        Materialize.toast(app.MESSAGE_SUCCESS_CREATE_OFERTA, 4000, 'green rounded toast');
-                //redirecionar para lista de ofertas enviadas.
+                        Materialize.toast(app.MESSAGE_SUCCESS_CREATE_OFERTA, 2000, 'green rounded toast', function () {
+                            window.location.href = window.location.protocol + "//" + window.location.host + "/web/anunciante/pesquisar/item/"+id+"/view";
+                        });
+                        //redirecionar para lista de ofertas enviadas.
                     })
                     .error(function (data) {
                         console.log(data);
@@ -64,7 +66,7 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
                     });
         } catch (e) {
             console.log(e);
-            Materialize.toast("Deu exception", 4000, 'red rounded toast');
+            Materialize.toast("Algo estranho aconteceu! =(", 4000, 'red rounded toast');
         }
     };
 

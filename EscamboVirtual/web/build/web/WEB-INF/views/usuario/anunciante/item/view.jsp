@@ -87,6 +87,11 @@
                                             <td><b>Descrição: </b><p>${item.descricao}</p></td>
                                             <!--<td>${item.descricao}</td>--> 
                                         </tr>
+                                        <c:if test="${fezOferta == true}">
+                                            <tr>
+                                                <td><strong>*Você realizou ofertas neste item!</strong><a href="<c:url value="/anunciante/view/oferta/item/${item.id}"/>"> Clique aqui para ver</a></td>
+                                            </tr>
+                                        </c:if>
                                         <tr>
                                             <td class="right-align" colspan="4">
                                                 <a class="waves-effect waves-light btn blue col s12 m5 l5" href="<c:url value="/anunciante/comunicacao/item/${item.id}"/>">Enviar mensagem ao anunciante</a>                                        

@@ -118,7 +118,9 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             usuario.setEmail(rs.getString("email"));
             usuario.setSenha(rs.getString("senha"));
             usuario.setSexo(rs.getString("sexo"));
-            //usuario.setNascimento(rs.getDate("data_nascimento"));
+            String data[] = rs.getString("data_nascimento").split("-");
+            String data2 = data[2] + "/" + data[1] + "/" + data[0];
+            usuario.setNascimento(data2);
             usuario.setPerfil(rs.getLong("perfil"));
             usuario.setTelefone(rs.getString("telefone"));
             usuario.setData_cadastro(rs.getDate("data_cadastro"));
@@ -184,7 +186,9 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             usuario.setEmail(rs.getString("email"));
             usuario.setSenha(rs.getString("senha"));
             usuario.setSexo(rs.getString("sexo"));
-            //usuario.setNascimento(rs.getDate("data_nascimento"));
+            String data[] = rs.getString("data_nascimento").split("-");
+            String data2 = data[2] + "/" + data[1] + "/" + data[0];
+            usuario.setNascimento(data2);
             usuario.setPerfil(rs.getLong("perfil"));
             usuario.setTelefone(rs.getString("telefone"));
             usuario.setData_cadastro(rs.getDate("data_cadastro"));

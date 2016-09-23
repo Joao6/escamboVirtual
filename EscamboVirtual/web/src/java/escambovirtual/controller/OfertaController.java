@@ -91,7 +91,7 @@ public class OfertaController {
                 oferta.setOfertaItem(ofI);
                 os.create(oferta);
                 response.setStatus(200);
-            }else{
+            } else {
                 response.setStatus(500);
             }
         } catch (Exception e) {
@@ -191,4 +191,38 @@ public class OfertaController {
         return mv;
     }
 
+    @RequestMapping(value = "/anunciante/view/oferta/item/{id}", method = RequestMethod.GET)
+    public ModelAndView verOfertaRealizada(@PathVariable Long id, HttpSession session) {
+        ModelAndView mv = null;
+        try {
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+            OfertaService os = new OfertaService();
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(OfertaCriteria.ITEM_ID, id);
+            List<Oferta> ofertaList = os.readByCriteria(criteria, null, null);
+            if (ofertaList != null) {
+                List<Oferta> ofertaRealizadaList = new ArrayList<>();
+                for (Oferta aux : ofertaList) {
+                    for (Item itemAux : aux.getOfertaItem().getItemList()) {
+                        if (itemAux.getAnunciante().getId().equals(anunciante.getId())) {
+                            ofertaRealizadaList.add(aux);
+                            break;
+                        }
+                    }
+                }
+                Integer count = ofertaRealizadaList.size();
+                mv = new ModelAndView("oferta/oferta-realizada");
+                mv.addObject("ofertaList", ofertaRealizadaList);
+                mv.addObject("anunciante", anunciante);
+                mv.addObject("count", count);
+            } else {
+                mv = new ModelAndView("oferta/oferta-permissao-negada");
+                mv.addObject("anunciante", anunciante);
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
+    }
 }

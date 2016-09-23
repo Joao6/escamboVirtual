@@ -99,7 +99,7 @@ public class UsuarioController {
     //determinada área do sistema
     @RequestMapping(value = "/anunciante/permissao-negada", method = RequestMethod.GET)
     public ModelAndView permissaoNegadaAnunciante(HttpSession session) {
-        Anunciante anunciante  = (Anunciante) session.getAttribute("usuarioSessao");
+        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
         ModelAndView mv = new ModelAndView("usuario/anunciante/permissao-negada");
         mv.addObject("anunciante", anunciante);
         return mv;
@@ -172,6 +172,6 @@ public class UsuarioController {
         Imagem imagem = s.getImagem(id);
         response.setContentType("imagem/jpg");
         response.getOutputStream().write(imagem.getConteudo());
-        response.flushBuffer();
+        response.flushBuffer();        
     }
 }

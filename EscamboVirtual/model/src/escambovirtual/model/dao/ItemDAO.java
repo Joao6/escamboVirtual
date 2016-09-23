@@ -323,6 +323,11 @@ public class ItemDAO implements BaseDAO<Item> {
         if(status != null && !status.isEmpty()){            
             sql += " AND item.status='"+status+"' ";
         }
+        
+        String itensID = (String) criteria.get(ItemCriteria.ID_ITEM_IN);
+        if(itensID != null && !itensID.isEmpty()){
+            sql += " AND item.id in("+itensID+")";
+        }
 
         return sql;
     }

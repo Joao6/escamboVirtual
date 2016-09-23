@@ -4,4 +4,5 @@ public class ItemCriteria {
     public static Long ID_USUARIO = 1L;
     public static Long NOME_ILIKE = 2L;
     public static Long STATUS_EQ = 3L;
+    public static Long ID_ITEM_IN = 4L;
 }

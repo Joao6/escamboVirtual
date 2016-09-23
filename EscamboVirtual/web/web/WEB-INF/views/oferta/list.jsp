@@ -38,14 +38,38 @@
                             </div>                        
                         </div>
                     </nav>
-                </div>
+                </div>                
 
                 <div class="card-panel" style="margin-top: -2%;">
                     <div class="card-content">
-
-                    </div>
+                        <c:if test="${empty ofertaList}">
+                            <div class="card-title center"><strong style="text-transform: uppercase;">Não existem ofertas encaminhadas para seus itens! =(</strong></div>                        
+                        </c:if>
+                        <c:if test="${not empty ofertaList}">                        
+                            <div class="card-title"><strong style="text-transform: uppercase;">Você recebeu as seguintes ofertas:</strong></div>                        
+                            <br/>
+                            <c:forEach items="${ofertaList}" var="oferta"> 
+                                <a href="<c:url value="/anunciante/oferta/${oferta.id}/view"></c:url>" class="black-text hoverable">
+                                        <div class="row">                                               
+                                            <div class="col s12 m12 z-depth-1 hoverable">                                                                   
+                                                <div class="card-image col s12 m4 l4">
+                                                    <img src="<c:url value="/resources/img/background2.jpg"></c:url>" class="responsive-img" style="padding-top: 4%;">
+                                                </div>
+                                                <div class="card-content">
+                                                    <span><strong>Para o item: ${oferta.item.nome}</strong></span>                                                    
+                                                <br/>
+                                                <div class="divider"></div>
+                                                <br/>
+                                                <span class=""><strong>Clique para ver mais detalhes:</strong></span>                                            
+                                            </div> 
+                                        </div>                                
+                                    </div>
+                                </a>
+                            </c:forEach>
+                        </c:if>
+                    </div>                        
                 </div>
-            </div>
+            </div>               
         </header>        
     </body>
 </html>

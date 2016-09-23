@@ -143,9 +143,10 @@ public class OfertaDAO implements BaseDAO<Oferta> {
     @Override
     public List<Oferta> readByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
         String sql = "SELECT oferta.id oferta_id, oferta.data_hora oferta_data_hora, oferta.item_fk, item.id item_id, item.nome item_nome, item.descricao item_descricao, item.data_compra item_data_compra, usuario.id anunciante_id, usuario.nome anunciante_nome, usuario.email anunciante_email, usuario.apelido anunciante_apelido, anunciante.reputacao anunciante_reputacao FROM oferta left join item on item.id=oferta.item_fk left join anunciante on anunciante.usuario_fk=item.usuario_fk left join usuario on usuario.id=anunciante.usuario_fk where 1=1";
-        PreparedStatement ps = conn.prepareStatement(sql);
         
         sql += applyCriteria(conn, criteria);
+        
+        PreparedStatement ps = conn.prepareStatement(sql);
         
         ResultSet rs = ps.executeQuery();
         Oferta oferta = null;
@@ -230,6 +231,11 @@ public class OfertaDAO implements BaseDAO<Oferta> {
         Long itemID = (Long)criteria.get(OfertaCriteria.ITEM_ID);
         if(itemID != null && itemID > 0){
             sql += " AND item.id=" + itemID;
+        }
+        
+        Long anunciateID = (Long)criteria.get(OfertaCriteria.ANUNCIANTE_ID);
+        if(anunciateID != null && anunciateID > 0){
+            sql += " AND usuario.id="+anunciateID;
         }
         
         return sql;

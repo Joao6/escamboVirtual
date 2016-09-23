@@ -6,6 +6,8 @@
 angular.module('ofertaApp').controller('OfertaController', function ($scope, OfertaService) {
 
     this.MESSAGE_ERROR_BUSCAR_ITENS = 'Erro ao buscar itens do anunciante.';
+    this.MESSAGE_SUCCESS_CREATE_OFERTA = 'Oferta enviada com sucesso.';
+    this.MESSAGE_ERROR_CREATE_OFERTA = 'Erro enviar oferta.';
 
     var app = this;
 
@@ -14,6 +16,7 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
     $scope.itemList = [];
     $scope.item = {};
     $scope.itensOferta = [];
+    $scope.itensID = [];
 
 
 //    $scope.itens = [];
@@ -40,6 +43,7 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
                     return a;
                 } else {
                     $scope.itensOferta.push(a);
+                    $scope.itensID.push(a.id);
                 }
             });
         }
@@ -47,13 +51,16 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
 
     $scope.createOferta = function (id) {
         try {
-            OfertaService.createOferta($scope.itensOferta, id)
+            OfertaService.createOferta($scope.itensID, id)
                     .success(function () {
-                        Materialize.toast("Oferta cadastrada com sucesso", 4000, 'red rounded toast');
+                        delete $scope.itensOferta;
+                        delete $scope.itensID;
+                        Materialize.toast(app.MESSAGE_SUCCESS_CREATE_OFERTA, 4000, 'green rounded toast');
+                //redirecionar para lista de ofertas enviadas.
                     })
                     .error(function (data) {
                         console.log(data);
-                        Materialize.toast("Deu erro de função", 4000, 'red rounded toast');
+                        Materialize.toast(app.MESSAGE_ERROR_CREATE_OFERTA, 4000, 'red rounded toast');
                     });
         } catch (e) {
             console.log(e);

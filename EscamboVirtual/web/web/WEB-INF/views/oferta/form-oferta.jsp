@@ -33,7 +33,7 @@
         <script>
             $(document).ready(function () {
                 $('.carousel').carousel();
-            });            
+            });
         </script>        
     </head>
     <body  style="background-color: #b0bec5;" ng-controller="OfertaController" ng-init="itens(${anunciante.id})">
@@ -105,7 +105,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                                    <button class="btn blue large " ng-click="createOferta(${itemReceptor.id})" title="Após preencher os dados você poderá enviar uma proposta de troca ao anunciante.">Adicionar itens</button>
+                                    <button class="btn blue large" ng-click="createOferta(${itemReceptor.id})" title="Após preencher os dados você poderá enviar uma proposta de troca ao anunciante.">Enviar Oferta</button>
                                 </form>
                             </div>
                         </div>

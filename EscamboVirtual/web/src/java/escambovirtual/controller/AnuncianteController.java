@@ -191,7 +191,9 @@ public class AnuncianteController {
             imagem.setConteudo(file.getBytes());
             UsuarioService us = new UsuarioService();
             us.setImagem(anunciante.getId(), imagem);
-            mv = new ModelAndView("redirect:/anunciante/perfil");
+            anunciante.setImagem(imagem);
+            session.setAttribute("anunciante", anunciante);
+            mv = new ModelAndView("redirect:/anunciante/perfil");            
         } catch (Exception e) {
             mv = new ModelAndView("error");
             mv.addObject("error", e);

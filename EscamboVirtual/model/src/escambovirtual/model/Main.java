@@ -1,16 +1,9 @@
 package escambovirtual.model;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import escambovirtual.model.entity.Item;
-import escambovirtual.model.entity.Oferta;
-import escambovirtual.model.entity.OfertaItem;
-import escambovirtual.model.service.ItemService;
-import escambovirtual.model.service.OfertaService;
+import escambovirtual.model.entity.Anunciante;
+import escambovirtual.model.entity.Usuario;
+import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.UsuarioService;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -157,5 +150,9 @@ public class Main {
         UsuarioService s = new UsuarioService();
         emailOk = s.checkEmailUsuario(email);
         System.out.println(emailOk);
+        
+        Usuario usuario = new Anunciante();
+        AnuncianteService sa = new AnuncianteService();
+        usuario = sa.readById(2L);
     }
 }

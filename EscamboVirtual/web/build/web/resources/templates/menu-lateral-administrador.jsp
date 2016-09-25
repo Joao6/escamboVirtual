@@ -13,7 +13,17 @@
 <ul id="nav-mobile" class="side-nav fixed collapsible grey lighten-4" style="transform: translateX(0%);"> 
     <div class="row" style="margin-top: 15%;">
         <center>
-            <a href="<c:url value="/administrador/home"/>"><img class="img circle" src="<c:url value="/usuario/${administrador.id}/img.jpg"/>" height="100" width="100"></a>
+            <c:if test="${not empty administrador.imagem}">                
+                <a href="<c:url value="/administrador/home"/>"><img class="img circle" src="<c:url value="/usuario/${administrador.id}/img.jpg"/>" height="100" width="100"></a>                        
+            </c:if>
+            <c:if test="${empty administrador.imagem}">
+                <c:if test="${administrador.sexo == 'Masculino'}">                
+                    <a href="<c:url value="/administrador/home"/>"><img class="img circle" src="<c:url value="/resources/img/default-avatar_man.png"/>" height="100" width="100"></a>                        
+                </c:if>
+                <c:if test="${administrador.sexo == 'Feminino'}">                
+                    <a href="<c:url value="/administrador/home"/>"><img class="img circle" src="<c:url value="/resources/img/default-avatar_women.png"/>" height="100" width="100"></a>                        
+                </c:if>
+            </c:if>
             <br/>
             <br/> 
             <strong>Olá, ${administrador.apelido}!</strong>

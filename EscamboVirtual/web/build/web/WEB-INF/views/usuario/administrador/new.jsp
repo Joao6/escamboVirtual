@@ -112,7 +112,7 @@
                                     </div>
                                 </div>                        
                                 <button id="btn-cadastrar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light blue" ng-click="create(administrador)" ng-disabled="admForm.$invalid || !emailOk || !senhaOk" style="margin-bottom: 10px; margin-right: 0.4rem;">Cadastrar</button>
-                                <a href="<c:url value="/"/>"><button type="button" id="btn-cancelar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light brown">Cancelar</button></a>                                                
+                                <a href="<c:url value="/administrador/home"/>"><button type="button" id="btn-cancelar" class="col s12 m3 push-m6 btn btn-large waves-effect waves-light brown">Cancelar</button></a>                                                
                             </div>
                         </div>
                     </div>

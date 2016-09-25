@@ -317,6 +317,8 @@ public class AdministradorController {
             imagem.setConteudo(file.getBytes());
             UsuarioService us = new UsuarioService();
             us.setImagem(administrador.getId(), imagem);
+            administrador.setImagem(imagem);
+            session.setAttribute("administrador", administrador);
             mv = new ModelAndView("redirect:/administrador/perfil");
         } catch (Exception e) {
             mv = new ModelAndView("error");

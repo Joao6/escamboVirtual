@@ -76,8 +76,18 @@
                         <div class="form divider"></div>
                     </div>
                     <div class="row">
-                        <div class="input-field col s12 m6 l6">                            
-                            <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>">
+                        <div class="input-field col s12 m6 l6">                                                        
+                            <c:if test="${not empty anunciante.imagem}">                
+                                <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>">
+                            </c:if>
+                            <c:if test="${empty anunciante.imagem}">
+                                <c:if test="${anunciante.sexo == 'Masculino'}">                                                                           
+                                    <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/resources/img/default-avatar_man.png"/>">
+                                </c:if>
+                                <c:if test="${anunciante.sexo == 'Feminino'}">                                                                        
+                                    <img class="card-panel col s12 m6 l6 lighten-3 z-depth-2 responsive-img" style="margin: 1%;"  id="imagem" name="imagem" src="<c:url value="/resources/img/default-avatar_women.png"/>">
+                                </c:if>
+                            </c:if>
                             <br/>
                             <a class="btn blue" href="<c:url value="/anunciante/imagem-perfil/alterar"/>">Alterar imagem</a>
                         </div>

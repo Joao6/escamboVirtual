@@ -85,7 +85,7 @@ public class OfertaController {
                 Item item = s.readById(id);
                 Oferta oferta = new Oferta();
                 oferta.setItem(item);
-                OfertaItem ofI = new OfertaItem();
+                OfertaItem ofI = new OfertaItem();                
                 ofI.setItemList(itemList);
                 OfertaService os = new OfertaService();
                 oferta.setOfertaItem(ofI);

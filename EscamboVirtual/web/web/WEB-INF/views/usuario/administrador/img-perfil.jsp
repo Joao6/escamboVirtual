@@ -65,7 +65,17 @@
                     <div class="card-content">
                         <div class="card-panel">
                             <div class="card-panel" style="margin-left: 33%; margin-right: 33%;">
+                                <c:if test="${not empty administrador.imagem}">                
                                 <img class="z-depth-2" id="imagem" src="<c:url value="/usuario/${administrador.id}/img.jpg"/>" height="200" width="200">
+                            </c:if>
+                            <c:if test="${empty administrador.imagem}">
+                                <c:if test="${administrador.sexo == 'Masculino'}">                                                                                                               
+                                    <img class="z-depth-2" id="imagem" src="<c:url value="/resources/img/default-avatar_man.png"/>" height="200" width="200">
+                                </c:if>
+                                <c:if test="${administrador.sexo == 'Feminino'}">                                                                                                            
+                                    <img class="z-depth-2" id="imagem" src="<c:url value="/resources/img/default-avatar_women.png"/>" height="200" width="200">
+                                </c:if>
+                            </c:if>
                             </div>
                             <div calss="row">
                                 <form method="post" enctype="multipart/form-data">

@@ -63,10 +63,13 @@
                                 </div>
                             </c:forEach>
                         </div>
+                        <div class="row">
+                            <a class="btn brown right" href="<c:url value="/anunciante/oferta/list"/>">Voltar</a>
+                            <button class="btn blue waves-effect right" style="margin-right: 0.6rem;">Aceitar Oferta</button>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </header>        
     </body>
 </html>

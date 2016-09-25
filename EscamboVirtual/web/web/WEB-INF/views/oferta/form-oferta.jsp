@@ -34,10 +34,28 @@
             $(document).ready(function () {
                 $('.carousel').carousel();
             });
+            
+            $(document).ready(function () {
+                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                $('.modal-trigger').leanModal();
+            });
         </script>        
     </head>
     <body  style="background-color: #b0bec5;" ng-controller="OfertaController" ng-init="itens(${anunciante.id})">
         <header>
+
+            <!--MODAL OFERTA-->
+            <div id="modalOferta" class="modal">
+                <div class="modal-content">
+                    <h4>Enviar Oferta</h4>
+                    <p><strong>Você confirma o envio de uma oferta para o item em questão?</strong></p>
+                    <p>Após o envio desta oferta, o anunciante responsável por este item poderá aceitar a sua oferta e assim realizar a troca dos itens.</p>
+                    <p>Obs.: esta ação não poderá ser desfeita</p>
+                    <button class="btn blue waves-effect modal-close" ng-click="createOferta(${itemReceptor.id})">Confirmar</button>
+                    <a class="btn brown waves-effect modal-close">Cancelar</a>
+                </div>
+            </div>
+            <!--FIM MODAL-->
             <jsp:include page="/resources/templates/menu-lateral-anunciante.jsp"/>
 
             <div class="row" style="padding-left: 15%; padding-right: 15%;">
@@ -104,8 +122,9 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <button class="btn blue large" ng-click="createOferta(${itemReceptor.id})" title="Após preencher os dados você poderá enviar uma proposta de troca ao anunciante.">Enviar Oferta</button>
+                                    </div>                                   
+                                    <a class="btn blue modal-trigger waves-effect" href="#modalOferta">Enviar oferta</a>
+                                    <a class="btn brown waves-effect" href="<c:url value="#"/>">cancelar</a>
                                 </form>
                             </div>
                         </div>

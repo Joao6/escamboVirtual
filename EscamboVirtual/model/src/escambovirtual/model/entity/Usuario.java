@@ -21,6 +21,15 @@ public abstract class Usuario extends BaseEntity {
     private String sexo;
     private Long perfil;
     private Date data_cadastro;
+    private Imagem imagem;
+
+    public Imagem getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(Imagem imagem) {
+        this.imagem = imagem;
+    }
 
     public Date getData_cadastro() {
         return data_cadastro;

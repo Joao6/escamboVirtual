@@ -13,7 +13,17 @@
 <ul id="nav-mobile" class="side-nav fixed collapsible grey lighten-4" style="transform: translateX(0%);">
     <div style="margin-top: 15%;">
         <center>
-            <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>" height="100" width="100"></a>                        
+            <c:if test="${not empty anunciante.imagem}">                
+                <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/usuario/${anunciante.id}/img.jpg"/>" height="100" width="100"></a>                        
+            </c:if>
+            <c:if test="${empty anunciante.imagem}">
+                <c:if test="${anunciante.sexo == 'Masculino'}">                
+                    <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/resources/img/default-avatar_man.png"/>" height="100" width="100"></a>                        
+                </c:if>
+                <c:if test="${anunciante.sexo == 'Feminino'}">                
+                    <a href="<c:url value="/anunciante/home"/>"><img class="img circle" src="<c:url value="/resources/img/default-avatar_women.png"/>" height="100" width="100"></a>                        
+                </c:if>
+            </c:if>
             <br/>
             <br/>
             <strong>Olá, ${anunciante.apelido}!</strong>

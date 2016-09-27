@@ -8,8 +8,8 @@ import escambovirtual.model.base.BaseEntity;
  */
 public class Troca extends BaseEntity{
     
-    private Oferta oferta;
-    private String descricao;
+    private Oferta oferta;    
+    private String status;
 
     public Oferta getOferta() {
         return oferta;
@@ -19,11 +19,11 @@ public class Troca extends BaseEntity{
         this.oferta = oferta;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getStatus() {
+        return status;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

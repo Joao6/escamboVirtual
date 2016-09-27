@@ -21,6 +21,12 @@
 
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <script>
+            $(document).ready(function () {                
+                $('.modal-trigger').leanModal();
+            });
+        </script>
     </head>
 
     <body>
@@ -30,17 +36,17 @@
             <div class="modal-content">
                 <h4>Recuperar senha</h4>
                 <p>Digite o email referente a conta de usuário:</p>
-                <form method="post" action="usuario/recuperar-senha">                    
+                <form method="post" action="/web/usuario/recuperar-senha">                    
                     <input type="email" class="validate" id="inputRecuperarSenha" name="emailRecuperacao" required=""/>
                     <div class="modal-footer">
-                        <a href="#" class=" modal-close waves-effect waves-green btn brown" style="margin-left: 0.6rem;">Cancelar</a>                         
-                        <button type="submit" class="modal-action waves-effect waves-green btn blue">Enviar</button>
+                        <a href="#" class=" modal-close waves-effect btn brown" style="margin-left: 0.6rem;">Cancelar</a>                         
+                        <button type="submit" class="modal-action waves-effect btn blue">Enviar</button>
                     </div>
                 </form>
             </div>
         </div>
         <!--FIM MODAL-->
-        
+
         <!-- MODAL LOGIN-->
         <div class="modal" id="modalLogin">
             <div class="modal-content">
@@ -50,7 +56,7 @@
                             <h5>LOGIN</h5>
                             <div class="form divider"></div>
                         </div>
-                        <form style="overflow-x: hidden;" method="post" id="formLogin" name="formLogin" action="usuario/login">
+                        <form style="overflow-x: hidden;" method="post" id="formLogin" name="formLogin" action="/web/usuario/login">
                             <div class="row">
                                 <div class="input-field col s6">
                                     <i class="material-icons prefix">email</i>
@@ -83,38 +89,11 @@
                                 <a href="<c:url value="/anunciantes/novo"/>">Registrar</a>
                                 <span>||</span>
                                 <a href="<c:url value="#modalRecuperarSenha"></c:url>" class="modal-trigger">Esqueceu a senha?</a>
-                            </div>
-                        </form>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-           </div>
-        </div>             
-
-            <!--Import jQuery before materialize.js-->
-            <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
-        <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
-        <script src="<c:url value="/resources/js/init.js"/>"></script>
+            </div>                 
     </body>
-
-    <script>
-                                $(document).ready(function () {
-                                    $('.modal-trigger').leanModal();
-                                });
-
-                                $(document).ready(function () {
-                                    $("#formCadastrar .validate").blur(function () {
-                                        if ($(this).val() === "" || $(this).val === undefined)
-                                        {
-//                                                    $(this).css({"border": "1px solid #F00", "padding": "2px"});
-                                            Materialize.toast('Este campo é obrigatório!!', 4000, 'rounded red') // 4000 is the duration of the toast
-                                            $(this).css({"background-color": "rgba(255, 192, 206, 0.4)"});
-                                        } else {
-                                            $(this).css({"background-color": "#FFF"});
-                                        }
-                                    });
-
-                                });
-
-    </script>
-
 </html>

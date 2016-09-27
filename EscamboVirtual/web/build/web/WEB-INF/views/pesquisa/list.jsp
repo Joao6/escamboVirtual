@@ -18,39 +18,42 @@
         <link href="<c:url value="/resources/css/styleIndex.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <script>
+            $(document).ready(function () {
+                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                $('.modal-trigger').leanModal();
+            });
+        </script>
+
     </head>
     <body>
         <jsp:include page="../usuario/login.jsp"></jsp:include>
             <!-- NAVBAR -->
             <div class="navbar-fixed">
                 <nav class="" id="navbarTop">
-                    <div class="nav-wrapper">
-                        <a href="#!" class="brand-logo"></a>
-                        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons white-text">menu</i></a>
-                        <ul class="right hide-on-med-and-down">                                                
-                            <li><i class="material-icons">perm_identity</i></li>
-                            <li><a class='dropdown-button btn blue white-text' href='#' data-activates='dropdown1' style="margin-right: 30px;">Entrar</a></li>   
-                            <ul id='dropdown1' class='dropdown-content black-text'>                                
-                                <li><a href="#loginAnun" class="modal-trigger">Anunciante</a></li>
-                                <li class="divider"></li>                                
-                                <li><a href="#loginAdm" class="modal-trigger">Administrador</a></li>                                                                
-                            </ul>
-                        </ul>                                                
-                        <ul class="side-nav" id="mobile-demo">
-                            <li><a href="<c:url value="/usuario/login"></c:url>">Entrar</a></li>                        
-                        </ul>
-                    </div>
-                </nav>
-            </div>
-            <!-- FIM NAVBAR-->
+                    <div class="nav-wrapper container">
+                        <a id="logo-container" href="<c:url value="/"/>" class="brand-logo white-text">Escambo Virtual</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons white-text">menu</i></a>
+                    <ul class="right hide-on-med-and-down">                                                
+                        <li><i class="material-icons">perm_identity</i></li>
+                        <li><a class='modal-trigger btn blue white-text' href='#modalLogin' style="margin-right: 30px;">Entrar</a></li>                               
+                    </ul>                                                
+                    <ul class="side-nav" id="mobile-demo">
+                        <li><a href="#modalLogin">Entrar</a></li>                        
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- FIM NAVBAR-->
 
-            <div class="container">
-                <div class="card-panel">
-                    <div class="card-content">
-                        <form>                            
-                            <div class="row">
-                                <div class="input-field col s12 m6">
-                                    <input id="pesquisar" name="nomeCriterium" type="text" value="${nomeCriterium}"/>
+        <div class="container">
+            <div class="card-panel">
+                <div class="card-content">
+                    <form>                            
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <input id="pesquisar" name="nomeCriterium" type="text" value="${nomeCriterium}"/>
                                 <label for="pesquisar">Pesquise por nome de itens</label>
                             </div>   
                             <button type="submit" class="btn blue" style="margin-top: 25px;">Pesquisar</button>
@@ -69,7 +72,7 @@
                             <!--</div>-->
                             <!--</div>-->
                         </c:if>
-                            <h6><strong>Resultados encontrados:</strong> ${count}</h6>
+                        <h6><strong>Resultados encontrados:</strong> ${count}</h6>
                         <ul>
                             <c:forEach var="item" items="${itemList}">
                                 <a href="<c:url value="/item/${item.id}/view"></c:url>" class="black-text painelAnuncios">
@@ -98,20 +101,20 @@
                         <ul class="pagination center">
                             <c:if test="${offset > 0}">
                                 <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset - limit}"/>"><i class="material-icons">chevron_left</i></a></li>                            
-                            </c:if>
+                                </c:if>
 
                             <c:if test="${offset <= 0}">
                                 <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_left</i></a></li>                            
-                            </c:if>
+                                </c:if>
 
 
                             <c:if test="${(offset + limit) < count}">
                                 <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset + limit}"/>"><i class="material-icons">chevron_right</i></a></li>
-                            </c:if>
+                                </c:if>
 
-                                <c:if test="${(offset + limit) >= count}">
-                                    <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
-                            </c:if>
+                            <c:if test="${(offset + limit) >= count}">
+                                <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
+                                </c:if>
                         </ul>
                     </div>
                 </div>

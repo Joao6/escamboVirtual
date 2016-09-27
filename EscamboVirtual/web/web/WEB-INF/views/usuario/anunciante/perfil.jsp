@@ -139,7 +139,11 @@
                         <div class="input-field col s12 m6 l6">
                             <select name="estado" id="estado" class="browser-default" style="border-color: grey;" onchange="buscar_cidades()">
                                 <option value="" disabled="" selected="">Selecione o Estado</option>
-                                <option value="${localizacao.estado.id}" selected="">${localizacao.estado.nome}</option>
+                                <c:if test="${not empty localizacao}">
+                                    <c:if test="${not empty localizacao.estado}">
+                                        <option value="${localizacao.estado.id}" selected="">${localizacao.estado.nome}</option>
+                                    </c:if>
+                                </c:if>                                
                                 <c:forEach items="${estados}" var="estado">
                                     <option value="${estado.id}">${estado.nome}</option>
                                 </c:forEach>
@@ -147,7 +151,12 @@
                         </div>
                         <div id="load_cidades" class="input-field col s12 m6 l6">
                             <select name="cidade" id="cidade" class="browser-default" style="border-color: grey;">                                
-                                <option value="${localizacao.cidade.id}" selected="">${localizacao.cidade.nome}</option>
+                                <option value="" disabled="" selected="">Selecione o Estado primeiro</option>
+                                <c:if test="${not empty localizacao}">
+                                    <c:if test="${not empty localizacao.cidade}">
+                                        <option value="${localizacao.cidade.id}" selected="">${localizacao.cidade.nome}</option>
+                                    </c:if>
+                                </c:if>
                             </select>                            
                         </div>
                     </div>

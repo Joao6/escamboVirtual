@@ -34,25 +34,34 @@
         <script src="<c:url value="/resources/js/anunciante/values/anunciante-value.js"/>"></script>
         <!--MASCARA-->
         <script src="<c:url value="/resources/js/anunciante/mask-cadastro.js"/>"></script>
-
+        
+        <script>
+            $(document).ready(function () {
+                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                $('.modal-trigger').leanModal();
+            });
+        </script>
     </head>
 
     <body ng-controller="AnuncianteController">
-        <!-- TOP BAR -->
-        <nav class="grey darken-3" role="navigation">
-            <div class="nav-wrapper container">
-                <a id="logo-container" href="<c:url value="/"/>" class="brand-logo white-text">Escambo Virtual</a>
-                <ul class="right hide-on-med-and-down">
-                    <li><a class="white-text" href="<c:url value="#"/>">Entrar</a></li>
-                </ul>
-
-                <ul id="nav-mobile" class="side-nav">
-                    <li><a href="#">Entrar</a></li>
-                </ul>
-                <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-            </div>
-        </nav>
-        <!-- FIM TOP BAR -->
+        <jsp:include page="../login.jsp"></jsp:include>
+            <!-- NAVBAR -->
+            <div class="navbar-fixed">
+                <nav class="grey darken-3" id="navbarTop">
+                    <div class="nav-wrapper container">
+                        <a id="logo-container" href="<c:url value="/"/>" class="brand-logo white-text">Escambo Virtual</a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons white-text">menu</i></a>
+                    <ul class="right hide-on-med-and-down">                                                
+                        <li><i class="material-icons">perm_identity</i></li>
+                        <li><a class='modal-trigger btn blue white-text' href='#modalLogin' style="margin-right: 30px;">Entrar</a></li>                               
+                    </ul>                                                
+                    <ul class="side-nav" id="mobile-demo">
+                        <li><a href="#modalLogin">Entrar</a></li>                        
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <!-- FIM NAVBAR-->
 
         <!-- FORMULARIO -->           
         <div class="fundo-cadastro">
@@ -83,8 +92,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="input-field col s12 m6">
-                                        <input id="senha" name="senha" type="password" class="validate"  ng-model="anunciante.senha" required=""/>
-                                        <label for="senha">Senha</label>
+                                        <input id="senha1" name="senha" type="password" class="validate"  ng-model="anunciante.senha" required=""/>
+                                        <label for="senha1">Senha</label>
                                     </div>
                                     <div class="input-field col s12 m6">
                                         <input id="senha2" name="conSenha" type="password" class="validate" ng-blur="checkSenha()" required=""/>

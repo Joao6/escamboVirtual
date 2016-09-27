@@ -47,15 +47,17 @@
                         <div class="card-title white-text"><strong style="text-transform: uppercase;">Número de ofertas realizadas sobre este item: ${count}</strong></div>                        
                         <c:forEach items="${ofertaList}" var="oferta">
                             <div class="card-panel">
-                                <div class="card-panel z-depth-2">
+                                <div class="card-panel">
                                     <div class="card-title center"><strong style="text-transform: uppercase;">Oferta realizada sobre o item "${oferta.item.nome}", do anunciante "${oferta.item.anunciante.nome}"</strong></div>
                                 </div>
                                 <!--<div class="card-panel">-->
                                 <!--<div class="card-content">-->
                                 <div class="row">
-                                    <div class="card-title center"><strong style="text-transform: uppercase; text-decoration: underline;">Os itens que você incluiu nesta oferta foram:</strong></div>                            
+                                    <br/>
+                                    <div class="card-title center"><strong style="text-transform: uppercase; text-decoration: underline;">Os itens que você incluiu nesta oferta foram:</strong></div>   
+                                    <br/>
                                     <c:forEach items="${oferta.ofertaItem.itemList}" var="item">
-                                        <div class="card small col s12 m6 l6 z-depth-3">
+                                        <div class="card small col s12 m6 l6">
                                             <div class="card-image waves-effect waves-block waves-light">
                                                 <img class="activator" src="<c:url value="/resources/img/background3.jpg"/>">
                                             </div>

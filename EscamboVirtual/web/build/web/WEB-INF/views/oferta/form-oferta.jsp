@@ -34,7 +34,7 @@
             $(document).ready(function () {
                 $('.carousel').carousel();
             });
-            
+
             $(document).ready(function () {
                 // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
                 $('.modal-trigger').leanModal();
@@ -107,14 +107,15 @@
                                     <div class="row">
                                         <div ng-repeat="item in itensOferta" ng-model="ofertaItem.itemList">                                                
                                             <!--aqui vai aparecer os itens selecionados-->
-                                            <div class="card small col s12 m6 l6">
+                                            <div class="card small col s12 m6 l6">                                                
+                                                <i class="material-icons" ng-click="removeItemOferta(item.id)">close</i>
                                                 <div class="card-image waves-effect waves-block waves-light">
                                                     <img class="activator" src="<c:url value="/resources/img/background3.jpg"/>">
-                                                </div>
+                                                </div>                                                
                                                 <div class="card-content">
                                                     <span class="card-title activator grey-text text-darken-4">{{item.nome}}</span>
                                                     <br/>
-                                                    <span class="center-align">Clique sobre a imagem para ver informações</span>
+                                                    <span class="center-align" style="margin-bottom: 5%;">Clique na imagem para ver informações</span>
                                                 </div>
                                                 <div class="card-reveal">
                                                     <span class="card-title grey-text text-darken-4">Informações<i class="material-icons right">close</i></span>

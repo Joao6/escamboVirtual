@@ -23,9 +23,31 @@
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
+        
+        <script>
+            $(document).ready(function () {
+                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                $('.modal-trigger').leanModal();
+            });
+        </script> 
     </head>
     <body style="background-color: #b0bec5;">
-        <header>            
+        <header>             
+            <!--MODAL ACEITAR OFERTA-->
+            <div id="aceitarOferta" class="modal">
+                <div class="modal-content">
+                    <form method="post" action="/web/anunciante/oferta/${oferta.id}/aceitar">
+                        <h4>Aceitar Oferta e Realizar a Troca</h4>
+                        <p><strong>Atenção, após você aceitar esta oferta, os itens relacionados à mesma serão colocados no status "Aguardando a troca", 
+                                portanto não poderão mais ser visualizados por outros anunciantes que realizarem pesquisas no sistema.</strong></p>
+                        <p>Recomendamos que esta ação seja confirmada apenas quando a troca já tenha sido finalizada de fato.</p>
+                        <p>Com a sua confirmação, o anunciante que realizou esta oferta, será notificado que você a aceitou e poderá confirmar a troca dos itens.</p>
+                        <button class="btn blue waves-effect modal-close">Aceitar</button>
+                        <a class="btn brown waves-effect modal-close">Cancelar</a>
+                    </form>
+                </div>
+            </div>
+            <!--FIM MODAL-->
             <jsp:include page="/resources/templates/menu-lateral-anunciante.jsp"/>
 
             <div class="row" style="padding-left: 15%; padding-right: 15%;">
@@ -64,8 +86,8 @@
                             </c:forEach>
                         </div>
                         <div class="row">
-                            <a class="btn brown right" href="<c:url value="/anunciante/oferta/list"/>">Voltar</a>
-                            <button class="btn blue waves-effect right" style="margin-right: 0.6rem;">Aceitar Oferta</button>
+                            <a class="btn brown right" href="<c:url value="/anunciante/oferta/list"/>">Voltar</a>                            
+                            <a class="btn blue waves-effect right modal-trigger" href="#aceitarOferta" style="margin-right: 0.6rem;">Aceitar Oferta</a>
                         </div>
                     </div>
                 </div>

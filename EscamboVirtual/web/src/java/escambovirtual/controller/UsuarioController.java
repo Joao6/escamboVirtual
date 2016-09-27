@@ -70,23 +70,17 @@ public class UsuarioController {
         ModelAndView mv = new ModelAndView("/../../index");
         session.removeAttribute("usuarioSessao");
         return mv;
-    }
-
-    @RequestMapping(value = "/usuario/recuperar-senha", method = RequestMethod.GET)
-    public ModelAndView getRecuperarSenha() {
-        ModelAndView mv = new ModelAndView("usuario/recuperarSenha");
-        return mv;
-    }
+    }  
 
     @RequestMapping(value = "/usuario/recuperar-senha", method = RequestMethod.POST)
-    public ModelAndView recuperarSenha(String emailRecuperacao) throws Exception {
+    public ModelAndView recuperarSenha(String emailRecuperacao, HttpSession session) throws Exception {
         ModelAndView mv;
 
         UsuarioService s = new UsuarioService();
-        Usuario usuario = s.recuperarSenha(emailRecuperacao);
+        Usuario usuario = s.recuperarSenha(emailRecuperacao);        
 
         if (usuario != null) {
-            mv = new ModelAndView("redirect:/index");
+            mv = new ModelAndView("redirect:/index");            
         } else {
             mv = new ModelAndView("redirect:/index");
             mv.addObject("erro", 1);

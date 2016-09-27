@@ -179,8 +179,8 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/item"/>">Cancelar</a>
-                                <input type="submit" class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-right: 0.6rem;" value="Salvar" />&nbsp;
+                                <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/item"/>">Cancelar</a>                                
+                                <button class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-right: 0.6rem;">Salvar</button>
                             </div> 
                     </form>
                 </div>

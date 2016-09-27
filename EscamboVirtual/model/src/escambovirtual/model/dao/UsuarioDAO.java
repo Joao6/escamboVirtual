@@ -124,6 +124,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             usuario.setPerfil(rs.getLong("perfil"));
             usuario.setTelefone(rs.getString("telefone"));
             usuario.setData_cadastro(rs.getDate("data_cadastro"));
+            usuario.setImagem(getImagem(conn, id));
 
             if (usuario instanceof Anunciante) {
                 Anunciante anunciante = (Anunciante) usuario;
@@ -132,7 +133,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
                 Administrador administrador = (Administrador) usuario;
                 administrador.setCpf(rs.getString("administrador_cpf"));
             }
-        }
+        }        
         rs.close();
         ps.close();
         return usuario;
@@ -192,6 +193,7 @@ public class UsuarioDAO implements BaseDAO<Usuario> {
             usuario.setPerfil(rs.getLong("perfil"));
             usuario.setTelefone(rs.getString("telefone"));
             usuario.setData_cadastro(rs.getDate("data_cadastro"));
+            usuario.setImagem(getImagem(conn, usuario.getId()));
 
             if (usuario instanceof Anunciante) {
                 Anunciante anunciante = (Anunciante) usuario;

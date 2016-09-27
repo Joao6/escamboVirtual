@@ -135,6 +135,7 @@ public class AdministradorController {
         } else {
             mv = new ModelAndView("usuario/administrador/alterarsenha");
             mv.addObject("validSenha", errors);
+            mv.addObject("administrador", administrador);
         }
         return mv;
     }

@@ -35,6 +35,8 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
             console.log(e);
         }
     };
+    
+//    _getItensAnunciante();
 
     $scope.addItem = function (item) {
         if (item.id !== "" && item.id !== undefined) {
@@ -49,6 +51,19 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
         }
     };
 
+    $scope.removeItemOferta = function (id) {
+        if (id !== "" && id !== undefined) {
+            $scope.itensOferta = $scope.itensOferta.filter(function (a) {
+                if (a.id !== id) {
+                    return a;
+                } else {
+                    $scope.itensOferta.push(angular.copy(a));
+                    $scope.itensID.push(a.id);
+                }
+            });            
+        }
+    };
+
     $scope.createOferta = function (id) {
         try {
             OfertaService.createOferta($scope.itensID, id)
@@ -56,7 +71,7 @@ angular.module('ofertaApp').controller('OfertaController', function ($scope, Ofe
                         delete $scope.itensOferta;
                         delete $scope.itensID;
                         Materialize.toast(app.MESSAGE_SUCCESS_CREATE_OFERTA, 2000, 'green rounded toast', function () {
-                            window.location.href = window.location.protocol + "//" + window.location.host + "/web/anunciante/pesquisar/item/"+id+"/view";
+                            window.location.href = window.location.protocol + "//" + window.location.host + "/web/anunciante/pesquisar/item/" + id + "/view";
                         });
                         //redirecionar para lista de ofertas enviadas.
                     })

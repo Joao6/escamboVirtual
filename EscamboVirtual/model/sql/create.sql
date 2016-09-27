@@ -100,7 +100,7 @@ CREATE TABLE troca(
 	avaliacao_nivel_satisfacao INT,
 	avaliacao_data_hora TIMESTAMP,
 	avaliacao_descricao VARCHAR(255),
-	status INT NOT NULL,
+	status varchar(50) NOT NULL,
 	oferta_fk BIGINT NOT NULL,
 	PRIMARY KEY(oferta_fk)
 );

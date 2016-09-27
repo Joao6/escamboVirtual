@@ -72,7 +72,7 @@
 
                 var _checkSenha = function () {
                     try {
-                        var senha = document.getElementById('senha').value;
+                        var senha = document.getElementById('senha1').value;
                         var senha2 = document.getElementById('senha2').value;
                         if (senha === senha2) {
                             $("form #senha").css({"background-color": "rgba(0, 255, 0, 0.1)"});

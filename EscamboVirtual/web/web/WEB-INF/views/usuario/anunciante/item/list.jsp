@@ -70,6 +70,11 @@
                     <div class="right-align">
                         <a class="waves-effect waves-light btn blue" href="<c:url value="/anunciante/item/new"/>" style="margin-top: 1rem;">Cadastrar item</a>
                     </div>
+                        <c:if test="${empty itemList}">
+                            <div class="card-panel">
+                                <div class="card-title center" style="text-transform: uppercase;"><strong>Você ainda não possui itens cadastrados!</strong></div>
+                            </div>
+                        </c:if>
                     <table>
                         <tbody>
                             <c:forEach items="${itemList}" var="item">
@@ -111,7 +116,6 @@
                                                     </td>
                                                 </tr>
                                             </table>
-
                                         </div>
                                     </td>
                                 </tr>

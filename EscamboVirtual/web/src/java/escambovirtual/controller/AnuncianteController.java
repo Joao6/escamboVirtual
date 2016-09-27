@@ -11,11 +11,13 @@ import escambovirtual.model.entity.Estado;
 import escambovirtual.model.entity.Imagem;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
+import escambovirtual.model.entity.Oferta;
 import escambovirtual.model.service.AnuncianteService;
 import escambovirtual.model.service.CidadeService;
 import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.LocalizacaoService;
+import escambovirtual.model.service.OfertaService;
 import escambovirtual.model.service.SenhaService;
 import escambovirtual.model.service.UsuarioService;
 import java.util.ArrayList;
@@ -32,7 +34,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -193,7 +194,7 @@ public class AnuncianteController {
             us.setImagem(anunciante.getId(), imagem);
             anunciante.setImagem(imagem);
             session.setAttribute("anunciante", anunciante);
-            mv = new ModelAndView("redirect:/anunciante/perfil");            
+            mv = new ModelAndView("redirect:/anunciante/perfil");
         } catch (Exception e) {
             mv = new ModelAndView("error");
             mv.addObject("error", e);
@@ -233,6 +234,7 @@ public class AnuncianteController {
         } else {
             mv = new ModelAndView("usuario/anunciante/alterarsenha");
             mv.addObject("validSenha", errors);
+            mv.addObject("anunciante", anunciante);
         }
         return mv;
     }
@@ -270,7 +272,8 @@ public class AnuncianteController {
             }
 
         } catch (Exception e) {
-
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
         }
 
         return mv;
@@ -290,7 +293,7 @@ public class AnuncianteController {
                 SenhaService ss = new SenhaService();
                 anuncianteNew.setSenha(ss.convertPasswordToMD5(anuncianteNew.getSenha()));
                 s.create(anuncianteNew);
-                
+
                 response.setStatus(200);
             }
         } catch (Exception e) {
@@ -316,5 +319,5 @@ public class AnuncianteController {
             response.setStatus(500);
         }
         return itens;
-    }
+    }    
 }

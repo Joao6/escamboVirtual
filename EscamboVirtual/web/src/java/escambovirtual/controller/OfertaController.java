@@ -224,5 +224,19 @@ public class OfertaController {
             mv.addObject("error", e);
         }
         return mv;
+    }    
+    
+    //aceitar a oferta para realizar a troca
+    @RequestMapping(value = "/anunciante/oferta/{id}/aceitar", method = RequestMethod.POST)
+    public ModelAndView postAceitarOferta(HttpSession session){
+        ModelAndView mv = null;
+        try{
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+            mv = new ModelAndView("redirect:/anunciante/oferta/list");
+        }catch(Exception e){
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
     }
 }

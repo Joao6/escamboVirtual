@@ -102,12 +102,13 @@
                                             </tr>
                                             <tr>
                                                 <td><b>Descrição: </b><p>${item.descricao}</p></td>
-                                                <!--<td>${item.descricao}</td>--> 
+                                                <td></td>
                                             </tr>                                            
                                             <tr>
                                                 <td>
                                                     <h6><strong>*Faça login no sistema para utilizar todas as funcionalidades.</strong></h6>
-                                                </td>                                            
+                                                </td>  
+                                                <td></td>
                                             </tr>                                        
                                         </table>
 

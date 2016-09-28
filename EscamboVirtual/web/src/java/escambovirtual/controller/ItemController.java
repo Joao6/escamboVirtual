@@ -26,7 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ItemController {
 
     @RequestMapping(value = "/anunciante/item", method = RequestMethod.GET)
-    public ModelAndView getItem(Long toast, HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
+    public ModelAndView getItem(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception {
         ItemService s = new ItemService();
 
         Usuario usuario = (Anunciante) session.getAttribute("usuarioSessao");
@@ -35,14 +35,12 @@ public class ItemController {
         criteria.put(ItemCriteria.ID_USUARIO, usuario.getId());
 
         List<Item> itemList = s.readByCriteria(criteria, null, null);
+        Long count = s.countByCriteria(criteria, null, null);
 
         ModelAndView mv = new ModelAndView("usuario/anunciante/item/list");
         mv.addObject("itemList", itemList);
         mv.addObject("anunciante", usuario);
-        if (toast != null && toast > 0) {
-            mv.addObject("msg", ((Map<Long, String>) session.getAttribute("toasts")).get(toast));
-            ((Map<Long, String>) session.getAttribute("toasts")).remove(toast);
-        }
+        mv.addObject("count", count);
         return mv;
     }
 

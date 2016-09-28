@@ -161,7 +161,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-panel">
+<!--                            <div class="card-panel">
                                 <div class="card-content">
                                     <div class="row">
                                         <div class="card-title">                        
@@ -177,7 +177,7 @@
                                         </select>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="row">
                                 <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/item"/>">Cancelar</a>                                
                                 <button class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-right: 0.6rem;">Salvar</button>

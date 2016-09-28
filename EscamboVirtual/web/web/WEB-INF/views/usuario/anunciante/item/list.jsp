@@ -75,9 +75,12 @@
                                 <div class="card-title center" style="text-transform: uppercase;"><strong>Você ainda não possui itens cadastrados!</strong></div>
                             </div>
                         </c:if>
+                        <c:if test="${count > 0}">
+                            <h6 class="white-text"><strong>Você possui ${count} itens cadastrados</strong></h6>
+                        </c:if>
                     <table>
                         <tbody>
-                            <c:forEach items="${itemList}" var="item">
+                            <c:forEach items="${itemList}" var="item">                                
                                 <tr>
                                     <td>
                                         <div class="card-panel col s12 m12 l12 z-depth-2">
@@ -125,7 +128,6 @@
                 </div>
 
             </div>
-        </header>
-        ${msg}
+        </header>        
     </body>
 </html>

@@ -46,9 +46,9 @@
                     <div class="card-panel">
                         <div class="card-content">
                             <div class="card-content">
-                                <div class="card-panel cyan">
+                                <div class="card-panel">
                                     <div class="card-content">
-                                        <div class="card-title"><h6 class="center-align" style="text-transform: uppercase; text-decoration: underline;"><strong>Enviar mensagem ao anunciante deste item</strong></h6></div>
+                                        <div class="card-title"><h6 class="center-align" style="text-transform: uppercase;"><strong>Enviar mensagem ao anunciante deste item</strong></h6></div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -65,8 +65,8 @@
                                                 </div>
                                             </div>
                                             <!--<div class="row">-->
-                                            <button class="waves-effect waves-light btn blue right" style="margin-left: 0.6rem;">Enviar</button>
                                             <a class="waves-effect waves-light btn brown right" href="<c:url value="/anunciante/pesquisar/item/${item.id}/view"/>">Cancelar</a>
+                                            <button class="waves-effect waves-light btn blue right" style="margin-right: 0.6rem;">Enviar</button>
 
                                             <!--</div>-->
                                         </form>

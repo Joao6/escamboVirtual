@@ -84,6 +84,10 @@
                                             <td><b>Interesse 3: &nbsp;</b>${item.interesse3}</td>
                                         </tr>
                                         <tr>
+                                            <td><b>Telefone do Anunciante: </b>${item.anunciante.telefone}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
                                             <td><b>Descrição: </b><p>${item.descricao}</p></td>
                                             <!--<td>${item.descricao}</td>--> 
                                         </tr>

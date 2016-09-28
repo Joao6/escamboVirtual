@@ -49,7 +49,7 @@
                     </div>
                 </nav>
             </div>
-            <div class="row" style="padding-left:15%;padding-right: 15%;">
+            <div class="row" style="padding-left:15%;padding-right: 15%; margin-top: -2%;">
                 <form method="post" class="card-panel col s12 z-depth-2">
                     <div class="card-title">                        
                         <h5>Edição de Item</h5>

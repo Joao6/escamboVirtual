@@ -125,7 +125,7 @@
                                         </div>
                                     </div>                                   
                                     <a class="btn blue modal-trigger waves-effect" href="#modalOferta">Enviar oferta</a>
-                                    <a class="btn brown waves-effect" href="<c:url value="#"/>">cancelar</a>
+                                    <a class="btn brown waves-effect" href="<c:url value="/anunciante/pesquisar/item/${itemReceptor.id}/view"/>">cancelar</a>
                                 </form>
                             </div>
                         </div>

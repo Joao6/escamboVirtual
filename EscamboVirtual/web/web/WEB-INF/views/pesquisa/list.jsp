@@ -33,7 +33,7 @@
         </script>
 
     </head>
-    <body>
+    <body class="bodyBackground">
         <jsp:include page="../usuario/login.jsp"></jsp:include>
             <!-- NAVBAR -->
             <div class="navbar-fixed">
@@ -104,6 +104,7 @@
                                 </a>
                             </c:forEach>
                         </ul>
+                        <c:if test="${count > 0}">
                         <ul class="pagination center">
                             <c:if test="${offset > 0}">
                                 <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset - limit}"/>"><i class="material-icons">chevron_left</i></a></li>                            
@@ -122,6 +123,7 @@
                                 <li class="waves-effect"><a href="<c:url value="/item/search?nomeCriterium=${nomeCriterium}&limit=${limit}&offset=${offset}"/>"><i class="material-icons">chevron_right</i></a></li>
                                 </c:if>
                         </ul>
+                        </c:if>
                     </div>
                 </div>
 

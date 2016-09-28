@@ -34,8 +34,7 @@
                     <nav class="grey darken-3 card-panel col s12 z-depth-2">
                         <div class="nav-wrapper">
                             <div class="col s12">
-                                <a href="/web/administrador/home" class="breadcrumb">Home</a>                                
-                                <a href="#" class="breadcrumb"></a>                                
+                                <a href="/web/administrador/home" class="breadcrumb">Home</a>                                                                                                
                             </div>
                         </div>
                     </nav>

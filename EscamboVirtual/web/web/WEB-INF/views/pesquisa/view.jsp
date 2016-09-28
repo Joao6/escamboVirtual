@@ -38,7 +38,7 @@
         </script>
 
     </head>
-    <body>
+    <body class="bodyBackground">
         <jsp:include page="../usuario/login.jsp"></jsp:include>
             <!-- NAVBAR -->
             <div class="navbar-fixed">

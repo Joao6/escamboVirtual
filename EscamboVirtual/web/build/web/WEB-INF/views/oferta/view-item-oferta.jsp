@@ -52,7 +52,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <div class="card-panel col s12 m12 l12 z-depth-2">
+                                <div class="card-panel col s12 m12 l12 z-depth-2" style="margin-top: -4%;">
 
                                     <table class="bordered">
                                         <tr>                                               
@@ -88,9 +88,13 @@
                                             <td><b>Interesse 3: &nbsp;</b>${item.interesse3}</td>
                                         </tr>
                                         <tr>
+                                            <td><b>Telefone do Anunciante: </b>${item.anunciante.telefone}</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
                                             <td><b>Descrição: </b><p>${item.descricao}</p></td>
                                             <!--<td>${item.descricao}</td>--> 
-                                        </tr>
+                                        </tr>                                        
                                         <tr>
                                             <td class="right-align" colspan="4">
                                                 <a class="waves-effect waves-light btn blue col s12 m5 l5" href="<c:url value="/anunciante/comunicacao/item/${item.id}"/>">Enviar mensagem ao anunciante</a>                                        

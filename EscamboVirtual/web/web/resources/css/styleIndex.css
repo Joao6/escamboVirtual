@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : Joao
 */
 
-#bodyAnuncios {
+.bodyBackground {
     background-color: #e0e0e0;
     padding-bottom: 15px;
 }

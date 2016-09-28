@@ -16,10 +16,12 @@
         <!--Import materialize.css-->
         <link type="text/css" rel="stylesheet" href="<c:url value="/resources/css/materialize.min.css"/>"  media="screen,projection"/>
         <link href="<c:url value="/resources/css/style.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>
-        <link href="<c:url value="/resources/css/styleIndex.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>        
-        <link href="<c:url value="/resources/css/ghpages-materialize.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>        
+        <link href="<c:url value="/resources/css/styleIndex.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>                
+        
+        <link href="<c:url value="/resources/css/style.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>
+        <link href="<c:url value="/resources/css/anunciante/cadastro-anunciante.css"/>" type="text/css" rel="stylesheet" media="screen,projection"/>    
         <!--Let browser know website is optimized for mobile-->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>        
     </head>
 
     <body>
@@ -55,7 +57,7 @@
                                 <div id="formPesquisa" class="input-field col s6 black-text"> <!--Consertar -->
                                     <input id="icon_prefix" type="text" name="nomeCriterium" class="validate" placeholder="Pesquise por itens"> 
                                     <!--<a href="<c:url value="/escamboVirtual"/>" class="btn">Search</button></a>-->
-                                <button class="btn brown" type="submit">Pesquisar</button>
+                                <button class="btn blue" type="submit">Pesquisar</button>
                             </div>
                         </form>
                     </div>                 
@@ -68,7 +70,7 @@
         </div>
         <!-- FIM PARALLAX -->
 
-        <div id="bodyAnuncios">
+        <div class="bodyBackground">
 
             <br/>
             <br/>      
@@ -99,7 +101,7 @@
                                 <!--<img class="promo" src="images/metaphor.png">-->
                                 <i class="material-icons large">trending_up</i>                            
                                 <h4 class="center">Receba ofertas pelos seus itens</h4>
-                                <p class="light">Com o item anunciado é provável que ele chame a atenção de algum anunciante que poderá fazer ofertas pelo seu item. Logo você receberá essas ofertas, podendo aceitar uma delas e firmar uma troca!</p>
+                                <p class="light">Com o item anunciado é provável que ele chame a atenção de algum anunciante que poderá fazer ofertas pelo seu item. Logo, você receberá essas ofertas, podendo aceitar uma delas e firmar uma troca!</p>
                                 <br>
                             </div>
                         </div>
@@ -116,7 +118,7 @@
                             </div>
                             <div class="col s12 m9">
                                 <h4>João Pedro</h4>
-                                <p>João Pedro é um estudante de Sistemas de Informação, atualmente no 3° ano pela FAI. Trabalha como desenvolvedor.</p>
+                                <p class="light">João Pedro é estudante de Sistemas de Informação, atualmente no 3° ano pela FAI. Trabalha como desenvolvedor de software.</p>
                             </div>
                         </div>
 
@@ -128,7 +130,7 @@
                             </div>
                             <div class="col s12 m9">
                                 <h4>José Mauricio</h4>
-                                <p>Mauricio é estudante de Sistemas de Informação, atualmente no 3° ano pela FAI. Trabalha com desenvolvimento de software.</p>
+                                <p class="light">Mauricio é estudante de Sistemas de Informação, atualmente no 3° ano pela FAI. Trabalha com desenvolvimento de software.</p>
                             </div>
                         </div>
 
@@ -140,24 +142,25 @@
                             </div>
                             <div class="col s12 m9">
                                 <h4>Pedro Arvellos</h4>
-                                <p>Pedro é estudante de Sistemas de Informação, atualmente no 3° ano pela FAI. Trabalha como desenvolvedor de software.</p>
+                                <p class="light">Pedro é estudante de Sistemas de Informação, atualmente no 3° ano pela FAI. Trabalha como desenvolvedor de software.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
 
             <!-- RODAPÉ -->
             <footer class="page-footer blue darken-2">
-<!--                <div class="container">
+                <div class="container">
                     <div class="row">
-                        <div class="col l6 s12">
-                            <h5 class="white-text">Desenvolvedores</h5>
-                            <p class="grey-text text-lighten-4">O Escambo Virtual está sendo desenvolvido por uma equipe de três integrantes, sendo todos eles granduandos em Sistemas de Informação.</p>                                        
+                        <div class="col l12 s12">
+                            <h5 class="white-text">Fale conosco</h5>
+                            <p class="grey-text text-lighten-4">Entre em contato conosco através do email <strong>escambov@gmail.com</strong>, estamos à disposição para lhe atender!</p>                                        
                         </div>                        
                     </div>
-                </div>-->
+                </div>
                 <div class="footer-copyright">
                     <div class="container">
                         © 2016 Escambo Virtual. Todos os direitos reservados.                    

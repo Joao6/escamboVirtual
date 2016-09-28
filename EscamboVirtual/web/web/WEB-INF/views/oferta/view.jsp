@@ -23,7 +23,7 @@
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
-        
+
         <script>
             $(document).ready(function () {
                 // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
@@ -63,7 +63,7 @@
                     </nav>
                 </div>  
 
-                <div class="card-panel">
+                <div class="card-panel" style="margin-top: -2%;">
                     <div class="card-content">
                         <div class="card-panel">
                             <div class="card-title center">OFERTA ENVIANDA PELO ANUNCIANTE <strong>${anuncianteOferta.nome}</strong> PARA SEU ITEM <strong>${oferta.item.nome}</strong></div>

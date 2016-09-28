@@ -8,7 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
+import javax.websocket.server.PathParam;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,18 +46,38 @@ public class IndexController {
             mv.addObject("itemList", itemList);
             mv.addObject("count", count);
             mv.addObject("limit", limit);
-            mv.addObject("offset", offset);            
+            mv.addObject("offset", offset);
         } else {
             String redirect = "redirect:/item/search?";
-            if(nomeCriterium != null){
-                redirect += "nomeCriterium="+nomeCriterium+"&";
+            if (nomeCriterium != null) {
+                redirect += "nomeCriterium=" + nomeCriterium + "&";
             }
-            
-            if(limit == null){
-                redirect += "limit="+AppConstraints.LIMIT_DEFAULT + "&offset=0";
+
+            if (limit == null) {
+                redirect += "limit=" + AppConstraints.LIMIT_DEFAULT + "&offset=0";
             }
-            mv = new ModelAndView(redirect);            
+            mv = new ModelAndView(redirect);
         }
+        return mv;
+    }
+
+    @RequestMapping(value = "/item/{id}/view", method = RequestMethod.GET)
+    public ModelAndView getItemView(@PathVariable Long id) {
+        ModelAndView mv = null;
+        try {
+            ItemService s = new ItemService();
+            Item item = s.readById(id);
+            if (item != null) {
+                mv = new ModelAndView("pesquisa/view");
+                mv.addObject("item", item);
+            } else {
+                mv = new ModelAndView("usuario/item-not-found");
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+
         return mv;
     }
 }

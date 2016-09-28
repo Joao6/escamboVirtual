@@ -2,6 +2,7 @@ package escambovirtual.model.service;
 
 import escambovirtual.model.ConnectionManager;
 import escambovirtual.model.base.service.BaseOfertaService;
+import escambovirtual.model.dao.ItemDAO;
 import escambovirtual.model.dao.OfertaDAO;
 import escambovirtual.model.entity.Oferta;
 import java.sql.Connection;
@@ -73,7 +74,18 @@ public class OfertaService implements BaseOfertaService {
 
     @Override
     public Long countByCriteria(Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        Long count = null;
+        try {
+            OfertaDAO dao = new OfertaDAO();
+            count = dao.countByCriteria(conn, criteria, limit, offset);
+            conn.commit();
+            conn.close();
+        } catch (Exception e) {
+            conn.rollback();
+            conn.close();
+        }
+        return count;
     }
 
 }

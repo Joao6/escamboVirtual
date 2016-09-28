@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import escambovirtual.constraints.AppConstraints;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.LocalizacaoCriteria;
+import escambovirtual.model.criteria.OfertaCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Cidade;
 import escambovirtual.model.entity.Estado;
@@ -204,9 +205,26 @@ public class AnuncianteController {
 
     @RequestMapping(value = "/anunciante/home", method = RequestMethod.GET)
     public ModelAndView anuncianteHome(HttpSession session) {
-        Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
-        ModelAndView mv = new ModelAndView("usuario/anunciante/home");
-        mv.addObject("anunciante", anunciante);
+        ModelAndView mv = null;
+        try {
+            Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
+            ItemService s = new ItemService();
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(ItemCriteria.ID_USUARIO, anunciante.getId());
+            Long countItem = s.countByCriteria(criteria, null, null);
+            OfertaService os = new OfertaService();
+            criteria = new HashMap<>();
+            criteria.put(OfertaCriteria.ANUNCIANTE_ID, anunciante.getId());
+            Long countOferta = os.countByCriteria(criteria, null, null);
+            mv = new ModelAndView("usuario/anunciante/home");
+            mv.addObject("anunciante", anunciante);
+            mv.addObject("countItem", countItem);            
+            mv.addObject("countOferta", countOferta);            
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+
         return mv;
     }
 
@@ -319,5 +337,5 @@ public class AnuncianteController {
             response.setStatus(500);
         }
         return itens;
-    }    
+    }
 }

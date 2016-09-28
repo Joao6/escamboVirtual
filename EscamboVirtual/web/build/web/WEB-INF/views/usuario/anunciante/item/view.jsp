@@ -48,7 +48,7 @@
                     <tbody>
                         <tr>
                             <td>
-                                <div class="card-panel col s12 m12 l12 z-depth-2">
+                                <div class="card-panel col s12 m12 l12 z-depth-2" style="margin-top: -2%;">
 
                                     <table class="bordered">
                                         <tr>                                               

@@ -30,24 +30,76 @@
         <header>
             <jsp:include page="/resources/templates/menu-lateral-anunciante.jsp"/>
 
-            <div class="row" style="padding-left: 10%; padding-right: 10%;">         
+            <div class="row" style="padding-left: 15%; padding-right: 15%;">    
                 <div class="row">
-                    <div class="col s12 m12 l12">
-                        <div class="card">
-                            <div class="card-image">
-                                <img src="<c:url value="/resources/img/background1.jpg"/>">                                
+                    <nav class="grey darken-3 card-panel col s12 z-depth-2">
+                        <div class="nav-wrapper">
+                            <div class="col s12">
+                                <a href="/web/administrador/home" class="breadcrumb">Home</a>                                
+                                <a href="#" class="breadcrumb"></a>                                
                             </div>
-                            <div class="card-content">
-                                <p>I am a very simple card. I am good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.
-                                good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.
-                                good at containing small bits of information.
-                                    I am convenient because I require little markup to use effectively.</p>
-                            </div>                            
                         </div>
-                    </div>
-                </div>            
+                    </nav>
+                </div>
+
+                <c:if test="${countItem > 0}">
+                    <div class="row" style="margin-top: -2%;">
+                        <div class="card-panel">
+                            <div class="card-content">
+                                <table class="bordered">
+                                    <tr>                                               
+                                        <td colspan="4">
+                                            <div class="card-title">                        
+                                                <h5>Algumas informações da sua conta</h5>                                                            
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="" class="center"><img class="z-depth-2" src="<c:url value="/resources/img/estatisticas.png"/>" height="250" width="250"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Número de itens cadastrados: </b>${countItem}</td>                                                    
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Número de ofertas recebidas: </b><c:if test="${not empty countOferta}">${countOferta}</c:if><c:if test="${empty countOferta}">Nenhuma até o momento</c:if></td>
+                                        </tr>
+                                        <tr>
+                                            <td><b>Número de trocas realizadas: </b>Nenhuma até o momento</td>
+                                        </tr>                                
+                                    </table>
+                                </div>
+                            </div>
+                        </div>  
+                </c:if>
+                <c:if test="${countItem == 0}">
+                    <div class="row" style="margin-top: -2%;">
+                        <div class="card-panel">
+                            <div class="card-content">
+                                <table class="bordered">
+                                    <tr>                                               
+                                        <td colspan="4">
+                                            <div class="card-title">                        
+                                                <h5>Seja bem vindo(a)!</h5>                                                            
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="4" class=""><img class="z-depth-2" src="<c:url value="/resources/img/cadastrar.png"/>" height="250" width="250"></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Você ainda não possui itens cadastrados</b></td>                                                    
+                                    </tr> 
+                                    <tr>
+                                        <td><b>Cadastre itens para utilizar nossas funcionalidades</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td><a href="<c:url value="/anunciante/item/new"/>" class="btn blue center btn-large">Cadastrar Item</a></td>
+                                        </tr>                                
+                                    </table>
+                                </div>
+                            </div>
+                        </div>  
+                </c:if>
             </div>
         </header>
     </body>

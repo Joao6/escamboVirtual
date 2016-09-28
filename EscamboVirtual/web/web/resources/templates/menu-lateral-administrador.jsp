@@ -1,8 +1,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<nav class="top-nav light-blue darken-3">
+<nav class="light-blue darken-3">
     <div class="container">
-        <div class="nav-wrapper center-align"><a class="page-title">Escambo Virtual</a></div>
+        <div class="nav-wrapper center-align"><a class="page-title" style="font-size: 18pt;">Escambo Virtual</a></div>
     </div>
 </nav>
 <div class="container">

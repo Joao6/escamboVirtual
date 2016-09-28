@@ -44,7 +44,7 @@
 
             <!-- PARALLAX -->
             <div class="parallax-container">
-                <div class="parallax"><img src="resources/img/Slide-12.png"></div>
+                <div class="parallax"><img src="resources/img/teste.png"></div>
                 <div class="caption center-align">
                     <div class="row">
 
@@ -55,7 +55,7 @@
                                 <div id="formPesquisa" class="input-field col s6 black-text"> <!--Consertar -->
                                     <input id="icon_prefix" type="text" name="nomeCriterium" class="validate" placeholder="Pesquise por itens"> 
                                     <!--<a href="<c:url value="/escamboVirtual"/>" class="btn">Search</button></a>-->
-                                <button class="btn brown" type="submit">Search</button>
+                                <button class="btn brown" type="submit">Pesquisar</button>
                             </div>
                         </form>
                     </div>                 
@@ -107,11 +107,11 @@
 
                     <div class="card-panel">
                         <div class="row">
-                            <h3 style="text-decoration: underline;">Os desenvolvedores</h3>
+                            <h3>Os desenvolvedores</h3>
                             <br/>
                             <div class="col s12 m3 center-on-small-only">
                                 <div class="image-container">
-                                    <img class="circle img" src="<c:url value="/resources/img/joao.jpg"/>" width="150" height="150">
+                                    <img class="circle img" src="<c:url value="/resources/img/joao.jpg"/>" width="100" height="100">
                                 </div>
                             </div>
                             <div class="col s12 m9">
@@ -123,7 +123,7 @@
                         <div class="row">
                             <div class="col s12 m3 center-on-small-only">
                                 <div class="image-container">
-                                    <img class="circle img" src="<c:url value="/resources/img/mauricio.jpg"/>" width="150" height="150">
+                                    <img class="circle img" src="<c:url value="/resources/img/mauricio.jpg"/>" width="100" height="100">
                                 </div>
                             </div>
                             <div class="col s12 m9">
@@ -135,7 +135,7 @@
                         <div class="row">
                             <div class="col s12 m3 center-on-small-only">
                                 <div class="image-container">
-                                    <img class="circle img" src="<c:url value="/resources/img/pedro.jpg"/>" width="150" height="150">
+                                    <img class="circle img" src="<c:url value="/resources/img/pedro.jpg"/>" width="100" height="100">
                                 </div>
                             </div>
                             <div class="col s12 m9">

@@ -248,7 +248,15 @@ public class OfertaDAO implements BaseDAO<Oferta> {
 
     @Override
     public Long countByCriteria(Connection conn, Map<Long, Object> criteria, Long limit, Long offset) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Long count = null;
+        String sql = "SELECT count(*) count FROM oferta left join item on item.id=oferta.item_fk left join anunciante on anunciante.usuario_fk=item.usuario_fk left join usuario on usuario.id=anunciante.usuario_fk WHERE 1=1";
+        sql += applyCriteria(conn, criteria);
+        PreparedStatement ps = conn.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            count = rs.getLong("count");
+        }        
+        return count;
     }
 
 }

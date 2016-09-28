@@ -70,9 +70,28 @@ public class AdministradorController {
 
     @RequestMapping(value = "/administrador/home", method = RequestMethod.GET)
     public ModelAndView homeAdministrador(HttpSession session) {
-        Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
-        ModelAndView mv = new ModelAndView("usuario/administrador/home");
-        mv.addObject("administrador", adm);
+        ModelAndView mv = null;
+        try {
+            Administrador adm = (Administrador) session.getAttribute("usuarioSessao");
+            Map<Long, Object> criteria = new HashMap<>();
+            criteria.put(ItemCriteria.STATUS_EQ, "Publicar");
+            ItemService s = new ItemService();
+            Long itemPublicado = s.countByCriteria(criteria, null, null);
+            criteria = new HashMap<>();
+            criteria.put(ItemCriteria.STATUS_EQ, "Em Avaliação");
+            Long itemAvaliacao = s.countByCriteria(criteria, null, null);
+            AdministradorService ad = new AdministradorService();
+            Long countAdm = ad.countByCriteria(null, null, null);
+            mv = new ModelAndView("usuario/administrador/home");
+            mv.addObject("administrador", adm);
+            mv.addObject("itemPublicado", itemPublicado);
+            mv.addObject("itemAvaliacao", itemAvaliacao);
+            mv.addObject("countAdmin", countAdm);
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+
         return mv;
     }
 

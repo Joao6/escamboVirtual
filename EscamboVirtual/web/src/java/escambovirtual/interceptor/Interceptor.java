@@ -56,7 +56,7 @@ public class Interceptor implements HandlerInterceptor {
             }
         }
 
-        if (!url.endsWith("/web/index") && !url.endsWith("/usuario/login") && !url.endsWith("/anunciantes/novo") && !url.endsWith("item/search") && !url.endsWith("/anunciante/create/api") && !url.endsWith("/usuario/check/email") && !url.endsWith("/usuario/recuperar-senha")) {
+        if (!url.endsWith("/web/index") && !url.endsWith("/usuario/login") && !url.endsWith("/anunciantes/novo") && !url.endsWith("item/search") && !url.endsWith("/anunciante/create/api") && !url.endsWith("/usuario/check/email") && !url.endsWith("/usuario/recuperar-senha") && !url.endsWith("/view")) {
             if (req.getSession().getAttribute("usuarioSessao") == null) {
                 req.getSession().setAttribute("urlDesejada", url);
                 res.sendRedirect("/web/index");

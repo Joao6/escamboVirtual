@@ -4,6 +4,7 @@ import escambovirtual.model.ConnectionManager;
 import escambovirtual.model.base.service.BaseItemService;
 import escambovirtual.model.dao.ItemDAO;
 import escambovirtual.model.entity.Item;
+import escambovirtual.model.entity.ItemImagem;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,13 @@ public class ItemService implements BaseItemService {
         try {
             ItemDAO dao = new ItemDAO();
             dao.create(conn, entity);
+            List<ItemImagem> itemImagemList = entity.getItemImagemList();
+            if (itemImagemList != null) {
+                for (ItemImagem itemImagem : itemImagemList) {
+                    itemImagem.setItem(entity);
+                    dao.createImage(conn, itemImagem);
+                }
+            }
             conn.commit();
             conn.close();
         } catch (Exception e) {
@@ -36,6 +44,7 @@ public class ItemService implements BaseItemService {
         try {
             ItemDAO dao = new ItemDAO();
             item = dao.readById(conn, id);
+            item.setItemImagemList(dao.readImagesHashByItemId(conn, item.getId()));
             conn.close();
         } catch (Exception e) {
             conn.rollback();
@@ -51,6 +60,11 @@ public class ItemService implements BaseItemService {
         try {
             ItemDAO dao = new ItemDAO();
             itemList = dao.readByCriteria(conn, criteria, limit, offset);
+            if (itemList != null) {
+                for (Item item : itemList) {
+                    item.setItemImagemList(dao.readImagesHashByItemId(conn, item.getId()));
+                }
+            }
             conn.commit();
             conn.close();
         } catch (Exception e) {
@@ -107,6 +121,22 @@ public class ItemService implements BaseItemService {
             conn.close();
         }
         return count;
+    }
+
+    public ItemImagem readImageByHash(String hash) throws Exception {
+
+        ItemImagem itemImagem = null;
+
+        Connection conn = ConnectionManager.getInstance().getConnection();
+        try {
+            ItemDAO dao = new ItemDAO();
+            itemImagem = dao.readImageByHash(conn, hash);
+            conn.close();
+        } catch (Exception e) {
+            conn.close();
+        }
+
+        return itemImagem;
     }
 
 }

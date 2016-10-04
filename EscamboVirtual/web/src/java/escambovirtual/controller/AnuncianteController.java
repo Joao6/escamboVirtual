@@ -190,6 +190,7 @@ public class AnuncianteController {
             Anunciante anunciante = (Anunciante) session.getAttribute("usuarioSessao");
             //IMAGEM DO USUARIO
             Imagem imagem = new Imagem();
+            imagem.setContentType(file.getContentType());
             imagem.setConteudo(file.getBytes());
             UsuarioService us = new UsuarioService();
             us.setImagem(anunciante.getId(), imagem);

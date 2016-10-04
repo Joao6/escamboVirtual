@@ -32,8 +32,7 @@
 
             function setId(id) {
                 document.getElementById('delete-item').value = id;
-            }
-            ;
+            };
         </script>
     </head>
     <body style="background-color: #b0bec5;">
@@ -49,9 +48,9 @@
                         <input type="hidden" name="idItem" value="" id="delete-item">
                         </div>
                         <div class="modal-footer">
-                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn brown">Cancelar</a>
+                            <a href="#!" class=" modal-action modal-close waves-effect waves-green btn blue">Cancelar</a>
                             <!--<a href="/anunciante/item//del" id="delete-item" class=" modal-action modal-close waves-effect waves-green btn blue" style="margin-right: 0.6rem;">Excluir</a>-->
-                            <button class="btn blue modal-close" style="margin-right: 0.6rem;">Excluir</button>
+                            <button type="submit" class="btn red modal-close" style="margin-right: 0.6rem;">Confirmar</button>
                     </form>
                 </div>
             </div>
@@ -70,14 +69,14 @@
                     <div class="right-align">
                         <a class="waves-effect waves-light btn blue" href="<c:url value="/anunciante/item/new"/>" style="margin-top: 1rem;">Cadastrar item</a>
                     </div>
-                        <c:if test="${empty itemList}">
-                            <div class="card-panel">
-                                <div class="card-title center" style="text-transform: uppercase;"><strong>Você ainda não possui itens cadastrados!</strong></div>
-                            </div>
-                        </c:if>
-                        <c:if test="${count > 0}">
-                            <h6 class="white-text"><strong>Você possui ${count} itens cadastrados</strong></h6>
-                        </c:if>
+                    <c:if test="${empty itemList}">
+                        <div class="card-panel">
+                            <div class="card-title center" style="text-transform: uppercase;"><strong>Você ainda não possui itens cadastrados!</strong></div>
+                        </div>
+                    </c:if>
+                    <c:if test="${count > 0}">
+                        <h6 class="white-text"><strong>Você possui ${count} itens cadastrados</strong></h6>
+                    </c:if>
                     <table>
                         <tbody>
                             <c:forEach items="${itemList}" var="item">                                
@@ -94,7 +93,20 @@
                                                     </td>                                        
                                                 </tr>                                    
                                                 <tr>
-                                                    <td rowspan="4"><img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200"></td>
+                                                    <td rowspan="4">
+                                                        <c:if test="${empty item.itemImagemList}">
+                                                            <img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">
+                                                        </c:if>
+                                                        <c:if test="${not empty item.itemImagemList}">
+                                                            <div class="carousel" style="margin-top: -10%; margin-bottom: -20%;">
+                                                                <c:forEach items="${item.itemImagemList}" var="itemImagem">
+                                                                    <a class="carousel-item" href="#one!">
+                                                                        <img src="<c:url value="/anunciante/item/img/${itemImagem.hash}"/>" height="200" width="200">
+                                                                    </a>                                        
+                                                                </c:forEach>
+                                                            </div>
+                                                        </c:if>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td><b>Data de Publicação: &nbsp;</b>${item.dataCadastro}</td>

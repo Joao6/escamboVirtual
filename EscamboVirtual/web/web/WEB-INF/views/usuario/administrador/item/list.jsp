@@ -23,9 +23,46 @@
         <script type="text/javascript" src="<c:url value="/resources/js/jquery-2.1.1.min.js"/>"></script>
         <script type="text/javascript" src="<c:url value="/resources/js/materialize.min.js"/>"></script>
         <script src="<c:url value="/resources/js/init.js"/>"></script>
+        <script>
+            $(document).ready(function () {
+                $('.carousel').carousel();
+            });
+
+            $(document).ready(function () {
+                // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+                $('.modal-trigger').leanModal();
+            });
+
+            function setId(id) {
+                document.getElementById('item-id').value = id;
+            }
+            ;
+        </script>
     </head>
     <body style="background-color: #b0bec5;">
         <header>
+            <!--MODAL NÂO PUBLICAR ITEM-->
+            <div id="modalNaoPublicar" class="modal">
+                <div class="modal-content">
+                    <h4>Não publicar Item</h4>
+                    <p><strong>Descreva abaixo o motivo da não aprovação da publicação deste item</strong></p>
+                    <form action="/web/administrador/item/nao-publicar" method="post">
+                        <input type="hidden" name="idItem" value="" id="item-id">
+                        <div class="row">                            
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <textarea name="motivo" id="motivo" class="materialize-textarea" placeholder="Esta descrição será enviada ao anunciante responsável pelo item"></textarea>
+                                    <label for="motivo">Descrição</label>
+                                </div>
+                            </div>                            
+                        </div>
+                        <button type="submit" class="btn red modal-close" style="margin-right: 0.6rem;">Confirmar</button>
+                        <a href="#!" class="modal-action modal-close waves-effect waves-green btn brown">Cancelar</a>                            
+                    </form>
+                </div>
+            </div>
+            <!--FIM MODAL-->
+
             <jsp:include page="/resources/templates/menu-lateral-administrador.jsp"/>
 
             <div class="row" style="padding-left: 15%; padding-right: 15%;">
@@ -54,7 +91,7 @@
                         </div>
                     </div>
                 </c:if>
-                
+
                 <c:if test="${not empty itemList}">
                     <div class="card-panel grey darken-3" style="margin-top: -2%;">
                         <div class="card-content">
@@ -65,56 +102,57 @@
                                         <tr>
                                             <td>
                                                 <c:if test="${item.status == 'Em Avaliação'}">
-                                                    <div class="card-panel col s12 z-depth-2">
-                                                        <form method="post" action="/web/administrador/item/${item.id}/edit">
-                                                            <table class="bordered">
-                                                                <tr>                                               
-                                                                    <td  colspan="4">
-                                                                        <div class="card-title">                        
-                                                                            <h5>${item.nome}</h5>
-                                                                            <!--<div class="form divider"></div>-->
+                                                    <div class="card-panel col s12 z-depth-2">                                                        
+                                                        <table class="bordered">
+                                                            <tr>                                               
+                                                                <td  colspan="4">
+                                                                    <div class="card-title">                        
+                                                                        <h5>${item.nome}</h5>
+                                                                        <!--<div class="form divider"></div>-->
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="5">
+                                                                    <c:if test="${empty item.itemImagemList}">
+                                                                        <img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">
+                                                                    </c:if>
+                                                                    <c:if test="${not empty item.itemImagemList}">
+                                                                        <div class="carousel" style="margin-top: -10%; margin-bottom: -15%;">
+                                                                            <c:forEach items="${item.itemImagemList}" var="itemImagem">
+                                                                                <a class="carousel-item" href="#one!">
+                                                                                    <img src="<c:url value="/anunciante/item/img/${itemImagem.hash}"/>" height="200" width="200">
+                                                                                </a>                                        
+                                                                            </c:forEach>
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="3"><b>ID Item: &nbsp;</b>${item.id}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td rowspan="4"><img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200"></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><b>Anunciante: &nbsp;</b>${item.anunciante.nome}</td>
-                                                                    <td><b>Interesse 1: &nbsp;</b>${item.interesse1}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><b>Data de Aquisição: &nbsp;</b>${item.dataAquisicao}</td>
-                                                                    <td><b>Interesse 2: &nbsp;</b>${item.interesse2}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><b>Status: &nbsp;</b>${item.status}</td>                                                        
-                                                                    <td><b>Interesse 3: &nbsp;</b>${item.interesse3}</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><b>Descrição: </b></td>
-                                                                    <td colspan="3">${item.descricao}</td> 
-                                                                </tr>                                                    
-                                                                <tr>
-                                                                    <td><b>Status</b></td>
-                                                                    <td>
-                                                                        <select name="status" class="browser-default" style="border-color: grey;">
-                                                                            <option value="${item.status}" selected="">${item.status}</option>
-                                                                            <option value="Publicar">Publicar</option>
-                                                                            <option value="Cancelar Publicação">Cancelar Publicação</option>
-                                                                        </select>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td colspan="3" class="right-align">                                                            
-                                                                        <button class="waves-effect waves-light btn right blue">Salvar</button>            
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </form>
+                                                                    </c:if>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Anunciante: &nbsp;</b>${item.anunciante.nome}</td>
+                                                                <td><b>Interesse 1: &nbsp;</b>${item.interesse1}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Data de Aquisição: &nbsp;</b>${item.dataAquisicao}</td>
+                                                                <td><b>Interesse 2: &nbsp;</b>${item.interesse2}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Status: &nbsp;</b>${item.status}</td>                                                        
+                                                                <td><b>Interesse 3: &nbsp;</b>${item.interesse3}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td><b>Descrição: </b></td>
+                                                                <td colspan="3">${item.descricao}</td> 
+                                                            </tr>                                                    
+                                                            <tr>                                                                    
+                                                                <td class="center-align">
+                                                                    <a class="btn waves-effect blue" href="<c:url value="/administrador/item/${item.id}/publicar"/>">Publicar</a>                                                                        
+                                                                </td>
+                                                                <td class="centr-align">
+                                                                    <a class="btn waves-effect red modal-trigger" href="<c:url value="#modalNaoPublicar"/>" onclick="setId(${item.id})">Não Publicar</a>
+                                                                </td>
+                                                            </tr>                                                                
+                                                        </table>                                                        
                                                     </div>
                                                 </c:if>
                                             </td>

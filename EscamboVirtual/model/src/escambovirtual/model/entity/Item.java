@@ -1,8 +1,6 @@
 package escambovirtual.model.entity;
 
 import escambovirtual.model.base.BaseEntity;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -16,11 +14,12 @@ public class Item extends BaseEntity {
     private String status;
     private String descricao;
     private Anunciante anunciante;
-    private String dataCadastro;    
-    private List<PalavraChave> palavraChave; 
+    private String dataCadastro;
+    private List<PalavraChave> palavraChave;
     private String interesse1;
     private String interesse2;
     private String interesse3;
+    private List<ItemImagem> itemImagemList;
 
     public String getNome() {
         return nome;
@@ -54,8 +53,6 @@ public class Item extends BaseEntity {
         this.dataAquisicao = dataAquisicao;
     }
 
-    
-
     public Anunciante getAnunciante() {
         return anunciante;
     }
@@ -70,7 +67,7 @@ public class Item extends BaseEntity {
 
     public void setDataCadastro(String dataCadastro) {
         this.dataCadastro = dataCadastro;
-    }    
+    }
 
     public List<PalavraChave> getPalavraChave() {
         return palavraChave;
@@ -104,8 +101,12 @@ public class Item extends BaseEntity {
         this.interesse3 = interesse3;
     }
 
-  
-    
-    
+    public List<ItemImagem> getItemImagemList() {
+        return itemImagemList;
+    }
+
+    public void setItemImagemList(List<ItemImagem> itemImagemList) {
+        this.itemImagemList = itemImagemList;
+    }
 
 }

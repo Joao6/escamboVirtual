@@ -1,8 +1,6 @@
 package escambovirtual.controller;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.sun.org.glassfish.gmbal.ParameterNames;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.criteria.OfertaCriteria;
 import escambovirtual.model.entity.Anunciante;

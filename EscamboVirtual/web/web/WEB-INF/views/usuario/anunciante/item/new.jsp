@@ -20,13 +20,26 @@
 
         <!--SCRIPTS-->
         <script>
-            document.getElementById("file").onchange = function () {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    document.getElementById("image").src = e.target.result;
-                };
-                reader.readAsDataURL(this.files[0]);
-            };
+//            document.getElementById("file").onchange = function () {
+//                var reader = new FileReader();
+//                reader.onload = function (e) {
+//                    document.getElementById("image").src = e.target.result;
+//                };
+//                reader.readAsDataURL(this.files[0]);
+//            };
+
+            function carregaImagem(input, id) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        $('#' + id).attr('src', e.target.result);
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+            ;
         </script>
         <style>
             .active{
@@ -59,7 +72,7 @@
             </div>
             <div class="row" style="padding-left:15%;padding-right: 15%; margin-top: -2%;">
                 <div class="card-panel col s12 z-depth-2 grey darken-3">
-                    <form method="post">                    
+                    <form method="post" enctype="multipart/form-data">                    
                         <div class="card-content" style="padding-top: 1%;">                        
                             <div class="card-panel">
                                 <div class="card-content">
@@ -128,60 +141,78 @@
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img class="card-panel col s12 z-depth-2 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                                    <img class="card-panel col s12 z-depth-2 responsive-img" id="imagem1" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                                                 </td>
                                                 <td>
-                                                    <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                                    <img class="card-panel col s12 responsive-img" id="imagem2" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                                                 </td>
                                                 <td>
-                                                    <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                                    <img class="card-panel col s12 responsive-img" id="imagem3" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                                                 </td>
                                                 <td>
-                                                    <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                                    <img class="card-panel col s12 responsive-img" id="imagem4" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                                                 </td>
                                                 <td>
-                                                    <img class="card-panel col s12 responsive-img" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
+                                                    <img class="card-panel col s12 responsive-img" id="imagem5" style="margin: 1%;" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">    
                                                 </td>
                                             </tr>
                                         </table>
                                     </div>
                                     <div class="row">
-
-                                        <img class="responsive-img" id="image" name="image" src="">
-
+                                        <!--<img class="responsive-img" id="image" name="image" src="">-->
                                         <div class="file-field input-field">
-                                            <div class="btn blue">
-                                                <span>Adicionar imagens</span>
-                                                <input type="file" id="file" multiple>
+                                            <div class="btn blue col s12 m2 l2">
+                                                <span>+ imagem</span>
+                                                <input type="file" name="file1" id="file1" onchange="carregaImagem(this, 'imagem1')">
                                             </div>
                                             <div class="file-path-wrapper">
-                                                <input class="file-path validate" type="text" placeholder="Adicione as imagens do seu item">
-                                            </div>
+                                                <input class="file-path validate" type="text">
+                                            </div>  
                                         </div>
+                                        <div class="file-field input-field">
+                                            <div class="btn blue col s12 m2 l2">
+                                                <span>+ imagem</span>
+                                                <input type="file" name="file2"  id="file2" onchange="carregaImagem(this, 'imagem2')">
+                                            </div>
+                                            <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text">
+                                            </div>  
+                                        </div>
+                                        <div class="file-field input-field">
+                                            <div class="btn blue col s12 m2 l2">
+                                                <span>+ imagem</span>
+                                                <input type="file" name="file3"  id="file3" onchange="carregaImagem(this, 'imagem3')">
+                                            </div>
+                                            <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text">
+                                            </div>  
+                                        </div>
+                                        <div class="file-field input-field">
+                                            <div class="btn blue col s12 m2 l2">
+                                                <span>+ imagem</span>
+                                                <input type="file" name="file4"  id="fil4" onchange="carregaImagem(this, 'imagem4')">
+                                            </div>
+                                            <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text">
+                                            </div>  
+                                        </div>
+                                        <div class="file-field input-field">
+                                            <div class="btn blue col s12 m2 l2">
+                                                <span>+ imagem</span>
+                                                <input type="file" name="file5"  id="file5" onchange="carregaImagem(this, 'imagem5')">
+                                            </div>
+                                            <div class="file-path-wrapper">
+                                                <input class="file-path validate" type="text">
+                                            </div>  
+                                        </div>                                       
                                     </div>
                                 </div>
                             </div>
-<!--                            <div class="card-panel">
-                                <div class="card-content">
-                                    <div class="row">
-                                        <div class="card-title">                        
-                                            <h5>Associe palavras-chave ao seu item</h5>
-                                            <div class="form divider grey"></div>
-                                            <br/>
-                                        </div>
-                                        <select name="palavra-chave" id="palavra-chave" class="browser-default" style="border-color: grey;">
-                                            <option value="" disabled="" selected="">Palavras-chave</option>
-                                            <c:forEach items="${palavraChaveList}" var="palavraChave">
-                                                <option value="${palavraChave.id}">${palavraChave.nome}</option>
-                                            </c:forEach>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>-->
-                            <div class="row">
-                                <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/item"/>">Cancelar</a>                                
-                                <button class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-right: 0.6rem;">Salvar</button>
-                            </div> 
+                        </div>
+                        <div class="row">
+                            <a class="waves-effect waves-light btn right brown col s12 m4 l2" href="<c:url value="/anunciante/item"/>">Cancelar</a>                                
+                            <button type="submit" class="waves-effect waves-light btn blue right col s12 m4 l2" style="margin-right: 0.6rem;">Salvar</button>
+                        </div> 
                     </form>
                 </div>
             </div>

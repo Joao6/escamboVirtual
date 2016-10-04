@@ -61,14 +61,18 @@
                                         <tr>
                                             <!--<td rowspan="4"><img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200"></td>-->
                                             <td colspan="4">
-                                                <div class="carousel" style="margin-top: -10%; margin-bottom: -20%;">
-                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
-                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
-                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
-                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background1.jpg"/>"></a>                                        
-                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background2.jpg"/>"></a>                                        
-                                                    <a class="carousel-item" href="#one!"><img src="<c:url value="/resources/img/background3.jpg"/>"></a>                                        
-                                                </div>
+                                                <c:if test="${empty item.itemImagemList}">
+                                                    <img class="card-panel z-depth-2" src="<c:url value="/resources/img/sample-1.jpg"/>" height="200" width="200">
+                                                </c:if>
+                                                <c:if test="${not empty item.itemImagemList}">
+                                                    <div class="carousel" style="margin-top: -10%; margin-bottom: -20%;">
+                                                        <c:forEach items="${item.itemImagemList}" var="itemImagem">
+                                                            <a class="carousel-item" href="#one!">
+                                                                <img src="<c:url value="/anunciante/item/img/${itemImagem.hash}"/>" height="200" width="200">
+                                                            </a>                                        
+                                                        </c:forEach>
+                                                    </div>
+                                                </c:if>
                                             </td>
                                         </tr>
                                         <tr>                                            

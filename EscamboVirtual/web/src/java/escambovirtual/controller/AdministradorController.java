@@ -11,8 +11,10 @@ import escambovirtual.model.entity.Estado;
 import escambovirtual.model.entity.Imagem;
 import escambovirtual.model.entity.Item;
 import escambovirtual.model.entity.Localizacao;
+import escambovirtual.model.entity.Usuario;
 import escambovirtual.model.service.AdministradorService;
 import escambovirtual.model.service.CidadeService;
+import escambovirtual.model.service.EmailService;
 import escambovirtual.model.service.EstadoService;
 import escambovirtual.model.service.ItemService;
 import escambovirtual.model.service.LocalizacaoService;
@@ -194,17 +196,56 @@ public class AdministradorController {
         return mv;
     }
 
-    @RequestMapping(value = "/administrador/item/{id}/edit", method = RequestMethod.POST)
-    public ModelAndView postItemAvaliacao(@PathVariable Long id, String status, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(value = "/administrador/item/{id}/publicar", method = RequestMethod.GET)
+    public ModelAndView publicarItem(@PathVariable Long id, HttpSession session) throws Exception {
+        ModelAndView mv;
+        try {
+            Administrador administrador = (Administrador) session.getAttribute("usuarioSessao");
+            if (administrador.getPerfil().equals(Usuario.USUARIO_TIPO_ADMINISTRADOR)) {
+                ItemService s = new ItemService();
+                Item item = s.readById(id);
+                String status = "Publicar";
+                item.setStatus(status);
+                s.update(item);
+                mv = new ModelAndView("redirect:/administrador/list/itens");
+            } else {
+                mv = new ModelAndView("error");
+                mv.addObject("error", "Você não possui permissão para realizar tal ação.");
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
+        return mv;
+    }
 
-        ItemService s = new ItemService();
-        Item item = s.readById(id);
-
-        item.setStatus(status);
-
-        s.update(item);
-
-        ModelAndView mv = new ModelAndView("redirect:/administrador/list/itens");
+    @RequestMapping(value = "/administrador/item/nao-publicar", method = RequestMethod.POST)
+    public ModelAndView naoPublicarItem(Long idItem, HttpSession session, String motivo) {
+        ModelAndView mv;
+        try {
+            Administrador administrador = (Administrador) session.getAttribute("usuarioSessao");
+            if (administrador.getPerfil().equals(Usuario.USUARIO_TIPO_ADMINISTRADOR)) {
+                ItemService s = new ItemService();
+                Item item = s.readById(idItem);
+                String status = "Não Publicar";
+                item.setStatus(status);
+                s.update(item);
+                EmailService es = new EmailService();
+                String texto = "Olá, "+item.getAnunciante().getNome()+". Viemos por meio deste, notificar que "
+                        + "seu item infelizmente não foi aprovado durante a avaliação para ser publicado no "
+                        + "sistema Escambo Virtual. Certamente isto ocorreu pois o administrador do sistema "
+                        + "encontrou alguma incoerência com nossos termos. Logo a frente encontra-se a "
+                        + "descrição da não publicação de seu item. Descrição: "+motivo;
+                es.sendEmail(item.getAnunciante().getEmail(), "Item não publicado =(", texto);
+                mv = new ModelAndView("redirect:/administrador/list/itens");
+            } else {
+                mv = new ModelAndView("error");
+                mv.addObject("error", "Você não possui permissão para realizar tal ação.");
+            }
+        } catch (Exception e) {
+            mv = new ModelAndView("error");
+            mv.addObject("error", e);
+        }
         return mv;
     }
 

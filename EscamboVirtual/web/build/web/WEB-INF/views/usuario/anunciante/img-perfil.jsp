@@ -41,8 +41,7 @@
 
                     reader.readAsDataURL(input.files[0]);
                 }
-            }
-            ;
+            };
         </script>
     </head>
     <body style="background-color: #b0bec5;">   

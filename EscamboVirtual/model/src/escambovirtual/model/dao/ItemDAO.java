@@ -4,6 +4,7 @@ import escambovirtual.model.base.BaseDAO;
 import escambovirtual.model.criteria.ItemCriteria;
 import escambovirtual.model.entity.Anunciante;
 import escambovirtual.model.entity.Item;
+import escambovirtual.model.entity.ItemImagem;
 import escambovirtual.model.entity.PalavraChave;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -107,7 +108,7 @@ public class ItemDAO implements BaseDAO<Item> {
             String data[] = rs.getString("data_compra").split("-");
             String data2 = data[2] + "/" + data[1] + "/" + data[0];
             item.setDataAquisicao(data2);
-            
+
             data = rs.getString("data_hora_cadastro").split("-");
             data2 = data[2] + "/" + data[1] + "/" + data[0];
             item.setDataCadastro(data2);
@@ -145,29 +146,10 @@ public class ItemDAO implements BaseDAO<Item> {
         //acrescentado critérios
         sql += this.applyCriteria(conn, criteria);
 
-//        Long idUsuario = (Long) criteria.get(ItemCriteria.ID_USUARIO);
-//        
-//        Long status = (Long) criteria.get(AdministradorCriteria.ITEM_AVALIACAO);
-//        
-//        if(idUsuario != null && idUsuario > 0){
-//            sql += " and usuario_fk = '" + idUsuario + "'";
-//        }
-//        
-//        if(status != null && status >= 0){
-//            if(status == 0){
-//                sql += " and status = 'Em Avaliação'";
-//            }
-//            if(status == 1){
-//                sql += " and status = 'Publicar'";        
-//            }
-//        }
-//        
-//        sql += " order by id asc";
-
-        if(limit != null && limit > 0){
+        if (limit != null && limit > 0) {
             sql += " limit " + limit;
         }
-        if(offset != null && offset >= 0){
+        if (offset != null && offset >= 0) {
             sql += " offset " + offset;
         }
 
@@ -181,7 +163,7 @@ public class ItemDAO implements BaseDAO<Item> {
             String data[] = rs.getString("data_compra").split("-");
             String data2 = data[2] + "/" + data[1] + "/" + data[0];
             item.setDataAquisicao(data2);
-            
+
             data = rs.getString("data_hora_cadastro").split("-");
             data2 = data[2] + "/" + data[1] + "/" + data[0];
             item.setDataCadastro(data2);
@@ -271,29 +253,6 @@ public class ItemDAO implements BaseDAO<Item> {
 
         ps.execute();
         ps.close();
-
-//        if (entity.getNome() != null && !entity.getNome().isEmpty()) {
-//            sql += " nome = '" + entity.getNome() + "',";
-//        }
-////        if(entity.getDataAquisicao()!= null && !entity.getDataAquisicao().isEmpty()){          
-////            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-////            java.sql.Date data = new java.sql.Date(format.parse(entity.getDataAquisicao()).getTime());
-////            sql += " data_compra = '" + data + "',";
-////        }
-//        if (entity.getStatus() != null && !entity.getStatus().isEmpty()) {
-//            sql += " status = '" + entity.getStatus() + "',";
-//        }
-//        if (entity.getDescricao() != null && !entity.getDescricao().isEmpty()) {
-//            sql += " descricao = '" + entity.getDescricao() + "',";
-//        }
-//        sql += " id = id";
-//
-//        sql += " where id = '" + entity.getId() + "'";
-//
-//        System.out.println(sql);
-//        PreparedStatement ps = conn.prepareStatement(sql);
-//        ps.execute();
-//        ps.close();
     }
 
     @Override
@@ -308,9 +267,9 @@ public class ItemDAO implements BaseDAO<Item> {
     @Override
     public String applyCriteria(Connection conn, Map<Long, Object> criteria) throws Exception {
         String sql = " ";
-        
+
         Long usuarioEQ = (Long) criteria.get(ItemCriteria.ID_USUARIO);
-        if(usuarioEQ != null && usuarioEQ > 0){
+        if (usuarioEQ != null && usuarioEQ > 0) {
             sql += " AND item.usuario_fk = " + usuarioEQ;
         }
 
@@ -318,15 +277,15 @@ public class ItemDAO implements BaseDAO<Item> {
         if (nomeILike != null && !nomeILike.isEmpty()) {
             sql += " AND item.nome ILIKE '%" + nomeILike + "%'";
         }
-        
+
         String status = (String) criteria.get(ItemCriteria.STATUS_EQ);
-        if(status != null && !status.isEmpty()){            
-            sql += " AND item.status='"+status+"' ";
+        if (status != null && !status.isEmpty()) {
+            sql += " AND item.status='" + status + "' ";
         }
-        
+
         String itensID = (String) criteria.get(ItemCriteria.ID_ITEM_IN);
-        if(itensID != null && !itensID.isEmpty()){
-            sql += " AND item.id in("+itensID+")";
+        if (itensID != null && !itensID.isEmpty()) {
+            sql += " AND item.id in(" + itensID + ")";
         }
 
         return sql;
@@ -339,10 +298,74 @@ public class ItemDAO implements BaseDAO<Item> {
         sql += applyCriteria(conn, criteria);
         PreparedStatement ps = conn.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
-        if(rs.next()){
+        if (rs.next()) {
             count = rs.getLong("count");
-        }        
+        }
         return count;
+    }
+
+    public void createImage(Connection conn, ItemImagem itemImagem) throws Exception {
+
+        String query = "INSERT INTO item_imagem ";
+        {
+            query += "(";
+            query += "item_fk, ";
+            query += "imagem, ";
+            query += "extensao";
+            query += ")";
+        }
+        query += " VALUES (?, ?, ?)";
+        query += " RETURNING hash ";
+
+        PreparedStatement pS = conn.prepareStatement(query);
+        pS.setLong(1, itemImagem.getItem().getId());
+        pS.setBytes(2, itemImagem.getContent());
+        pS.setString(3, itemImagem.getContentType());
+
+        ResultSet rS = pS.executeQuery();
+        if (rS.next()) {
+            itemImagem.setHash(rS.getString("hash"));
+        }
+
+    }
+
+    public List<ItemImagem> readImagesHashByItemId(Connection conn, Long id) throws Exception {
+
+        String query = "SELECT hash FROM item_imagem";
+        query += " WHERE item_fk = ?";
+
+        PreparedStatement pS = conn.prepareStatement(query);
+        pS.setLong(1, id);
+
+        ResultSet rS = pS.executeQuery();
+        List<ItemImagem> itemImagemList = new ArrayList<ItemImagem>();
+        while (rS.next()) {
+            ItemImagem itemImagem = new ItemImagem();
+            itemImagem.setHash(rS.getString("hash"));
+            itemImagemList.add(itemImagem);
+        }
+
+        return itemImagemList;
+    }
+
+    public ItemImagem readImageByHash(Connection conn, String hash) throws Exception {
+
+        String query = "SELECT * FROM item_imagem";
+        query += " WHERE hash = ?";
+
+        PreparedStatement pS = conn.prepareStatement(query);
+        pS.setString(1, hash);
+
+        ResultSet rS = pS.executeQuery();
+        ItemImagem itemImagem = null;
+        if (rS.next()) {
+            itemImagem = new ItemImagem();
+            itemImagem.setHash(rS.getString("hash"));
+            itemImagem.setContent(rS.getBytes("imagem"));
+            itemImagem.setContentType(rS.getString("extensao"));
+        }
+
+        return itemImagem;
     }
 
 }

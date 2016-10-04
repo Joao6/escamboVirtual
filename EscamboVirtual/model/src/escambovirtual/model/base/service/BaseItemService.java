@@ -13,5 +13,5 @@ import escambovirtual.model.entity.Item;
  * @author Joao
  */
 public interface BaseItemService extends BaseCRUDService<Item> {
-    
+
 }

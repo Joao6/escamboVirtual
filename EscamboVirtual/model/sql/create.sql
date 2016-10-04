@@ -57,14 +57,12 @@ CREATE TABLE item(
 	PRIMARY KEY(id)
 );
 
-CREATE TABLE item_imagem(
-        item_fk BIGINT NOT NULL,
-        imagem1 bytea,
-        imagem2 bytea,
-        imagem3 bytea,
-        imagem4 bytea,
-        imagem5 bytea,
-        PRIMARY KEY(item_fk)
+create table item_imagem(
+	hash varchar(32) not null,
+	item_fk bigint not null,
+	imagem bytea not null,
+	extensao varchar(20),
+	primary key(hash)
 );
 
 CREATE TABLE item_palavra_chave(
@@ -149,6 +147,38 @@ create table usuario_imagem(
 	primary key(usuario_fk)
 );
 
+CREATE OR REPLACE FUNCTION public.gerahash()
+  RETURNS trigger AS
+$BODY$
+		DECLARE
+			recurso_hash character varying := NULL;
+			datahora timestamp := NULL;
+		        count bigint := 0;
+		BEGIN
+			
+			SELECT CURRENT_TIMESTAMP INTO datahora; 
+			SELECT MD5((datahora)::text) INTO recurso_hash; 
+			
+			WHILE (SELECT COUNT(hash) > 0 FROM item_imagem WHERE hash = recurso_hash)
+			LOOP
+				SELECT CURRENT_TIMESTAMP INTO datahora; 
+				SELECT MD5((datahora)::text || count)  INTO recurso_hash;
+				count := count + 1;
+			END LOOP;
+			
+			NEW.hash := recurso_hash;
+						
+			RETURN NEW;
+		END;
+	$BODY$
+  LANGUAGE plpgsql;
+  
+CREATE TRIGGER trigger_gerahash
+  BEFORE INSERT
+  ON item_imagem
+  FOR EACH ROW
+  EXECUTE PROCEDURE gerahash();
+
 alter table usuario_imagem add constraint usuario_imagem_usuario_fk foreign key (usuario_fk) references usuario(id) on update cascade on delete cascade;
 ALTER TABLE anunciante ADD CONSTRAINT anunciante_usuario_fk FOREIGN KEY (usuario_fk) REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE administrador ADD CONSTRAINT administrador_usuario_fk FOREIGN KEY (usuario_fk) REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE CASCADE;
@@ -161,7 +191,7 @@ ALTER TABLE item ADD CONSTRAINT item_usuario_fk FOREIGN KEY (usuario_fk) REFEREN
 ALTER TABLE item ADD CONSTRAINT item_usuario_avaliacao_fk FOREIGN KEY (avaliacao_usuario_fk) REFERENCES usuario(id) ON UPDATE CASCADE ON DELETE SET NULL;
 ALTER TABLE oferta ADD CONSTRAINT oferta_item_fk FOREIGN KEY (item_fk) REFERENCES item(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE troca ADD CONSTRAINT troca_oferta_fk FOREIGN KEY (oferta_fk) REFERENCES oferta(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE item_imagem ADD CONSTRAINT item_imagem_item_fk FOREIGN KEY (item_fk) REFERENCES item(id) ON UPDATE CASCADE ON DELETE CASCADE;
+alter table item_imagem add constraint item_imagem_item_fk foreign key (item_fk) references item(id) on update cascade on delete cascade;
 ALTER TABLE oferta_item ADD CONSTRAINT oferta_item_oferta_fk FOREIGN KEY (oferta_fk) REFERENCES oferta(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE oferta_item ADD CONSTRAINT oferta_item_item_fk FOREIGN KEY (item_fk) REFERENCES item(id) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE localizacao ADD CONSTRAINT localizacao_estado_fk FOREIGN KEY (estado_fk) REFERENCES estado(id) ON UPDATE CASCADE ON DELETE SET NULL;
